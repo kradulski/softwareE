@@ -1,8 +1,12 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -30,5 +34,31 @@ public class MainActivity extends AppCompatActivity {
         playerName2 = seed.nextInt(lastNames.length);
         Toast.makeText(this, firstNames[playerName] + " " + lastNames[playerName2],
                 Toast.LENGTH_LONG).show();
+
+        Button playGameButton = findViewById(R.id.play_game_button);
+        playGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        Button howToPlayButton = findViewById(R.id.how_to_button);
+        howToPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, HowToPlayActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
+        Button resetButton = findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /* Code for resetting database and resetting user information goes here */
+            }
+        });
     }
 }
