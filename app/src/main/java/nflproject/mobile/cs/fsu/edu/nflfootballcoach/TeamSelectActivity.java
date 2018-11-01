@@ -20,11 +20,7 @@ public class TeamSelectActivity extends AppCompatActivity {
         fsu_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
-                Bundle myBundle = new Bundle();
-                myBundle.putString("teamName", "Florida State University");
-                myIntent.putExtras(myBundle);
-                startActivity(myIntent);
+                clickAction("Florida State University");
             }
         });
 
@@ -32,11 +28,7 @@ public class TeamSelectActivity extends AppCompatActivity {
         uf_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
-                Bundle myBundle = new Bundle();
-                myBundle.putString("teamName", "University of Florida");
-                myIntent.putExtras(myBundle);
-                startActivity(myIntent);
+                clickAction("University of Florida");
             }
         });
 
@@ -44,11 +36,7 @@ public class TeamSelectActivity extends AppCompatActivity {
         um_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
-                Bundle myBundle = new Bundle();
-                myBundle.putString("teamName", "University of Miami");
-                myIntent.putExtras(myBundle);
-                startActivity(myIntent);
+                clickAction("University of Miami");
             }
         });
     }
@@ -57,5 +45,14 @@ public class TeamSelectActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivityForResult(myIntent, 0);
         return true;
+    }
+
+    private void clickAction(String s){
+        Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
+        Bundle myBundle = new Bundle();
+        myBundle.putString("teamName", s);
+        myIntent.putExtras(myBundle);
+        MainActivity.setResetVal(false);
+        startActivity(myIntent);
     }
 }

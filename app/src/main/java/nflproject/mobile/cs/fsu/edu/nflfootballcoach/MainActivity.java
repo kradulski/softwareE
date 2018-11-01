@@ -39,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
         playGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
+                Intent myIntent;
+                if (resetVal)
+                    myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
+                else
+                    myIntent = new Intent(MainActivity.this, PlayGameActivity.class);
+
                 startActivity(myIntent);
             }
         });
@@ -58,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Code for resetting database and resetting user information goes here */
+                setResetVal(true);
             }
         });
+    }
+
+    private static boolean resetVal = true;
+    public static boolean getResetVal(){
+        return resetVal;
+    }
+    public static void setResetVal(boolean newVal){
+        resetVal = newVal;
     }
 }
