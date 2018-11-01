@@ -1,0 +1,32 @@
+CREATE TABLE Teams (
+	name VARCHAR(64) PRIMARY KEY,
+	conference VARCHAR(32),
+	division VARCHAR(32),
+	wins INT, 
+	losses INT,
+	conWins INT,
+	conLosses INT,
+	offRating REAL,
+	defRating REAL,
+	rankingVotes INT
+); 
+
+CREATE TABLE Games (
+	home VARCHAR(64),
+	away VARCHAR(64),
+	homeScore INT,
+	awayScore INT, 
+	week INT, 
+	PRIMARY KEY(home, away, week),
+	FOREIGN KEY(home) REFERENCES Teams, 
+	FOREIGN KEY(away) REFERENCES Teams
+);
+ 
+CREATE TABLE Players (
+	id INT PRIMARY KEY,
+	rating REAL,
+	firstName VARCHAR(32),
+	lastName VARCHAR(32),
+	position CHAR(2),
+	year CHAR(2)
+);
