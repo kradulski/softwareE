@@ -1,10 +1,15 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class PlayGameActivity extends AppCompatActivity
@@ -18,7 +23,7 @@ public class PlayGameActivity extends AppCompatActivity
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new ThisWeekFragment());
+        loadFragment(new ScheduleFragment());
     }
 
     private boolean loadFragment(Fragment fragment){
@@ -34,20 +39,58 @@ public class PlayGameActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
         switch(item.getItemId()){
-            case R.id.navigation_this_week:
-                fragment = new ThisWeekFragment();
-                break;
             case R.id.navigation_schedule:
                 fragment = new ScheduleFragment();
+                break;
+            case R.id.navigation_rankings:
+                fragment = new RankingsFragment();
                 break;
             case R.id.navigation_my_team:
                 fragment = new MyTeamFragment();
                 break;
-            case R.id.navigation_options:
-                fragment = new OptionsFragment();
-                break;
         }
 
         return loadFragment(fragment);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.how_to_option:
+                Intent myIntent = new Intent(PlayGameActivity.this, HowToPlayActivity.class);
+                startActivity(myIntent);
+                return true;
+            case R.id.reset_option:
+                DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
+                                MainActivity.setResetVal(true);
+                                startActivity(myIntent);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PlayGameActivity.this);
+                builder.setMessage("Are you sure you want to reset all data? This cannot be undone.")
+                        .setPositiveButton("Yes", dialogListener)
+                        .setNegativeButton("No", dialogListener).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

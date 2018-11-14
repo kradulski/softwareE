@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_this_week"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_this_week" />
-
-    <item
         android:id="@+id/navigation_schedule"
         android:icon="@drawable/ic_schedule_black_24dp"
         android:title="@string/title_schedule" />
@@ -16,7 +11,7 @@
         android:title="@string/title_my_team" />
 
     <item
-        android:id="@+id/navigation_options"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/title_options" />
+        android:id="@+id/navigation_rankings"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/title_rankings" />
 </menu>

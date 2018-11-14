@@ -3,6 +3,7 @@ package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +15,12 @@ public class TeamSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_select);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button fsu_btn = findViewById(R.id.fsu_btn);
+        fsu_btn.setText(Html.fromHtml("<b><big>" + "Florida State University" + "</big></b>" +
+                                        "<br />" + "<small>" + "Prestige: 99" + "</small>" + "<br />"));
         fsu_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -25,6 +29,8 @@ public class TeamSelectActivity extends AppCompatActivity {
         });
 
         Button uf_btn = findViewById(R.id.uf_btn);
+        uf_btn.setText(Html.fromHtml("<b><big>" + "University of Florida" + "</big></b>" +
+                "<br />" + "<small>" + "Prestige: 70" + "</small>" + "<br />"));
         uf_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -33,6 +39,8 @@ public class TeamSelectActivity extends AppCompatActivity {
         });
 
         Button um_btn = findViewById(R.id.um_btn);
+        um_btn.setText(Html.fromHtml("<b><big>" + "University of Miami" + "</big></b>" +
+                "<br />" + "<small>" + "Prestige: 16" + "</small>" + "<br />"));
         um_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

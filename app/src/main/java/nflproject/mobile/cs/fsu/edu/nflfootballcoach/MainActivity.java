@@ -1,16 +1,14 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Random;
-import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
     @Override
