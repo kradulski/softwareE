@@ -454,6 +454,72 @@
         <item>Tilghman</item>
         <item>Townsend</item>
     </string-array>
+    <string-array name="teams">
+        <item>ACC Boston College 75</item>
+        <item>ACC Clemson 95</item>
+        <item>ACC Duke 70</item>
+        <item>ACC Florida State 90</item>
+        <item>ACC Georgia Tech 80</item>
+        <item>ACC Louisville 75</item>
+        <item>ACC Miami 85</item>
+        <item>ACC North Carolina 75</item>
+        <item>ACC NC State 80</item>
+        <item>ACC Pittsburgh 80</item>
+        <item>ACC Syracuse 75</item>
+        <item>ACC Virginia 70</item>
+        <item>ACC Virginia Tech 80</item>
+        <item>ACC Wake Forest 65</item>
+        <item>BigTen Illinois 65</item>
+        <item>BigTen Indinia 65</item>
+        <item>BigTen Iowa 80</item>
+        <item>BigTen Maryland 70</item>
+        <item>BigTen Michigan 90</item>
+        <item>BigTen Michigan State 80</item>
+        <item>BigTen Minnesota 65</item>
+        <item>BigTen Nebraska 80</item>
+        <item>BigTen Northwestern 80</item>
+        <item>BigTen Ohio State 95</item>
+        <item>BigTen Penn State 90</item>
+        <item>BigTen Purdue 70</item>
+        <item>BigTen Rutgers 65</item>
+        <item>BigTen Wisconsin 85</item>
+        <item>Big12 Baylor 80</item>
+        <item>Big12 Iowa State 70</item>
+        <item>Big12 Kansas 60</item>
+        <item>Big12 Kansas State 80</item>
+        <item>Big12 Oklahoma 95</item>
+        <item>Big12 Oklahoma State 80</item>
+        <item>Big12 TCU 80</item>
+        <item>Big12 Texas 80</item>
+        <item>Big12 Texas Tech 80</item>
+        <item>Big12 West Virginia 85</item>
+        <item>Pac12 Arizona 75</item>
+        <item>Pac12 Arizona State 70</item>
+        <item>Pac12 California 75</item>
+        <item>Pac12 UCLA 75</item>
+        <item>Pac12 Colorodo 80</item>
+        <item>Pac12 Oregon 85</item>
+        <item>Pac12 Oregon State 80</item>
+        <item>Pac12 USC 85</item>
+        <item>Pac12 Stanford 80</item>
+        <item>Pac12 Utah 75</item>
+        <item>Pac12 Washington 85</item>
+        <item>Pac12 Washington State 75</item>
+        <item>SEC Alabama 95</item>
+        <item>SEC Arkansas 75</item>
+        <item>SEC Auburn 85</item>
+        <item>SEC Florida 85</item>
+        <item>SEC Georgia 90</item>
+        <item>SEC Kentucky 75</item>
+        <item>SEC LSU 90</item>
+        <item>SEC Mississippi 80</item>
+        <item>SEC Mississippi State 80</item>
+        <item>SEC Missouri 80</item>
+        <item>SEC South Carolina 80</item>
+        <item>SEC Tennessee 70</item>
+        <item>SEC Texas A&amp;M 80</item>
+        <item>SEC Vanderbilt 70</item>
+    </string-array>
     <string name="title_activity_play_game">Season Gameplay</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_my_team">My Team</string>
