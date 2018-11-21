@@ -1,5 +1,6 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Database instantiation
+        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+                .allowMainThreadQueries()
+                .build();
 
         Button playGameButton = findViewById(R.id.play_game_button);
         playGameButton.setOnClickListener(new View.OnClickListener() {
