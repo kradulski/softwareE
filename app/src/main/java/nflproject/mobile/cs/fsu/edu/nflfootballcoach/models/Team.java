@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 
 //Schema for the Teams table
 
-@Entity
-public class Teams {
+@Entity(tableName = "teams")
+public class Team {
 
     @PrimaryKey
     @NonNull
@@ -33,18 +33,30 @@ public class Teams {
     private int conLosses;
 
     @ColumnInfo
-    private double offRating;
+    private int offRating;
 
     @ColumnInfo
-    private double defRating;
+    private int defRating;
 
     @ColumnInfo
     private int rankingVotes;
 
-    public String getName()
+    public Team(String name, String conference, String division, int wins, int losses, int conWins, int conLosses,
+                int offRating, int defRating, int rankingVotes)
     {
-        return name;
+        this.name = name;
+        this.conference = conference;
+        this.division = division;
+        this.wins = wins;
+        this.losses = losses;
+        this.conWins = conWins;
+        this.conLosses = conLosses;
+        this. offRating = offRating;
+        this.defRating = defRating;
+        this.rankingVotes = rankingVotes;
     }
+
+    public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public String getConference() { return conference; }
@@ -65,11 +77,11 @@ public class Teams {
     public int getConLosses() { return conLosses; }
     public void setConLosses(int conLosses) { this.conLosses = conLosses; }
 
-    public double getOffRating() { return offRating; }
-    public void setOffRating(double offRating) { this.offRating = offRating; }
+    public int getOffRating() { return offRating; }
+    public void setOffRating(int offRating) { this.offRating = offRating; }
 
-    public double getDefRating() { return defRating; }
-    public void setDefRating(double defRating) { this.defRating = defRating; }
+    public int getDefRating() { return defRating; }
+    public void setDefRating(int defRating) { this.defRating = defRating; }
 
     public int getRankingVotes() { return rankingVotes; }
     public void setRankingVotes(int rankingVotes) { this.rankingVotes = rankingVotes; }
