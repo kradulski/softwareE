@@ -3,6 +3,7 @@ package nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Update;
 import android.arch.persistence.room.Query;
 import java.util.List;
@@ -13,21 +14,25 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 @Dao
 public interface TeamsDAO {
 
-    @Insert
-    public void insert(Team... teams);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Team... teams);
 
     @Delete
-    public void delete(Team team);
+    void delete(Team team);
 
     @Update
-    public void update(Team... teams);
+    void update(Team... teams);
 
     //returns all teams in the database in a List
     @Query("SELECT * FROM teams")
-    public List<Team> getTeams();
+    List<Team> getTeams();
 
     //returns singular team referred to by name
     @Query("SELECT * FROM teams WHERE name = :name")
-    public Team getTeamByName(String name);
+    Team getTeamByName(String name);
+
+    //removes all rows from teams table
+    @Query("DELETE FROM teams")
+    void deleteAllTeams();
 
 }

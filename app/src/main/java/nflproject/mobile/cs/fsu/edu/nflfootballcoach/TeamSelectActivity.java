@@ -8,7 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+
 public class TeamSelectActivity extends AppCompatActivity {
+
+    AppDatabase database = AppDatabase.getInstance(this);
+    TeamsDAO teamsDAO = database.getTeamsDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +26,8 @@ public class TeamSelectActivity extends AppCompatActivity {
 
         Button fsu_btn = findViewById(R.id.fsu_btn);
         fsu_btn.setText(Html.fromHtml("<b><big>" + "Florida State University" + "</big></b>" +
-                                        "<br />" + "<small>" + "Prestige: 99" + "</small>" + "<br />"));
+                                       "<br />" + "<small>" + "Prestige: 99" + "</small>" + "<br />"));
+
         fsu_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

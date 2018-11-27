@@ -1,7 +1,9 @@
-package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
+package nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database;
 
 import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
@@ -16,5 +18,20 @@ public abstract class AppDatabase extends RoomDatabase{
     public abstract TeamsDAO getTeamsDAO();
 
     public abstract GamesDAO getGamesDAO();
+
+    //the database instance
+    public static AppDatabase instance;
+
+    //get the database instance
+    public static AppDatabase getInstance(Context context)
+    {
+        if(instance == null)
+        {
+            instance = Room.databaseBuilder(context, AppDatabase.class, "cfbdb")
+                    .allowMainThreadQueries()
+                    .build();
+        }
+        return instance;
+    }
 
 }
