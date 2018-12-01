@@ -13,29 +13,28 @@
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        app:srcCompat="@drawable/football2" />
+        android:layout_marginTop="100dp"
+        android:contentDescription="football image"
+        app:srcCompat="@drawable/football" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="210dp"
+        android:fontFamily="@font/varsity_regular"
+        android:typeface="normal"
         android:text="College Football Coach"
-        android:textSize="32sp"
         android:textColor="#FFFFFF"
-        android:fontFamily="@font/varsity_regular"/>
+        android:textSize="32sp" />
 
     <Button
         android:id="@+id/play_game_button"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="137dp"
-        android:layout_marginLeft="137dp"
-        android:layout_marginBottom="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="290dp"
         android:text="PLAY GAME" />
 
     <Button
@@ -47,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="210dp"
+        android:layout_marginBottom="290dp"
         android:text="GAME INFO" />
 
     <Button
@@ -59,7 +58,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="210dp"
+        android:layout_marginBottom="290dp"
         android:text="RESET" />
 
     <TextView
