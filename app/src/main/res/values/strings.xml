@@ -527,12 +527,12 @@
     <string name="reset_text">Reset</string>
     <string name="title_game_info">Game Info</string>
     <string name="game_info">
-        <font size="32"><b><u>\t\t\t\t\t\t\tGame Info\t\t\t\t\n\n</u></b></font>
+        <font size="32"><b><u>\t\t\t\t\tGame Info\n</u></b></font>
         <font size="24"><b>General\n</b></font>
         <font size="20">College Football Coach is a football game simulator, and allows you
             to play through multiple seasons as the coach of a college football team of your choosing.
             Every team\'s ranking and stats are updated throughout a season, and your team roster is
-            updated from season to season.\n</font>
+            updated from season to season.\n\n</font>
         <font size="24"><b>Main Menu\n</b></font>
         <font size="20">To begin a new game, select Play Game, and then select a team
             from the list that appears. Other options available on the main menu
@@ -551,7 +551,7 @@
         <font size="20">When the season is over, a message will appear, displaying the results of
             the season. Then, your graduating senior players will be automatically replaced with
             incoming freshmen. The player ratings of the incoming freshmen will be determined by
-            your team ranking. After your team roster is updated, you will be able to begin a new season.\n</font>
+            your team ranking. After your team roster is updated, you will be able to begin a new season.\n\n</font>
         <font size="24"><b>Developer Information\n</b></font>
         <font size="20">This mobile app was developed by Matthew Klopfenstein, Keith Radulski, and
             Gabriel Siewert. The app is modeled after two mobile apps, College Football Coach (2016),
