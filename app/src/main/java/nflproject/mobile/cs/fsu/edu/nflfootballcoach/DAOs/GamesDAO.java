@@ -26,7 +26,7 @@ public interface GamesDAO {
     public void update(Game... games);
 
     //get all games played by a team
-    @Query("SELECT * FROM games WHERE home = :name OR away = :name")
+    @Query("SELECT * FROM games WHERE home = :name OR away = :name ORDER BY week ASC")
     public List<Game> getGamesOfTeam(String name);
 
 }

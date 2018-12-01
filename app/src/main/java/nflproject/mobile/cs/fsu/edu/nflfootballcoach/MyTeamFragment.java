@@ -11,10 +11,25 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+
 public class MyTeamFragment extends Fragment {
+
+    AppDatabase database = AppDatabase.getInstance(getActivity());
+
+    String playerTeam;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_team, null);
+        View view =  inflater.inflate(R.layout.fragment_my_team, container, false);
+
+        playerTeam = database.getStateDAO().getPlayerTeam();
+
+        Toast.makeText( getActivity(), "The player team is " + playerTeam, Toast.LENGTH_SHORT).show();
+
+        return view;
+
     }
 }

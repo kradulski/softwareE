@@ -14,6 +14,11 @@ public class State {
     @NonNull
     private String playerTeam;
 
+    public State(String playerTeam)
+    {
+        this.playerTeam = playerTeam;
+    }
+
     public String getPlayerTeam() {return playerTeam; }
     public void setPlayerTeam(String playerTeam) { this.playerTeam = playerTeam; }
 

@@ -14,10 +14,14 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 public class TeamSelectActivity extends AppCompatActivity {
+
+    AppDatabase database = AppDatabase.getInstance(this);
+    StateDAO stateDAO = database.getStateDAO();
 
     ListView chooseTeam;
     public void createPlayers(Resources res, int teamRating){
@@ -76,9 +80,6 @@ public class TeamSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_select);
-
-        AppDatabase database = AppDatabase.getInstance(this);
-        TeamsDAO teamsDAO = database.getTeamsDAO();
 
         chooseTeam = findViewById(R.id.teamSelect);
         chooseTeam.setOnItemClickListener(new AdapterView.OnItemClickListener() {
