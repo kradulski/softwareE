@@ -14,7 +14,19 @@ public class State {
     @NonNull
     private String playerTeam;
 
+    @ColumnInfo
+    private int newGame;
+
+    public State(String playerTeam, int newGame)
+    {
+        this.playerTeam = playerTeam;
+        this.newGame = newGame;
+    }
+
     public String getPlayerTeam() {return playerTeam; }
     public void setPlayerTeam(String playerTeam) { this.playerTeam = playerTeam; }
+
+    public  int getNewGame() {return newGame;}
+    public  void setNewGame() {this.newGame = newGame;}
 
 }

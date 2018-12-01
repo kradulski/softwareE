@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -21,22 +23,24 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 
 public class MyTeamFragment extends Fragment {
     ListView thePlayersList;
+    ArrayAdapter t;
+    TextView please;
     AppDatabase database = AppDatabase.getInstance(getActivity());
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //thePlayersList = getView().findViewById(R.id.playerlist);
+        View showView = inflater.inflate(R.layout.fragment_my_team, container, false);
+        thePlayersList = showView.findViewById(R.id.playerlist);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
         String[] thePlayers = new String[48];
         for (int i = 0; i < 48; ++i)
         {
             Players player = playerList.get(i);
-            thePlayers[i] = player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", " + player.getRating();
+            thePlayers[i] = player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, thePlayers);
-        //thePlayersList.setAdapter(adapter);
-
-        return inflater.inflate(R.layout.fragment_my_team, null);
+        thePlayersList.setAdapter(adapter);
+        return showView;
     }
 }

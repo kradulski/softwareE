@@ -9,10 +9,33 @@
         android:layout_centerHorizontal="true"
         android:text="My Team"
         android:textSize="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/teamName"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tabName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/winLoss"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/teamName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cWinLoss"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/winLoss"/>
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/playerlist">
+        android:id="@+id/playerlist"
+        android:layout_below="@+id/teamName">
     </ListView>
 </RelativeLayout>

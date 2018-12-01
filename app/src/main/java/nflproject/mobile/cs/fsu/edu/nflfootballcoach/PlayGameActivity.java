@@ -11,9 +11,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
+
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 public class PlayGameActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
+    AppDatabase database = AppDatabase.getInstance(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +35,8 @@ public class PlayGameActivity extends AppCompatActivity
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-
         loadFragment(new ScheduleFragment());
+
     }
 
     private boolean loadFragment(Fragment fragment){
@@ -74,6 +87,9 @@ public class PlayGameActivity extends AppCompatActivity
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
+                                StateDAO stateDAO = database.getStateDAO();
+                                stateDAO.deleteAll();
+                                stateDAO.insert(new State("", 0));
                                 MainActivity.setResetVal(true);
                                 startActivity(myIntent);
                                 break;
