@@ -322,11 +322,13 @@ public class MainActivity extends AppCompatActivity {
         //week 4---------------------------------------------------------------------
 
         //Big 12
+        /*
         gamesDAO.insert(new Game("Oklahoma State", "Texas Tech", 4, 0,0));
         gamesDAO.insert(new Game("Baylor", "Kansas", 4, 0,0));
         gamesDAO.insert(new Game("Iowa State", "Oklahoma", 4,0,0));
         gamesDAO.insert(new Game("Texas", "TCU", 4,0,0));
         gamesDAO.insert(new Game("West Virginia", "Kansas State", 4,0,0));
+        */
 
         //week 5----------------------------------------------------------------------
 
@@ -432,4 +434,60 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+
+    public void big12GameGeneration(){
+        List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
+
+        Collections.shuffle(big12Teams);
+
+        for(int i = 4; i<=13; i++)
+        {
+
+        }
+    }
+
+    public void accGameGeneration() {
+        List<Team> accAtlTeams = teamsDAO.getTeamsByDivision("Atlantic"); //get teams in the ACC atlantic
+        List<Team> accCoastalTeams = teamsDAO.getTeamsByDivision("Coastal");
+
+        //randomize teams
+        Collections.shuffle(accAtlTeams);
+        Collections.shuffle(accCoastalTeams);
+
+        //generate interdivisional games
+        for(int i = 0; i<accAtlTeams.size(); i++)
+        {
+            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 5,
+                    0,0));
+        }
+
+        Collections.rotate(accAtlTeams,1);
+
+        //generate interdivisional games again
+        for(int i = 0; i<accAtlTeams.size(); i++)
+        {
+            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 13,
+                    0,0));
+        }
+
+        //generate divisional games using round robin algorithm
+        for (int i = 6; i <= 12; i++)
+        {
+            gamesDAO.insert(new Game(accAtlTeams.get(0).getName(), accAtlTeams.get(6).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accAtlTeams.get(1).getName(), accAtlTeams.get(5).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accAtlTeams.get(2).getName(), accAtlTeams.get(4).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accAtlTeams.get(3).getName(), "BYE", i, 0,0));
+
+            gamesDAO.insert(new Game(accCoastalTeams.get(0).getName(), accCoastalTeams.get(6).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accCoastalTeams.get(1).getName(), accCoastalTeams.get(5).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accCoastalTeams.get(2).getName(), accCoastalTeams.get(4).getName(), i, 0,0));
+            gamesDAO.insert(new Game(accCoastalTeams.get(3).getName(), "BYE", i, 0,0));
+
+            Collections.rotate(accAtlTeams, 1);
+            Collections.rotate(accCoastalTeams, 1);
+        }
+
+
+    }
+    
 }

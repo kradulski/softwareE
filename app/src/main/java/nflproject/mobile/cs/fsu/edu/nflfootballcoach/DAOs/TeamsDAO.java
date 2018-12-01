@@ -49,4 +49,8 @@ public interface TeamsDAO {
     @Query("SELECT * FROM teams ORDER BY rankingVotes DESC LIMIT 25")
     List<Team> getRankings();
 
+    //get teams by division
+    @Query("SELECT * FROM teams WHERE division = :division")
+    List<Team> getTeamsByDivision(String division);
+
 }

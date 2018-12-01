@@ -33,6 +33,7 @@ public class MyTeamFragment extends Fragment {
         thePlayersList = showView.findViewById(R.id.playerlist);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
+
         String[] thePlayers = new String[48];
         for (int i = 0; i < 48; ++i)
         {
