@@ -14,7 +14,8 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 //Database creation
 
-@Database(entities = {Team.class, Game.class}, version = 1)
+
+@Database(entities = {Team.class, Game.class, State.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase{
 
     public abstract TeamsDAO getTeamsDAO();

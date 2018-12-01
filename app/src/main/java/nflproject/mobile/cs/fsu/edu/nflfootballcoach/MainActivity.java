@@ -290,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     //Don't worry about anything below here for now
 
     //All teams: Play 12 games
@@ -303,13 +304,13 @@ public class MainActivity extends AppCompatActivity {
     public void populateGames()
     {
         //week 1 -- OOC
-        oocGamesGeneration();
+
 
         //week 2 -- ooc
-        oocGamesGeneration();
+
 
         //week 3 -- ooc
-        oocGamesGeneration();
+
 
         //week 4---------------------------------------------------------------------
 
@@ -323,11 +324,11 @@ public class MainActivity extends AppCompatActivity {
         //week 5----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Oklahoma", "Baylor", 5,0,0));
-        gamesDAO.insert(new Game("Kansas", "Oklahoma State", 5, 0, 0));
-        gamesDAO.insert(new Game("Kansas State", "Texas", 5, 0,0));
-        gamesDAO.insert(new Game("TCU", "Iowa State", 5, 0,0));
-        gamesDAO.insert(new Game("Texas Tech", "West Virginia", 5, 0,0));
+        //gamesDAO.insert(new Game("Oklahoma", "Baylor", 5,0,0));
+        //gamesDAO.insert(new Game("Kansas", "Oklahoma State", 5, 0, 0));
+        //gamesDAO.insert(new Game("Kansas State", "Texas", 5, 0,0));
+        //gamesDAO.insert(new Game("TCU", "Iowa State", 5, 0,0));
+        //gamesDAO.insert(new Game("Texas Tech", "West Virginia", 5, 0,0));
 
         //ACC
 
@@ -345,11 +346,12 @@ public class MainActivity extends AppCompatActivity {
         //week 6----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Oklahoma", "Texas", 6, 0,0));
-        gamesDAO.insert(new Game("Baylor", "Kansas State", 6,0,0));
-        gamesDAO.insert(new Game("Oklahoma State", "Iowa State", 6, 0,0));
-        gamesDAO.insert(new Game("West Virginia", "Kansas", 6,0,0));
-        gamesDAO.insert(new Game("TCU", "Texas Tech", 6,0,0));
+        //gamesDAO.insert(new Game("Oklahoma", "Texas", 6, 0,0));
+        //gamesDAO.insert(new Game("Baylor", "Kansas State", 6,0,0));
+        //gamesDAO.insert(new Game("Oklahoma State", "Iowa State", 6, 0,0));
+        //gamesDAO.insert(new Game("West Virginia", "Kansas", 6,0,0));
+        //gamesDAO.insert(new Game("TCU", "Texas Tech", 6,0,0));
+
 
         //ACC
 
@@ -357,56 +359,56 @@ public class MainActivity extends AppCompatActivity {
         //week 7----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Iowa State", "West Virginia", 7, 0,0));
-        gamesDAO.insert(new Game("Texas", "Baylor", 7,0,0));
-        gamesDAO.insert(new Game("Kansas State", "Oklahoma State", 7,0,0));
-        gamesDAO.insert(new Game("Texas Tech", "Kansas", 7,0,0));
-        gamesDAO.insert(new Game("TCU", "Oklahoma", 7,0,0));
+        //gamesDAO.insert(new Game("Iowa State", "West Virginia", 7, 0,0));
+        //gamesDAO.insert(new Game("Texas", "Baylor", 7,0,0));
+        //gamesDAO.insert(new Game("Kansas State", "Oklahoma State", 7,0,0));
+        //gamesDAO.insert(new Game("Texas Tech", "Kansas", 7,0,0));
+        //gamesDAO.insert(new Game("TCU", "Oklahoma", 7,0,0));
 
         //week 8----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Oklahoma State", "Texas", 8,0,0));
-        gamesDAO.insert(new Game("Iowa State", "Texas Tech", 8,0,0));
-        gamesDAO.insert(new Game("Oklahoma", "Kansas State", 8,0,0));
-        gamesDAO.insert(new Game("Kansas", "TCU", 8,0,0));
-        gamesDAO.insert(new Game("West Virginia", "Baylor", 8,0,0));
+        //gamesDAO.insert(new Game("Oklahoma State", "Texas", 8,0,0));
+        //gamesDAO.insert(new Game("Iowa State", "Texas Tech", 8,0,0));
+        //gamesDAO.insert(new Game("Oklahoma", "Kansas State", 8,0,0));
+        //gamesDAO.insert(new Game("Kansas", "TCU", 8,0,0));
+        //gamesDAO.insert(new Game("West Virginia", "Baylor", 8,0,0));
 
         //week 9----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Texas", "West Virginia", 9,0,0));
-        gamesDAO.insert(new Game("Kansas", "Iowa State", 9,0,0));
-        gamesDAO.insert(new Game("Texas Tech", "Oklahoma", 9,0,0));
-        gamesDAO.insert(new Game("TCU", "Kansas State", 9, 0,0));
-        gamesDAO.insert(new Game("Baylor", "Oklahoma State", 9,0,0));
+        //gamesDAO.insert(new Game("Texas", "West Virginia", 9,0,0));
+        //gamesDAO.insert(new Game("Kansas", "Iowa State", 9,0,0));
+        //gamesDAO.insert(new Game("Texas Tech", "Oklahoma", 9,0,0));
+        //gamesDAO.insert(new Game("TCU", "Kansas State", 9, 0,0));
+        //gamesDAO.insert(new Game("Baylor", "Oklahoma State", 9,0,0));
 
         //week 10---------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Texas Tech", "Texas", 10,0,0));
-        gamesDAO.insert(new Game("Baylor", "Iowa State", 10,0,0));
-        gamesDAO.insert(new Game("Oklahoma State", "Oklahoma", 10,0,0));
-        gamesDAO.insert(new Game("Kansas State", "Kansas", 10,0,0));
-        gamesDAO.insert(new Game("West Virginia", "TCU", 10,0,0));
+        //gamesDAO.insert(new Game("Texas Tech", "Texas", 10,0,0));
+        //gamesDAO.insert(new Game("Baylor", "Iowa State", 10,0,0));
+        //gamesDAO.insert(new Game("Oklahoma State", "Oklahoma", 10,0,0));
+        //gamesDAO.insert(new Game("Kansas State", "Kansas", 10,0,0));
+        //gamesDAO.insert(new Game("West Virginia", "TCU", 10,0,0));
 
         //week 11---------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Oklahoma", "Kansas", 11,0,0));
-        gamesDAO.insert(new Game("Texas", "Iowa State", 11,0,0));
-        gamesDAO.insert(new Game("Oklahoma State", "West Virginia", 11,0,0));
-        gamesDAO.insert(new Game("Baylor", "TCU", 11,0,0));
-        gamesDAO.insert(new Game("Kansas State", "Texas Tech", 11,0,0));
+        //gamesDAO.insert(new Game("Oklahoma", "Kansas", 11,0,0));
+        //gamesDAO.insert(new Game("Texas", "Iowa State", 11,0,0));
+        //gamesDAO.insert(new Game("Oklahoma State", "West Virginia", 11,0,0));
+        //gamesDAO.insert(new Game("Baylor", "TCU", 11,0,0));
+        //gamesDAO.insert(new Game("Kansas State", "Texas Tech", 11,0,0));
 
         //week 12----------------------------------------------------------------------
 
         //Big 12
-        gamesDAO.insert(new Game("Kansas", "Texas", 13, 0,0));
-        gamesDAO.insert(new Game("West Virginia", "Oklahoma", 13,0,0));
-        gamesDAO.insert(new Game("Iowa State", "Kansas State", 13,0,0));
-        gamesDAO.insert(new Game("TCU", "Oklahoma State", 13,0,0));
-        gamesDAO.insert(new Game("Baylor", "Texas Tech", 13,0,0));
+        //gamesDAO.insert(new Game("Kansas", "Texas", 13, 0,0));
+        //gamesDAO.insert(new Game("West Virginia", "Oklahoma", 13,0,0));
+        //gamesDAO.insert(new Game("Iowa State", "Kansas State", 13,0,0));
+        //gamesDAO.insert(new Game("TCU", "Oklahoma State", 13,0,0));
+        //gamesDAO.insert(new Game("Baylor", "Texas Tech", 13,0,0));
 
         //ACC interdivisional games
 
@@ -421,23 +423,6 @@ public class MainActivity extends AppCompatActivity {
         gamesDAO.insert(new Game("Wake Forest", "Pittsburgh", 12,0,0));
         gamesDAO.insert(new Game("Louisville", "Georgia Tech", 12,0,0));
         */
-    }
-
-    //beginning of function to generate OOC games -- got kind of stuck on the logic of this one
-    public void oocGamesGeneration()
-    {
-        //get lists of teams from each conference
-        List<List<Team>> conferences = null;
-        conferences.add(teamsDAO.getTeamsFromConference("ACC"));
-        conferences.add(teamsDAO.getTeamsFromConference("Big 10"));
-        conferences.add(teamsDAO.getTeamsFromConference("Big 12"));
-        conferences.add(teamsDAO.getTeamsFromConference("Pac-12"));
-        conferences.add(teamsDAO.getTeamsFromConference("SEC"));
-
-        //randomize lists
-        for(int i = 0; i<conferences.size(); i++)
-            Collections.shuffle(conferences.get(i));
-
     }
 
 }
