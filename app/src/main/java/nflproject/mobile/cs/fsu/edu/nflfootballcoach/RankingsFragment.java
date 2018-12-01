@@ -20,6 +20,7 @@ public class RankingsFragment extends Fragment {
     AppDatabase database = AppDatabase.getInstance(getActivity());
     ListView theRankingsListView;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
