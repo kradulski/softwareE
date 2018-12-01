@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="275dp"
-        android:text="HOW TO PLAY" />
+        android:text="GAME INFO" />
 
     <Button
         android:id="@+id/reset_button"

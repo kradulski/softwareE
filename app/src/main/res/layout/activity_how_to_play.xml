@@ -7,53 +7,9 @@
     tools:context=".HowToPlayActivity">
 
     <TextView
-        android:id="@+id/instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HOW TO PLAY\n
-============\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text\n\n
-
-Sample Text"/>
+        android:text="@string/game_info"
+        android:textSize="24sp">
+    </TextView>
 </ScrollView>
