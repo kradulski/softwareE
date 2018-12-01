@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".TeamSelectActivity">
 
+    <!--
     <Button
         android:id="@+id/fsu_btn"
         android:layout_width="match_parent"
@@ -24,5 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:orientation="horizontal"/>
-
+    -->
+    <ListView
+        android:id="@+id/teamlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

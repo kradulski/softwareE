@@ -15,6 +15,9 @@ public class Team {
     private String name;
 
     @ColumnInfo
+    private String abbreviation;
+
+    @ColumnInfo
     private String conference;
 
     @ColumnInfo
@@ -41,10 +44,11 @@ public class Team {
     @ColumnInfo
     private int rankingVotes;
 
-    public Team(String name, String conference, String division, int wins, int losses, int conWins, int conLosses,
+    public Team(String name, String abbreviation,String conference, String division, int wins, int losses, int conWins, int conLosses,
                 int offRating, int defRating, int rankingVotes)
     {
         this.name = name;
+        this.abbreviation = abbreviation;
         this.conference = conference;
         this.division = division;
         this.wins = wins;
@@ -58,6 +62,9 @@ public class Team {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getAbbreviation() { return abbreviation; }
+    public void setAbbreviation(String abbreviation) { this.abbreviation = abbreviation; }
 
     public String getConference() { return conference; }
     public void setConference(String conference) { this.conference = conference; }

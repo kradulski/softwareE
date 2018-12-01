@@ -6,6 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Update;
 import android.arch.persistence.room.Query;
+
+import java.util.ArrayList;
 import java.util.List;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
@@ -34,5 +36,17 @@ public interface TeamsDAO {
     //removes all rows from teams table
     @Query("DELETE FROM teams")
     void deleteAllTeams();
+
+    //gets the names of all teams, returns an List
+    @Query("SELECT name FROM teams")
+    List<String> getTeamNames();
+
+    //get all teams from a particular conference
+    @Query("SELECT * FROM teams WHERE conference = :conference")
+    List<Team> getTeamsFromConference(String conference);
+
+    //get top 25 rankings:
+    @Query("SELECT * FROM teams ORDER BY rankingVotes DESC LIMIT 25")
+    List<Team> getRankings();
 
 }
