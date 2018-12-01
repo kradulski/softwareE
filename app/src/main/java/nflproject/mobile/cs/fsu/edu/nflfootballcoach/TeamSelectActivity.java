@@ -1,7 +1,9 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,17 +16,21 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
+
 
 public class TeamSelectActivity extends AppCompatActivity {
 
-    AppDatabase database = AppDatabase.getInstance(this);
-    StateDAO stateDAO = database.getStateDAO();
-
+    String selectedTeam;
     ListView chooseTeam;
+    AppDatabase database = AppDatabase.getInstance(this);
     public void createPlayers(Resources res, int teamRating){
+        PlayersDAO playersDAO = database.getPlayersDAO();
         //Note getResources must be called after OnCreate or the program will crash
         //Write this and pass res to the function: Resources res = getResources();
         //Random array index chosen from firstNames and lastNames string array resources
@@ -70,9 +76,9 @@ public class TeamSelectActivity extends AppCompatActivity {
                 position = "CB";
             else
                 position = "S";
+            int rating = seed.nextInt(teamRating - (teamRating - 15) + 1) + teamRating - 15;
 
-
-            //db.execSQL("INSERT INTO Players (id, rating, firstName, lastName, position, year) VALUES
+            playersDAO.insert(new Players(playerID, rating, theFirstName, theLastName, position, theYear));
         }
     }
 
@@ -87,7 +93,24 @@ public class TeamSelectActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedTeam = chooseTeam.getItemAtPosition(i).toString();
                 String[] splitValues = selectedTeam.split("\\s+");
-
+                Resources res = getResources();
+                StateDAO stateDAO = database.getStateDAO();
+                if (splitValues.length == 5)
+                {
+                    int rate = Integer.parseInt(splitValues[4]);
+                    String temp = splitValues[1] + " " + splitValues[2];
+                    stateDAO.deleteAll();
+                    stateDAO.insert(new State(temp, 1));
+                    createPlayers(res, rate);
+                }
+                else
+                {
+                    int rate = Integer.parseInt(splitValues[3]);
+                    String temp = splitValues[1];
+                    stateDAO.deleteAll();
+                    stateDAO.insert(new State(temp, 1));
+                    createPlayers(res, rate);
+                }
                 clickAction();
             }
         });

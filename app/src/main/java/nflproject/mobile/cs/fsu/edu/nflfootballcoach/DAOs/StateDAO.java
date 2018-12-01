@@ -6,6 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.List;
+
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 @Dao
@@ -21,8 +23,12 @@ public interface StateDAO {
     public void update(State state);
 
     //get playerTeam
-    @Query("SELECT playerTeam FROM State")
-    public String getPlayerTeam();
+    @Query("SELECT * FROM State")
+    public List<State> getPlayerTeam();
+
+    //removes all rows from teams table
+    @Query("DELETE FROM State")
+    void deleteAll();
 
     //delete state
     @Query("DELETE FROM State")

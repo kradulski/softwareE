@@ -19,6 +19,7 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     AppDatabase database = AppDatabase.getInstance(this);
     GamesDAO gamesDAO = database.getGamesDAO();
     TeamsDAO teamsDAO = database.getTeamsDAO();
+    StateDAO stateDAO = database.getStateDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun)
         {
             populateDatabase();
+            stateDAO.insert(new State("", 0));
             SharedPreferences.Editor editor = wmbPreference.edit();
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
@@ -49,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent;
-                if (resetVal)
+                StateDAO stateDAO = database.getStateDAO();
+                List<State> theState = stateDAO.getPlayerTeam();
+                if (theState.get(0).getNewGame() == 0)
                     myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
                 else
                     myIntent = new Intent(MainActivity.this, PlayGameActivity.class);
@@ -73,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /* Code for resetting database and resetting user information goes here */
                 setResetVal(true);
+                stateDAO.deleteAll();
+                stateDAO.insert(new State("", 0));
             }
         });
     }
