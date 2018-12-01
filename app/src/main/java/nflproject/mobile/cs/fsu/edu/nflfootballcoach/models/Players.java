@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "players")
 public class Players {
     @PrimaryKey
-    @NonNull
     private int id;
 
     @ColumnInfo
@@ -36,8 +35,8 @@ public class Players {
         this.year = year;
     }
 
-    public int getid() { return id; }
-    public void setid(int id) { this.id = id; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public int getRating() { return rating; }
     public void setRating(int rating) { this.rating = rating; }

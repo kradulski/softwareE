@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 
 public class TeamSelectActivity extends AppCompatActivity {
 
     ListView chooseTeam;
+    AppDatabase database = AppDatabase.getInstance(this);
     public void createPlayers(Resources res, int teamRating){
+        PlayersDAO playersDAO = database.getPlayersDAO();
         //Note getResources must be called after OnCreate or the program will crash
         //Write this and pass res to the function: Resources res = getResources();
         //Random array index chosen from firstNames and lastNames string array resources
@@ -66,9 +70,9 @@ public class TeamSelectActivity extends AppCompatActivity {
                 position = "CB";
             else
                 position = "S";
+            int rating = seed.nextInt(teamRating - (teamRating - 15) + 1) + teamRating - 15;
 
-
-            //db.execSQL("INSERT INTO Players (id, rating, firstName, lastName, position, year) VALUES
+            playersDAO.insert(new Players(playerID, rating, theFirstName, theLastName, position, theYear));
         }
     }
 
@@ -77,16 +81,23 @@ public class TeamSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_select);
 
-        AppDatabase database = AppDatabase.getInstance(this);
-        TeamsDAO teamsDAO = database.getTeamsDAO();
-
         chooseTeam = findViewById(R.id.teamSelect);
         chooseTeam.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedTeam = chooseTeam.getItemAtPosition(i).toString();
                 String[] splitValues = selectedTeam.split("\\s+");
-
+                Resources res = getResources();
+                if (splitValues.length == 5)
+                {
+                    int rate = Integer.parseInt(splitValues[4]);
+                    createPlayers(res, rate);
+                }
+                else
+                {
+                    int rate = Integer.parseInt(splitValues[3]);
+                    createPlayers(res, rate);
+                }
                 clickAction();
             }
         });
