@@ -11,16 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.List;
-
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 public class PlayGameActivity extends AppCompatActivity
@@ -90,7 +83,6 @@ public class PlayGameActivity extends AppCompatActivity
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
                                 stateDAO.insert(new State("", 0));
-                                MainActivity.setResetVal(true);
                                 startActivity(myIntent);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:

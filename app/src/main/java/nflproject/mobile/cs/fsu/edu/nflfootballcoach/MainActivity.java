@@ -1,5 +1,6 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -11,7 +12,6 @@ import android.widget.Button;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
@@ -77,19 +77,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Code for resetting database and resetting user information goes here */
-                setResetVal(true);
-                stateDAO.deleteAll();
-                stateDAO.insert(new State("", 0));
+                DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                StateDAO stateDAO = database.getStateDAO();
+                                stateDAO.deleteAll();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                };
             }
         });
-    }
-
-    private static boolean resetVal = true;
-    public static boolean getResetVal(){
-        return resetVal;
-    }
-    public static void setResetVal(boolean newVal){
-        resetVal = newVal;
     }
 
     public void createPlayers(Resources res, int teamRating){
