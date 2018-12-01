@@ -23,7 +23,8 @@ public class RankingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        View view = inflater.inflate(R.layout.fragment_rankings, null);
+        theRankingsListView = view.findViewById(R.id.list_rankings);
         TeamsDAO teamsDAO = database.getTeamsDAO();
         List<Team> theRankingsList = teamsDAO.getRankings();
         String[] theRankings = new String[25];
@@ -37,6 +38,6 @@ public class RankingsFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, theRankings);
         theRankingsListView.setAdapter(adapter);
 
-        return inflater.inflate(R.layout.fragment_rankings, null);
+        return view;
     }
 }

@@ -37,7 +37,7 @@ public class MyTeamFragment extends Fragment {
         for (int i = 0; i < 48; ++i)
         {
             Players player = playerList.get(i);
-            thePlayers[i] = player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", " + player.getRating();
+            thePlayers[i] = player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, thePlayers);
         thePlayersList.setAdapter(adapter);
