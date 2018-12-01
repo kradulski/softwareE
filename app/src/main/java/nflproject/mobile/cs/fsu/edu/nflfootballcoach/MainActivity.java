@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
                 0,0, 73,84, 0));
         teamsDAO.insert(new Team("Virginia Tech", "ACC", "Coastal", 0,0,
                 0,0, 75,90,384));
+        teamsDAO.insert(new Team("Wake Forest", "ACC", "Atlantic", 0,0,
+                0,0, 75,75,0));
         /*
         teamsDAO.insert(new Team("Baylor", "Big 12", "", 0,0,
                 0,0,72,75,0));
