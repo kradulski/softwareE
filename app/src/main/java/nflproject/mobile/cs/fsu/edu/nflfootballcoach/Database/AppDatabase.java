@@ -6,22 +6,23 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 //Database creation
 
-@Database(entities = {Team.class, Game.class, Players.class}, version = 1)
+
+@Database(entities = {Team.class, Game.class, State.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase{
 
     public abstract TeamsDAO getTeamsDAO();
 
     public abstract GamesDAO getGamesDAO();
 
-    public abstract PlayersDAO getPlayersDAO();
+    public abstract StateDAO getStateDAO();
 
     //the database instance
     public static AppDatabase instance;
