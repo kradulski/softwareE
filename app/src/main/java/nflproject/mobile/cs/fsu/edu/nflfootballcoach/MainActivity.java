@@ -322,11 +322,13 @@ public class MainActivity extends AppCompatActivity {
         //week 4---------------------------------------------------------------------
 
         //Big 12
+        /*
         gamesDAO.insert(new Game("Oklahoma State", "Texas Tech", 4, 0,0));
         gamesDAO.insert(new Game("Baylor", "Kansas", 4, 0,0));
         gamesDAO.insert(new Game("Iowa State", "Oklahoma", 4,0,0));
         gamesDAO.insert(new Game("Texas", "TCU", 4,0,0));
         gamesDAO.insert(new Game("West Virginia", "Kansas State", 4,0,0));
+        */
 
         //week 5----------------------------------------------------------------------
 
@@ -432,6 +434,17 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+
+    public void big12GameGeneration(){
+        List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
+
+        Collections.shuffle(big12Teams);
+
+        for(int i = 4; i<=13; i++)
+        {
+
+        }
+    }
 
     public void accGameGeneration() {
         List<Team> accAtlTeams = teamsDAO.getTeamsByDivision("Atlantic"); //get teams in the ACC atlantic

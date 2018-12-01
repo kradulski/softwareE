@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
@@ -33,8 +34,10 @@ public class ScheduleFragment extends Fragment {
 
         ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
 
-        playerTeam = stateDAO.getPlayerTeam();  //get team player is currently playing as
-        List<Game> games = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as
+        playerTeam = stateDAO.getPlayerTeamString();  //get team player is currently playing as
+        List<Game> gameList = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as
+        ArrayList<Game> games = new ArrayList<Game>(gameList.size());
+        games.addAll(gameList);
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, games);
         schedule.setAdapter(adapter);
