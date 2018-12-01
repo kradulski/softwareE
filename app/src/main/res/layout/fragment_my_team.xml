@@ -15,27 +15,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/teamName"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tabName"/>
+        android:layout_below="@+id/tabName"
+        android:textSize="26dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/winLoss"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/teamName"/>
+        android:layout_below="@+id/teamName"
+        android:textSize="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cWinLoss"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/winLoss"/>
+        android:layout_below="@+id/winLoss"
+        android:textSize="20dp"/>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/playerlist"
-        android:layout_below="@+id/teamName">
+        android:layout_below="@+id/cWinLoss">
     </ListView>
 </RelativeLayout>

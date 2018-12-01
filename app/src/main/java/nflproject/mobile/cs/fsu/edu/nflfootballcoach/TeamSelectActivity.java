@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Random;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
@@ -22,6 +23,7 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 
 public class TeamSelectActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class TeamSelectActivity extends AppCompatActivity {
         //Positions to be assigned on offense: 2 QB, 2 RB, 10 OL, 2 TE, 6 WR, 2 K, 2 P
         //Positions to be assigned on defense: 8 DL, 6 LB, 4 CB, 4 S
         String theFirstName, theLastName, theYear, position;
+        int newOffenseRating = 0;
+        int newDefenseRating = 0;
         for (int playerID = 0; playerID < 48; ++playerID)
         {
             int playerFirstName = seed.nextInt(firstNames.length);
@@ -54,31 +58,86 @@ public class TeamSelectActivity extends AppCompatActivity {
             theLastName = lastNames[playerLastName];
             int playerYear = seed.nextInt(years.length);
             theYear = years[playerYear];
-            if (playerID < 10)
-                position = "OL";
-            else if (playerID == 10 || playerID == 11)
-                position = "QB";
-            else if (playerID == 12 || playerID == 13)
-                position = "RB";
-            else if (playerID == 14 || playerID == 15)
-                position = "TE";
-            else if (playerID < 22)
-                position = "WR";
-            else if (playerID == 22 || playerID == 23)
-                position = "K";
-            else if (playerID == 24 || playerID == 25)
-                position = "P";
-            else if (playerID <= 33)
-                position = "DL";
-            else if (playerID <= 39)
-                position = "LB";
-            else if (playerID <= 43)
-                position = "CB";
-            else
-                position = "S";
             int rating = seed.nextInt(teamRating - (teamRating - 15) + 1) + teamRating - 15;
+            if (playerID < 10)
+            {
+                position = "OL";
+                newOffenseRating += rating;
+            }
+            else if (playerID == 10 || playerID == 11)
+            {
+                newOffenseRating += rating;
+                position = "QB";
+            }
+            else if (playerID == 12 || playerID == 13)
+            {
+                newOffenseRating += rating;
+                position = "RB";
+            }
+            else if (playerID == 14 || playerID == 15)
+            {
+                newOffenseRating += rating;
+                position = "TE";
+            }
+            else if (playerID < 22)
+            {
+                newOffenseRating += rating;
+                position = "WR";
+            }
+            else if (playerID == 22 || playerID == 23)
+            {
+                newOffenseRating += rating;
+                position = "K";
+            }
+            else if (playerID == 24 || playerID == 25)
+            {
+                newOffenseRating += rating;
+                position = "P";
+            }
+            else if (playerID <= 33)
+            {
+                newDefenseRating += rating;
+                position = "DL";
+            }
+            else if (playerID <= 39)
+            {
+                newDefenseRating += rating;
+                position = "LB";
+            }
+            else if (playerID <= 43)
+            {
+                newDefenseRating += rating;
+                position = "CB";
+            }
+            else {
+                newDefenseRating += rating;
+                position = "S";
+            }
 
             playersDAO.insert(new Players(playerID, rating, theFirstName, theLastName, position, theYear));
+        }
+        newDefenseRating = newDefenseRating/22;
+        newOffenseRating = newOffenseRating/26;
+        TeamsDAO teamsDAO = database.getTeamsDAO();
+        StateDAO stateDAO = database.getStateDAO();
+        List<State> tempName = stateDAO.getPlayerTeam();
+        Team yourTeam = teamsDAO.getTeamByName(tempName.get(0).getPlayerTeam());
+        yourTeam.setDefRating(newDefenseRating);
+        yourTeam.setOffRating(newOffenseRating);
+    }
+
+    void leavingPlayers()
+    {
+        PlayersDAO playersDAO = database.getPlayersDAO();
+        List<Players> allPlayers = playersDAO.getPlayers();
+        String[] graduates;
+        for (int i = 0; i < 48; ++i)
+        {
+            if (allPlayers.get(i).getYear().equals("SR"))
+            {
+                Players player = allPlayers.get(i);
+                //player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating();
+            }
         }
     }
 
