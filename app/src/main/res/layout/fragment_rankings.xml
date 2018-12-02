@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Top 25 Rankings"
-        android:textSize="32dp" />
+        android:textSize="28sp"
+        android:textColor="@color/blue"/>
 
     <ListView
         android:id="@+id/list_rankings"

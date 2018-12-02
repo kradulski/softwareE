@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,27 +11,23 @@
         android:id="@+id/imageView2"
         android:layout_width="80dp"
         android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        app:srcCompat="@drawable/football" />
+        android:src="@drawable/football"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="210dp"
         android:fontFamily="@font/varsity_regular"
-        android:typeface="normal"
         android:text="College Football Coach"
         android:textColor="@color/white"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:typeface="normal" />
 
     <Button
         android:id="@+id/play_game_button"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="290dp"
         android:text="PLAY GAME" />
 
@@ -39,9 +35,6 @@
         android:id="@+id/how_to_button"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="290dp"
@@ -51,9 +44,6 @@
         android:id="@+id/reset_button"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="290dp"
@@ -62,11 +52,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
         android:text="Copyright © 2018 Klopfenstein, Radulski, Siewert"
-        android:textSize="16sp"
-        android:textColor="@color/lightBlue"/>
+        android:textColor="@color/lightBlue"
+        android:textSize="16sp" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

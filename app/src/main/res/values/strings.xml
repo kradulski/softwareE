@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CollegeFootballCoach</string>
+    <string name="app_name">College Football Coach</string>
 
     <string-array name="firstNames">
         <item>James</item>
