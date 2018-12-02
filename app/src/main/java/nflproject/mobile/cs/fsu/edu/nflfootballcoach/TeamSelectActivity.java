@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,8 +27,8 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 public class TeamSelectActivity extends AppCompatActivity {
 
-    String selectedTeam;
     ListView chooseTeam;
+
     AppDatabase database = AppDatabase.getInstance(this);
     public void createPlayers(Resources res, int teamRating){
         PlayersDAO playersDAO = database.getPlayersDAO();
@@ -114,9 +115,10 @@ public class TeamSelectActivity extends AppCompatActivity {
                 clickAction();
             }
         });
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.setTitle("Team Select");
 
     }
 
