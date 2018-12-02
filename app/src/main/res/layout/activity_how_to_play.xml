@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +7,24 @@
     tools:context=".HowToPlayActivity">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/game_info_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/game_info"
-        android:textSize="24sp">
-    </TextView>
-</ScrollView>
+        android:text="@string/title_game_info"
+        android:layout_centerHorizontal="true"
+        android:textSize="32sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/game_info_title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_info"
+            android:textSize="24sp"/>
+
+    </ScrollView>
+
+</RelativeLayout>

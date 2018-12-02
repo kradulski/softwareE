@@ -525,20 +525,19 @@
     <string name="title_my_team">My Team</string>
     <string name="title_rankings">Rankings</string>
     <string name="reset_text">Reset</string>
-    <string name="title_game_info">Game Info</string>
+    <string name="title_game_info"><font size="32" color="@color/blue"><b><u>Game Info</u></b></font></string>
     <string name="game_info">
-        <font size="32"><b><u>\t\t\t\t\t\t\tGame Info\t\t\t\t\n\n</u></b></font>
-        <font size="24"><b>General\n</b></font>
+        <font size="24"><text color="@color/blue"><b>General\n</b></text></font>
         <font size="20">College Football Coach is a football game simulator, and allows you
             to play through multiple seasons as the coach of a college football team of your choosing.
             Every team\'s ranking and stats are updated throughout a season, and your team roster is
-            updated from season to season.\n</font>
-        <font size="24"><b>Main Menu\n</b></font>
+            updated from season to season.\n\n</font>
+        <font size="24"><text color="@color/blue"><b>Main Menu\n</b></text></font>
         <font size="20">To begin a new game, select Play Game, and then select a team
             from the list that appears. Other options available on the main menu
             are accessing this instructions page via the How To Play button, and
             resetting your game, if you have already started a game.\n\n</font>
-        <font size="24"><b>Season Gameplay\n</b></font>
+        <font size="24"><text color="@color/blue"><b>Season Gameplay\n</b></text></font>
         <font size="20">To play through a season, select the Play Week button, located on the
             Schedule tab. This will simulate every game scheduled in the current week, displaying
             the results for the game your team played. To view your team stats and player roster,
@@ -547,41 +546,14 @@
             corner. This will allow you to view this instructions page, or reset your game. Be warned,
             resetting your game will delete all of your team\'s data and reset your team\'s ranking
             to its default ranking.\n\n</font>
-        <font size="24"><b>Off-Season\n</b></font>
+        <font size="24"><text color="@color/blue"><b>Off-Season\n</b></text></font>
         <font size="20">When the season is over, a message will appear, displaying the results of
             the season. Then, your graduating senior players will be automatically replaced with
             incoming freshmen. The player ratings of the incoming freshmen will be determined by
-            your team ranking. After your team roster is updated, you will be able to begin a new season.\n</font>
-        <font size="24"><b>Developer Information\n</b></font>
+            your team ranking. After your team roster is updated, you will be able to begin a new season.\n\n</font>
+        <font size="24"><text color="@color/blue"><b>Developer Information\n</b></text></font>
         <font size="20">This mobile app was developed by Matthew Klopfenstein, Keith Radulski, and
             Gabriel Siewert. The app is modeled after two mobile apps, College Football Coach (2016),
             developed by Akhi Jones, and College Football Coach (2018), developed by Akshay Easwaran.\n\n</font>\
     </string>
-    <string-array name="Rankings">
-        <item>#1</item>
-        <item>#2</item>
-        <item>#3</item>
-        <item>#4</item>
-        <item>#5</item>
-        <item>#6</item>
-        <item>#7</item>
-        <item>#8</item>
-        <item>#9</item>
-        <item>#10</item>
-        <item>#11</item>
-        <item>#12</item>
-        <item>#13</item>
-        <item>#14</item>
-        <item>#15</item>
-        <item>#16</item>
-        <item>#17</item>
-        <item>#18</item>
-        <item>#19</item>
-        <item>#20</item>
-        <item>#21</item>
-        <item>#22</item>
-        <item>#23</item>
-        <item>#24</item>
-        <item>#25</item>
-    </string-array>
 </resources>
