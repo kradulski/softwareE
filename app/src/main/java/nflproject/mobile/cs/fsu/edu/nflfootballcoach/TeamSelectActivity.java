@@ -1,21 +1,27 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
@@ -28,7 +34,6 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 public class TeamSelectActivity extends AppCompatActivity {
 
-    String selectedTeam;
     ListView chooseTeam;
     AppDatabase database = AppDatabase.getInstance(this);
     public void createPlayers(Resources res, int teamRating){
@@ -58,7 +63,9 @@ public class TeamSelectActivity extends AppCompatActivity {
             theLastName = lastNames[playerLastName];
             int playerYear = seed.nextInt(years.length);
             theYear = years[playerYear];
-            int rating = seed.nextInt(teamRating - (teamRating - 15) + 1) + teamRating - 15;
+            int rating = seed.nextInt(teamRating + 15 - (teamRating - 15) + 1) + teamRating - 15;
+            if (rating >= 100)
+                rating = 99;
             if (playerID < 10)
             {
                 position = "OL";
@@ -126,20 +133,6 @@ public class TeamSelectActivity extends AppCompatActivity {
         yourTeam.setOffRating(newOffenseRating);
     }
 
-    void leavingPlayers()
-    {
-        PlayersDAO playersDAO = database.getPlayersDAO();
-        List<Players> allPlayers = playersDAO.getPlayers();
-        String[] graduates;
-        for (int i = 0; i < 48; ++i)
-        {
-            if (allPlayers.get(i).getYear().equals("SR"))
-            {
-                Players player = allPlayers.get(i);
-                //player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating();
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

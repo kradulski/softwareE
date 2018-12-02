@@ -99,7 +99,6 @@ public class PlayGameActivity extends AppCompatActivity
                         }
                     }
                 };
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(PlayGameActivity.this);
                 builder.setMessage("Are you sure you want to reset all data? This cannot be undone.")
                         .setPositiveButton("Yes", dialogListener)

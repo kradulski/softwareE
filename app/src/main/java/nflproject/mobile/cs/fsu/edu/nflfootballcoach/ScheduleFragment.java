@@ -1,22 +1,31 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 public class ScheduleFragment extends Fragment {
@@ -25,8 +34,97 @@ public class ScheduleFragment extends Fragment {
     GamesDAO gamesDAO = database.getGamesDAO();
     StateDAO stateDAO = database.getStateDAO();
 
-    String playerTeam;
+    //Write this and pass res to the function: Resources res = getResources();
+    void leavingPlayers(View testView, Resources res)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Players Graduating");
 
+        PlayersDAO playersDAO = database.getPlayersDAO();
+        List<Players> allPlayers = playersDAO.getPlayers();
+        Vector<Integer> ids = new Vector<>();
+        int counter = 0;
+        Random seed = new Random();
+        String[] firstNames = res.getStringArray(R.array.firstNames);
+        String[] lastNames = res.getStringArray(R.array.lastNames);
+        Vector<String> firstname = new Vector<>();
+        Vector<String> position = new Vector<>();
+        Vector<String> lastname = new Vector<>();
+
+        final ArrayAdapter<String> newPlayers = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> graduates = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
+        for (int i = 0; i < 48; ++i)
+        {
+            if (allPlayers.get(i).getYear().equals("SR"))
+            {
+                Players player = allPlayers.get(i);
+                graduates.add(player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating());
+                ids.add(i);
+                ++counter;
+                position.add(player.getPosition());
+                int playerFirstName = seed.nextInt(firstNames.length);
+                firstname.add(firstNames[playerFirstName]);
+                int playerLastName = seed.nextInt(lastNames.length);
+                lastname.add(lastNames[playerLastName]);
+                playersDAO.deletePlayer(i);
+            }
+        }
+
+        List<Players> remainingPlayers = playersDAO.getPlayers();
+        for (int i = 0; i < 48 - counter; ++i)
+        {
+            Players player = allPlayers.get(i);
+            int skillIncrease = seed.nextInt(4) + 1;
+            if (player.getYear().equals("FR"))
+            {
+                player.setYear("SO");
+            }
+            else if (allPlayers.get(i).equals("SO"))
+            {
+                player.setYear("JR");
+            }
+            else
+            {
+                player.setYear("SR");
+            }
+            int temp = player.getRating() + skillIncrease;
+            if (temp >= 100)
+                temp = 99;
+            player.setRating(temp);
+            playersDAO.update(player);
+        }
+
+        for (int i = 0; i < firstname.size(); ++i)
+        {
+            playersDAO.insert(new Players(ids.get(i), 80, firstname.get(i), lastname.get(i), position.get(i), "FR"));
+            newPlayers.add(firstname.get(i) + " " + lastname.get(i) + ", " + position.get(i) + ", FR, rating: " + "80");
+        }
+
+
+        String[] why = new String[graduates.getCount()];
+        final String[] why2 = new String[graduates.getCount()];
+        for (int i = 0; i < graduates.getCount(); ++i)
+        {
+            why[i] = graduates.getItem(i);
+            why2[i] = newPlayers.getItem(i);
+        }
+        builder.setItems(why, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
+                builderInner.setTitle("New Players");
+                builderInner.setItems(why2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                builderInner.show();
+            }
+        });
+        builder.show();
+    }
+
+    String playerTeam;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +139,10 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, games);
         schedule.setAdapter(adapter);
+
+        Resources res = getResources();
+        leavingPlayers(view, res);
+
 
         return view;
     }
