@@ -482,18 +482,11 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.shuffle(big12Teams);
 
-        for(int i = 4; i<=12; i++)
+        String home, away;
+        for(int wk = 4; wk<=12; wk++)
         {
-            if(i == 7)
-            {
-
-            }
-
-            gamesDAO.insert(new Game(big12Teams.get(0).getName(), big12Teams.get(9).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(1).getName(), big12Teams.get(8).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(2).getName(), big12Teams.get(7).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(3).getName(), big12Teams.get(6).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(4).getName(), big12Teams.get(5).getName(), i, 0,0));
+            int i = 0;
+            int j = big12Teams.size() - 1; 
         }
 
 
