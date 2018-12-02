@@ -22,7 +22,7 @@
         android:layout_height="60dp"
         android:layout_weight="66.6"
         android:text="Result"
-        android:background="#808080"/>
+        android:background="@color/lightGrey"/>
 
     <!--
     <TextView
