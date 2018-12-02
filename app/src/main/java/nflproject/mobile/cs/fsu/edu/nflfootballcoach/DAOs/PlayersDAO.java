@@ -25,4 +25,9 @@ public interface PlayersDAO {
     //returns all teams in the database in a List
     @Query("SELECT * FROM players")
     List<Players> getPlayers();
+
+    //removes all rows from teams table
+    @Query("DELETE FROM players WHERE id = :id")
+    void deletePlayer(int id);
+
 }

@@ -17,16 +17,36 @@ public class State {
     @ColumnInfo
     private int newGame;
 
-    public State(String playerTeam, int newGame)
+    @ColumnInfo
+    private int careerWins;
+
+    @ColumnInfo
+    private int careerLosses;
+
+    @ColumnInfo
+    private int year;
+
+    public State(String playerTeam, int newGame, int careerLosses, int careerWins, int year)
     {
         this.playerTeam = playerTeam;
         this.newGame = newGame;
+        this.careerWins = careerWins;
+        this.careerLosses = careerLosses;
+        this.year = year;
     }
 
     public String getPlayerTeam() {return playerTeam; }
     public void setPlayerTeam(String playerTeam) { this.playerTeam = playerTeam; }
 
+    public  int getYear() {return year;}
+    public  void setYear() {this.year = year;}
+
     public  int getNewGame() {return newGame;}
     public  void setNewGame() {this.newGame = newGame;}
 
+    public  int getCareerWins() {return careerWins;}
+    public  void setCareerWins() {this.careerWins = careerWins;}
+
+    public  int getCareerLosses() {return careerLosses;}
+    public  void setCareerLosses() {this.careerLosses = careerLosses;}
 }

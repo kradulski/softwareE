@@ -82,7 +82,7 @@ public class PlayGameActivity extends AppCompatActivity
                                 Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
-                                stateDAO.insert(new State("", 0));
+                                stateDAO.insert(new State("", 0, 0, 0, 2018));
                                 startActivity(myIntent);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -91,7 +91,6 @@ public class PlayGameActivity extends AppCompatActivity
                         }
                     }
                 };
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(PlayGameActivity.this);
                 builder.setTitle("Reset Game?")
                         .setMessage("Are you sure you want to reset all data? This cannot be undone.")
