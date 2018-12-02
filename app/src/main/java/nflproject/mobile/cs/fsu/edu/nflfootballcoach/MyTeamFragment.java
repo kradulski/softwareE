@@ -52,7 +52,7 @@ public class MyTeamFragment extends Fragment {
         teamWinLoss.setText(tempWL);
         teamCWinLoss.setText(tempCWL);
         String careerWL = "Career Record: " + tempName.get(0).getCareerWins() + " - " + tempName.get(0).getCareerLosses();
-        career.setText(careerWL);
+        //career.setText(careerWL);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
 

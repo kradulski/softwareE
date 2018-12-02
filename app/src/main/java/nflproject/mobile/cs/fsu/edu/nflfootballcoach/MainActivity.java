@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -300,8 +302,9 @@ public class MainActivity extends AppCompatActivity {
     public void populateGames()
     {
         //generates week 1-3 OOC games
-        oocGameGeneration();  //generates the OOC games
-        accGameGeneration();  //generates ACC games
+        oocGameGeneration();    //generates the OOC games
+        accGameGeneration();    //generates ACC games
+        big12GameGeneration();  //generates Big 12 games
 
 
         //week 4---------------------------------------------------------------------
@@ -482,16 +485,47 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.shuffle(big12Teams);
 
+        Team finalTeam = big12Teams.get(big12Teams.size() - 1);
+
         String home, away;
-        for(int wk = 4; wk<=12; wk++)
+        for(int wk = 4; wk<=13; wk++)
         {
             int i = 0;
             int j = big12Teams.size() - 1;
+
+            while(i < j)
+            {
+                if(wk % 7 == 0)
+                {
+                    for(int k = 0; k < big12Teams.size(); k++)
+                        gamesDAO.insert(new Game(big12Teams.get(k).getName(), "BYE", wk, 0,0));
+                }
+                else
+                {
+                    if (wk % 2 == 0)
+                    {
+                        home = big12Teams.get(j).getName();
+                        away = big12Teams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = big12Teams.get(i).getName();
+                        away = big12Teams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
+                }
+                i++;
+                j--;
+            }
+
+            if(wk % 7 != 0) {
+                big12Teams.remove(big12Teams.size() - 1);
+                Collections.rotate(big12Teams, 1);
+                big12Teams.add(finalTeam);
+            }
         }
-
-
-
     }
+
 
     public void accGameGeneration() {
         //get teams from both divisions
@@ -504,10 +538,8 @@ public class MainActivity extends AppCompatActivity {
 
         //generate interdivisional games
         for(int i = 0; i<accAtlTeams.size(); i++)
-        {
             gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 5,
                     0,0));
-        }
 
         Collections.rotate(accAtlTeams,1);
 

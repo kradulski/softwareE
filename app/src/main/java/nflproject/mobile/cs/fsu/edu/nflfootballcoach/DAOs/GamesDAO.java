@@ -29,4 +29,8 @@ public interface GamesDAO {
     @Query("SELECT * FROM games WHERE home = :name OR away = :name ORDER BY week ASC")
     public List<Game> getGamesOfTeam(String name);
 
+    //get all games played in a week
+    @Query("SELECT * FROM games WHERE week = :week")
+    public List<Game> getGamesOfWeek(int week);
+
 }
