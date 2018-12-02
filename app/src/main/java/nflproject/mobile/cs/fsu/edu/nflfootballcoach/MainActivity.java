@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -60,7 +57,30 @@ public class MainActivity extends AppCompatActivity {
                 List<State> theState = stateDAO.getPlayerTeam();
                 if (theState.get(0).getNewGame() == 0)
                 {
-                    
+                    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    /* UPDATE MODE TO CHALLENGE */
+                                    AppDatabase database = AppDatabase.getInstance(MainActivity.this);
+                                    StateDAO stateDAO = database.getStateDAO();
+                                    List<State> temp = stateDAO.getPlayerTeam();
+                                    temp.get(0).setDifficulty("hard");
+                                    stateDAO.update(temp.get(0));
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    /* KEEP MODE AT NORMAL */
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Mode")
+                            .setMessage("Would you like to play in Normal Mode or Challenge Mode? Games in Challenge Mode will be more difficult to win.")
+                            .setPositiveButton("Challenge", dialogListener)
+                            .setNegativeButton("Normal", dialogListener).show();
                     myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
                 }
                 else
