@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
@@ -291,13 +292,8 @@ public class MainActivity extends AppCompatActivity {
     //insert games into database
     public void populateGames()
     {
-        //week 1 -- OOC
-        gamesDAO.insert(new Game("Florida State", "Clemson", 1,0,0));
-
-        //week 2 -- ooc
-        gamesDAO.insert(new Game("Syracuse", "Florida State", 2,0,0));
-
-        //week 3 -- ooc
+        //generates week 1-3 OOC games
+        oocGameGeneration(); 
 
 
         //week 4---------------------------------------------------------------------
@@ -456,6 +452,7 @@ public class MainActivity extends AppCompatActivity {
                 i++;
                 j--;
             }
+            Collections.rotate(allTeams, 1);
         }
     }
 
