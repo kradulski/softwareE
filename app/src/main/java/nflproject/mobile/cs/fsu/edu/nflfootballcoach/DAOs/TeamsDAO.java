@@ -63,4 +63,8 @@ public interface TeamsDAO {
 
     @Query("SELECT count(*) FROM teams WHERE rankingVotes > (SELECT rankingVotes FROM teams WHERE name = :name)")
     public int getRankingOfTeam(String name);
+
+    //get every team
+    @Query("SELECT * FROM teams")
+    List<Team> getEveryTeam();
 }

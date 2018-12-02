@@ -29,6 +29,9 @@ public interface StateDAO {
     @Query("SELECT playerTeam FROM State")
     public String getPlayerTeamString();
 
+    @Query("SELECT difficulty FROM State")
+    public String getDifficulty();
+
     //removes all rows from teams table
     @Query("DELETE FROM State")
     void deleteAll();
