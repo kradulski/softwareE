@@ -12,14 +12,14 @@
         android:layout_width="80dp"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        app:srcCompat="@drawable/football" />
+        android:layout_marginTop="0dp"
+        app:srcCompat="@drawable/football"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="210dp"
+        android:layout_marginTop="170dp"
         android:fontFamily="@font/varsity_regular"
         android:typeface="normal"
         android:text="College Football Coach"
@@ -32,7 +32,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="290dp"
+        android:layout_marginBottom="210dp"
         android:text="PLAY GAME" />
 
     <Button
@@ -44,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="290dp"
+        android:layout_marginBottom="210dp"
         android:text="GAME INFO" />
 
     <Button
@@ -56,7 +56,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="290dp"
+        android:layout_marginBottom="210dp"
         android:text="RESET" />
 
     <TextView

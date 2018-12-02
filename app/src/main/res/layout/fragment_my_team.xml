@@ -4,28 +4,40 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tabName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/teamName"
+        android:text="(Team Name)"
         android:layout_centerHorizontal="true"
-        android:text="My Team"
-        android:textSize="32dp" />
+        android:textColor="@color/blue"
+        android:textSize="32sp"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/teamName"
+        android:id="@+id/myRanking"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tabName"
-        android:textSize="26dp"/>
+        android:text="Rank: (Rank)"
+        android:layout_below="@id/teamName"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/myDivision"
+        android:layout_centerHorizontal="true"
+        android:text="Division: (Division)"
+        android:layout_below="@id/myRanking"
+        android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/winLoss"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/teamName"
-        android:textSize="20dp"/>
+        android:layout_below="@+id/myDivision"
+        android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,21 +45,21 @@
         android:id="@+id/cWinLoss"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/winLoss"
-        android:textSize="20dp"/>
+        android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/career"
+        android:id="@+id/career_record"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/cWinLoss"
-        android:textSize="20dp"/>
+        android:padding="5dp"/>
 
     <ListView
         android:id="@+id/playerlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/career"
-        android:layout_centerHorizontal="true">
-    </ListView>
+        android:layout_below="@+id/career_record"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

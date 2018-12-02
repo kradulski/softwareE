@@ -2,17 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/schedule"
+    <Button
+        android:id="@+id/play_week_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Schedule"
-        android:textSize="32dp" />
+        android:drawableStart="@android:drawable/ic_media_play"
+        android:drawableLeft="@android:drawable/ic_media_play"
+        android:drawableTint="@color/blue"
+        android:drawablePadding="6dp"
+        android:gravity="left|center"
+        android:padding="6dp"
+        android:text="Play Week"
+        android:textSize="20sp"
+        android:textColor="@color/blue"/>
 
     <ListView
         android:id="@+id/scheduleList"
-        android:layout_below="@+id/schedule"
+        android:layout_below="@+id/play_week_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
