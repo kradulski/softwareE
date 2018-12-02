@@ -295,8 +295,33 @@ public class MainActivity extends AppCompatActivity {
         teamsDAO.insert(new Team("Texas A&M", "TAMU","SEC", "West", 0,0,
                 0,0,76,80,51));
 
+        //BYE week "team"
         teamsDAO.insert(new Team("BYE", "BYE","BYE", "BYE", 0,0,
                 0,0,0,0,0));
+
+        //Just a couple of "fake" cupcake teams. Not playable.
+        teamsDAO.insert(new Team("Buffalo", "BUFF", "MAC", "EAST",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Ohio", "OHIO", "MAC", "EAST", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Bowling Green", "BGSU", "MAC", "EAST", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Miami-OH", "M-OH", "MAC", "EAST",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Kent State", "KENT", "MAC","East",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Northern Illinois", "NIU", "MAC", "West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Eastern Michican", "EMU", "MAC", "West", 0,0,
+                0,0, 60,60,0));
+        teamsDAO.insert(new Team("Toledo", "TOL", "MAC","West", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Western Michigan", "WMU", "MAC","West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Ball State", "BALL", "MAC","West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Central Michigan", "CMU", "MAC", "West", 0,0,
+                0,0,60,60,0));
     }
 
 
@@ -437,6 +462,13 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    public void oocGameGeneration()
+    {
+        List<Team> allTeams = teamsDAO.getTeams();
+        Team away, home;
+
+        Collections.shuffle(allTeams);
+    }
 
     public void big12GameGeneration(){
         List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
