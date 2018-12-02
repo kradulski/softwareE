@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
         if (isFirstRun) {
             populateDatabase();
-            stateDAO.insert(new State("", 0));
+            stateDAO.insert(new State("", 0, 0, 0, 2018));
             SharedPreferences.Editor editor = wmbPreference.edit();
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
-                                stateDAO.insert(new State("", 0));
+                                stateDAO.insert(new State("", 0, 0, 0, 2018));
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 dialog.dismiss();
