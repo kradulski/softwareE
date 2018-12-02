@@ -11,16 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.List;
-
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 
 public class PlayGameActivity extends AppCompatActivity
@@ -75,7 +68,27 @@ public class PlayGameActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch(item.getItemId()) {
+        AlertDialog alertDialog = new AlertDialog.Builder(PlayGameActivity.this).create();
+        alertDialog.setTitle("Reset Game?");
+        alertDialog.setMessage("All data will be reset. This action cannot be undone.");
+        alertDialog.setButton(0,"Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
+                StateDAO stateDAO = database.getStateDAO();
+                stateDAO.deleteAll();
+                stateDAO.insert(new State("", 0));
+                startActivity(myIntent);
+            }
+        });
+        alertDialog.setButton(1,"No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+        return true;
+        /*switch(item.getItemId()) {
             case R.id.how_to_option:
                 Intent myIntent = new Intent(PlayGameActivity.this, HowToPlayActivity.class);
                 startActivity(myIntent);
@@ -90,7 +103,6 @@ public class PlayGameActivity extends AppCompatActivity
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
                                 stateDAO.insert(new State("", 0));
-                                MainActivity.setResetVal(true);
                                 startActivity(myIntent);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -106,6 +118,6 @@ public class PlayGameActivity extends AppCompatActivity
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
+        }*/
     }
 }

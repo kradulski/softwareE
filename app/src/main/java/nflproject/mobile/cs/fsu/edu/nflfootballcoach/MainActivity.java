@@ -1,18 +1,17 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
@@ -38,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         //populates database with initial data on first run of app
         SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-        if (isFirstRun)
-        {
+        if (isFirstRun) {
             populateDatabase();
             stateDAO.insert(new State("", 0));
             SharedPreferences.Editor editor = wmbPreference.edit();
@@ -77,19 +75,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Code for resetting database and resetting user information goes here */
-                setResetVal(true);
-                stateDAO.deleteAll();
-                stateDAO.insert(new State("", 0));
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("Reset Game?");
+                alertDialog.setMessage("This action cannot be undone.");
+                alertDialog.setButton(0, "Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        StateDAO stateDAO = database.getStateDAO();
+                        stateDAO.deleteAll();
+                        stateDAO.insert(new State("", 0));
+                    }
+                });
+                alertDialog.setButton(1, "No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
             }
         });
-    }
-
-    private static boolean resetVal = true;
-    public static boolean getResetVal(){
-        return resetVal;
-    }
-    public static void setResetVal(boolean newVal){
-        resetVal = newVal;
     }
 
     //insert all data into database
@@ -434,8 +438,6 @@ public class MainActivity extends AppCompatActivity {
             Collections.rotate(accAtlTeams, 1);
             Collections.rotate(accCoastalTeams, 1);
         }
-
-
     }
     
 }
