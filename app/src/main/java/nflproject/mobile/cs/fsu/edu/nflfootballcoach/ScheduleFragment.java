@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class ScheduleFragment extends Fragment {
     GamesDAO gamesDAO = database.getGamesDAO();
     StateDAO stateDAO = database.getStateDAO();
     TeamsDAO teamsDAO = database.getTeamsDAO();
+    Button play;
 
     void resetWL()
     {
@@ -55,145 +58,142 @@ public class ScheduleFragment extends Fragment {
     {
         //play all games
         List<State> temp = stateDAO.getPlayerTeam();
+
         String yourTeam = temp.get(0).getPlayerTeam();
         String difficulty = stateDAO.getDifficulty();
         List<Game> games = gamesDAO.getGamesOfWeek(temp.get(0).getWeek());
         for (int j = 0; j < games.size(); ++j) {
-            //if (games.get(i).getAway())
-            Team homeTeam = teamsDAO.getTeamByName("");
-            Team awayTeam = teamsDAO.getTeamByName("");
-            Random seed = new Random();
-            int drives = 10 + seed.nextInt(4) - 2;
-            int homeOffense = homeTeam.getOffRating();
-            int homeDefense = homeTeam.getDefRating();
-            int awayOffense = awayTeam.getOffRating();
-            int awayDefense = awayTeam.getDefRating();
-            int homeScore = 0;
-            int awayScore = 0;
-            //home offense vs away defense
-            for (int i = 0; i < drives/2;++i)
-            {
-                int aTempMod = seed.nextInt(30) - 15;
-                int hTempMod = seed.nextInt(30) - 15 + 5;
-                int tempHO, tempAD;
-                tempHO = homeOffense + hTempMod;
-                tempAD = awayDefense + aTempMod;
-                if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
-                    tempHO -= 5;
-                else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
-                    tempAD -= 5;
-                if (tempHO > tempAD + 5)
-                    homeScore += 7;
-                else if (tempHO > tempAD)
-                    homeScore += 3;
-            }
-            //home defense vs away offense
-            for (int i = 0; i < drives/2;++i)
-            {
-                int aTempMod = seed.nextInt(30) - 15;
-                int hTempMod = seed.nextInt(30) - 15 + 5;
-                int tempHD, tempAO;
-                tempHD = homeDefense + hTempMod;
-                tempAO = awayOffense + aTempMod;
-                if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
-                    tempHD -= 5;
-                else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
-                    tempAO -= 5;
-                if (tempAO > tempHD + 5)
-                    awayScore += 7;
-                else if (tempAO > tempHD)
-                    awayScore += 3;
-            }
-            if (homeScore >= awayScore)
-            {
-                int win = homeTeam.getWins() + 1;
-                homeTeam.setWins(win);
-                int loss = awayTeam.getLosses() + 1;
-                awayTeam.setLosses(loss);
-                if (homeTeam.getConference().equals(awayTeam.getConference()))
-                {
-                    int cwin = homeTeam.getConWins() + 1;
-                    homeTeam.setConWins(cwin);
-                    int closs = awayTeam.getConLosses() + 1;
-                    awayTeam.setConLosses(closs);
+            if (!games.get(j).getAway().equals("BYE")) {
+                Team homeTeam = teamsDAO.getTeamByName(games.get(j).getHome());
+                Team awayTeam = teamsDAO.getTeamByName(games.get(j).getAway());
+                Random seed = new Random();
+                int drives = 10 + seed.nextInt(4) - 2;
+                int homeOffense = homeTeam.getOffRating();
+                int homeDefense = homeTeam.getDefRating();
+                int awayOffense = awayTeam.getOffRating();
+                int awayDefense = awayTeam.getDefRating();
+                int homeScore = 0;
+                int awayScore = 0;
+                //home offense vs away defense
+                for (int i = 0; i < drives / 2; ++i) {
+                    int aTempMod = seed.nextInt(30) - 15;
+                    int hTempMod = seed.nextInt(30) - 15 + 5;
+                    int tempHO, tempAD;
+                    tempHO = homeOffense + hTempMod;
+                    tempAD = awayDefense + aTempMod;
+                    if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
+                        tempHO -= 5;
+                    else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
+                        tempAD -= 5;
+                    if (tempHO > tempAD + 5)
+                        homeScore += 7;
+                    else if (tempHO > tempAD)
+                        homeScore += 3;
                 }
-                //update career win/loss
-                if (homeTeam.getName().equals(yourTeam))
-                {
-                    int w = temp.get(0).getCareerWins() + 1;
-                    temp.get(0).setCareerWins(w);
-                    stateDAO.update(temp.get(0));
+                //home defense vs away offense
+                for (int i = 0; i < drives / 2; ++i) {
+                    int aTempMod = seed.nextInt(30) - 15;
+                    int hTempMod = seed.nextInt(30) - 15 + 5;
+                    int tempHD, tempAO;
+                    tempHD = homeDefense + hTempMod;
+                    tempAO = awayOffense + aTempMod;
+                    if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
+                        tempHD -= 5;
+                    else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
+                        tempAO -= 5;
+                    if (tempAO > tempHD + 5)
+                        awayScore += 7;
+                    else if (tempAO > tempHD)
+                        awayScore += 3;
                 }
-                if (awayTeam.getName().equals(yourTeam))
-                {
-                    int l = temp.get(0).getCareerLosses() + 1;
-                    temp.get(0).setCareerLosses(l);
-                    stateDAO.update(temp.get(0));
+                if (homeScore >= awayScore) {
+                    int win = homeTeam.getWins() + 1;
+                    homeTeam.setWins(win);
+                    int loss = awayTeam.getLosses() + 1;
+                    awayTeam.setLosses(loss);
+                    if (homeTeam.getConference().equals(awayTeam.getConference())) {
+                        int cwin = homeTeam.getConWins() + 1;
+                        homeTeam.setConWins(cwin);
+                        int closs = awayTeam.getConLosses() + 1;
+                        awayTeam.setConLosses(closs);
+                    }
+                    //update career win/loss
+                    if (homeTeam.getName().equals(yourTeam)) {
+                        int w = temp.get(0).getCareerWins() + 1;
+                        temp.get(0).setCareerWins(w);
+                        stateDAO.update(temp.get(0));
+                    }
+                    if (awayTeam.getName().equals(yourTeam)) {
+                        int l = temp.get(0).getCareerLosses() + 1;
+                        temp.get(0).setCareerLosses(l);
+                        stateDAO.update(temp.get(0));
+                    }
+                } else {
+                    int win = awayTeam.getWins() + 1;
+                    awayTeam.setWins(win);
+                    int loss = homeTeam.getLosses() + 1;
+                    homeTeam.setLosses(loss);
+                    if (homeTeam.getConference().equals(awayTeam.getConference())) {
+                        int cwin = awayTeam.getConWins() + 1;
+                        awayTeam.setConWins(cwin);
+                        int closs = homeTeam.getConLosses() + 1;
+                        homeTeam.setConLosses(closs);
+                    }
+                    //update career win/loss
+                    if (homeTeam.getName().equals(yourTeam)) {
+                        int l = temp.get(0).getCareerLosses() + 1;
+                        temp.get(0).setCareerLosses(l);
+                        stateDAO.update(temp.get(0));
+                    }
+                    if (awayTeam.getName().equals(yourTeam)) {
+                        int w = temp.get(0).getCareerWins() + 1;
+                        temp.get(0).setCareerWins(w);
+                        stateDAO.update(temp.get(0));
+                    }
                 }
-            }
-            else
-            {
-                int win = awayTeam.getWins() + 1;
-                awayTeam.setWins(win);
-                int loss = homeTeam.getLosses() + 1;
-                homeTeam.setLosses(loss);
-                if (homeTeam.getConference().equals(awayTeam.getConference()))
-                {
-                    int cwin = awayTeam.getConWins() + 1;
-                    awayTeam.setConWins(cwin);
-                    int closs = homeTeam.getConLosses() + 1;
-                    homeTeam.setConLosses(closs);
+                games.get(j).setHomeScore(homeScore);
+                games.get(j).setAwayScore(awayScore);
+                gamesDAO.update(games.get(j));
+                //New team rankings
+                int newVotesHome = 0;
+                int newVotesAway = 0;
+                if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes()) {
+                    if (homeScore >= awayScore) {
+                        newVotesHome = (homeScore - awayScore) * 3 + 40;
+                        newVotesAway = -((homeScore - awayScore) * 3 + 40);
+                    } else {
+                        newVotesHome = -((homeScore - awayScore) * 3);
+                        newVotesAway = (homeScore - awayScore) * 3;
+                    }
+                } else {
+                    if (homeScore >= awayScore) {
+                        newVotesHome = (homeScore - awayScore) * 3;
+                        newVotesAway = -((homeScore - awayScore) * 3);
+                    } else {
+                        newVotesHome = -((homeScore - awayScore) * 3 + 40);
+                        newVotesAway = (homeScore - awayScore) * 3 + 40;
+                    }
                 }
-                //update career win/loss
-                if (homeTeam.getName().equals(yourTeam))
-                {
-                    int l = temp.get(0).getCareerLosses() + 1;
-                    temp.get(0).setCareerLosses(l);
-                    stateDAO.update(temp.get(0));
-                }
-                if (awayTeam.getName().equals(yourTeam))
-                {
-                    int w = temp.get(0).getCareerWins() + 1;
-                    temp.get(0).setCareerWins(w);
-                    stateDAO.update(temp.get(0));
-                }
-            }
-            //New team rankings
-            int newVotesHome = 0;
-            int newVotesAway = 0;
-            if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes())
-            {
-                if (homeScore >= awayScore)
-                {
-                    newVotesHome = (homeScore - awayScore) * 3 + 40;
-                    newVotesAway = -((homeScore - awayScore) * 3 + 40);
-                }
-                else
-                {
-                    newVotesHome = -((homeScore - awayScore) * 3);
-                    newVotesAway = (homeScore - awayScore) * 3;
-                }
-            }
-            else
-            {
-                if (homeScore >= awayScore)
-                {
-                    newVotesHome = (homeScore - awayScore) * 3;
-                    newVotesAway = -((homeScore - awayScore) * 3);
-                }
-                else
-                {
-                    newVotesHome = -((homeScore - awayScore) * 3 + 40);
-                    newVotesAway = (homeScore - awayScore) * 3 + 40;
-                }
-            }
-            int updateVotesHome = homeTeam.getRankingVotes() + newVotesHome;
-            int updateVotesAway = awayTeam.getRankingVotes() + newVotesAway;
-            homeTeam.setRankingVotes(updateVotesHome);
-            awayTeam.setRankingVotes(updateVotesAway);
+                int updateVotesHome = homeTeam.getRankingVotes() + newVotesHome;
+                int updateVotesAway = awayTeam.getRankingVotes() + newVotesAway;
+                if (updateVotesAway < 0)
+                    updateVotesAway = 0;
+                if (updateVotesHome < 0)
+                    updateVotesHome = 0;
+                homeTeam.setRankingVotes(updateVotesHome);
+                awayTeam.setRankingVotes(updateVotesAway);
 
-            teamsDAO.update(homeTeam);
-            teamsDAO.update(awayTeam);
+                /*if (homeTeam.getName().equals(yourTeam))
+                    Toast.makeText(getActivity(), "New Votes: " + homeTeam.getRankingVotes(),
+                            Toast.LENGTH_LONG).show();
+                else if (homeTeam.getName().equals(yourTeam))
+                    Toast.makeText(getActivity(), "New Votes: " + homeTeam.getRankingVotes(),
+                            Toast.LENGTH_LONG).show();*/
+
+                teamsDAO.update(homeTeam);
+                teamsDAO.update(awayTeam);
+
+            }
         }
         int theWeek = temp.get(0).getWeek() + 1;
         temp.get(0).setWeek(theWeek);
@@ -346,6 +346,15 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
+        play = view.findViewById(R.id.play_week_btn);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playWeekGames();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
+            }
+        });
 
         playerTeam = stateDAO.getPlayerTeamString();               //get team player is currently playing as
         List<Game> gameList = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as

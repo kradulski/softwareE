@@ -68,9 +68,13 @@ public class MainActivity extends AppCompatActivity {
                                     List<State> temp = stateDAO.getPlayerTeam();
                                     temp.get(0).setDifficulty("hard");
                                     stateDAO.update(temp.get(0));
+                                    Intent myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
+                                    startActivity(myIntent);
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     /* KEEP MODE AT NORMAL */
+                                    Intent myIntent2 = new Intent(MainActivity.this, TeamSelectActivity.class);
+                                    startActivity(myIntent2);
                                     break;
                             }
                         }
@@ -81,12 +85,11 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage("Would you like to play in Normal Mode or Challenge Mode? Games in Challenge Mode will be more difficult to win.")
                             .setPositiveButton("Challenge", dialogListener)
                             .setNegativeButton("Normal", dialogListener).show();
-                    myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
                 }
-                else
+                else {
                     myIntent = new Intent(MainActivity.this, PlayGameActivity.class);
-
-                startActivity(myIntent);
+                    startActivity(myIntent);
+                }
             }
         });
 
@@ -112,6 +115,16 @@ public class MainActivity extends AppCompatActivity {
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
                                 stateDAO.insert(new State("", 0, 0, 0, 2018, 1, ""));
+                                List<Team> everyTeam = teamsDAO.getEveryTeam();
+                                for (int i = 0; i < everyTeam.size(); ++i)
+                                {
+                                    Team individual = everyTeam.get(i);
+                                    individual.setWins(0);
+                                    individual.setLosses(0);
+                                    individual.setConLosses(0);
+                                    individual.setConWins(0);
+                                    teamsDAO.update(individual);
+                                }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 dialog.dismiss();
