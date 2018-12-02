@@ -12,6 +12,6 @@
 
     <item
         android:id="@+id/navigation_rankings"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/podium"
         android:title="@string/title_rankings" />
 </menu>
