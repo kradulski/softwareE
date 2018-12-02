@@ -82,7 +82,7 @@ public class PlayGameActivity extends AppCompatActivity
                                 Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
-                                stateDAO.insert(new State("", 0));
+                                stateDAO.insert(new State("", 0, 0, 0, 2018));
                                 startActivity(myIntent);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:

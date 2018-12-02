@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MyTeamFragment extends Fragment {
     TextView theTeamName;
     TextView teamWinLoss;
     TextView teamCWinLoss;
+    TextView career;
     AppDatabase database = AppDatabase.getInstance(getActivity());
 
     @Nullable
@@ -49,7 +51,8 @@ public class MyTeamFragment extends Fragment {
         String tempCWL = "Conf W/L " + winLossStuff.getConWins() + " - " + winLossStuff.getConLosses();
         teamWinLoss.setText(tempWL);
         teamCWinLoss.setText(tempCWL);
-
+        String careerWL = "Career Record: " + tempName.get(0).getCareerWins() + " - " + tempName.get(0).getCareerLosses();
+        career.setText(careerWL);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
 

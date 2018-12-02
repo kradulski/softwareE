@@ -26,6 +26,7 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 public class ScheduleFragment extends Fragment {
@@ -33,6 +34,12 @@ public class ScheduleFragment extends Fragment {
     AppDatabase database = AppDatabase.getInstance(getActivity());
     GamesDAO gamesDAO = database.getGamesDAO();
     StateDAO stateDAO = database.getStateDAO();
+
+    void updateYearAndRecord()
+    {
+        StateDAO stateDAO = database.getStateDAO();
+        //List<State>
+    }
 
     //Write this and pass res to the function: Resources res = getResources();
     void leavingPlayers(View testView, Resources res)
@@ -179,9 +186,6 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, scheduleArr);
         schedule.setAdapter(adapter);
-
-        Resources res = getResources();
-        leavingPlayers(view, res);
 
 
         return view;

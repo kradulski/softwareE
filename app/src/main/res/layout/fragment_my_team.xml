@@ -35,11 +35,19 @@
         android:layout_below="@+id/winLoss"
         android:textSize="20dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/career"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/cWinLoss"
+        android:textSize="20dp"/>
+
     <ListView
         android:id="@+id/playerlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cWinLoss"
+        android:layout_below="@+id/career"
         android:layout_centerHorizontal="true">
     </ListView>
 </RelativeLayout>
