@@ -306,6 +306,8 @@ public class MainActivity extends AppCompatActivity {
         accGameGeneration();    //generates ACC games
         big12GameGeneration();  //generates Big 12 games
         secGameGeneration();    //generates sec games
+        big10GameGeneration();  //generates Big 10 games
+
     }
 
     public void oocGameGeneration()
@@ -368,7 +370,86 @@ public class MainActivity extends AppCompatActivity {
 
     public void big10GameGeneration()
     {
-        
+        //get teams from both divisions
+        List<Team> big10EastTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten","East");
+        List<Team> big10WestTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten", "West");
+
+        //randomize team order
+        Collections.shuffle(big10EastTeams);
+        Collections.shuffle(big10WestTeams);
+
+        int rVar = rand.nextInt(2);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 4,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 4,
+                        0, 0));
+        }
+        Collections.rotate(big10EastTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 5,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 5,
+                        0, 0));
+        }
+        Collections.rotate(big10EastTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 13,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 13,
+                        0, 0));
+        }
+
+        //generate divisional games using round robin algorithm
+        String home, away;
+        for (int wk = 6; wk <= 12; wk++)
+        {
+            int i = 0;
+            int j = big10EastTeams.size() - 1;
+
+            while(i != j)
+            {
+                if (wk % 2 == 0) {
+                    home = big10EastTeams.get(j).getName();
+                    away = big10EastTeams.get(i).getName();
+                }
+                else {
+                    home = big10EastTeams.get(i).getName();
+                    away = big10EastTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                if (wk % 2 == 0) {
+                    home = big10WestTeams.get(j).getName();
+                    away = big10WestTeams.get(i).getName();
+                }
+                else {
+                    home = big10WestTeams.get(i).getName();
+                    away = big10WestTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                i++;
+                j--;
+            }
+            gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), "BYE", wk, 0,0));
+            gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), "BYE", wk, 0,0));
+
+            Collections.rotate(big10EastTeams, 1);
+            Collections.rotate(big10WestTeams, 1);
+        }
     }
 
     public void secGameGeneration()
