@@ -141,6 +141,9 @@ public class TeamSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_select);
 
+
+
+
         chooseTeam = findViewById(R.id.teamSelect);
         chooseTeam.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -183,7 +186,6 @@ public class TeamSelectActivity extends AppCompatActivity {
 
     private void clickAction(){
         Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
-        //MainActivity.setResetVal(false);
         startActivity(myIntent);
     }
 }

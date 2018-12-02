@@ -7,7 +7,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/teamName"
-        android:text="<Team Name>"
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:textSize="32sp"
@@ -18,7 +17,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/myRanking"
         android:layout_centerHorizontal="true"
-        android:text="Rank: <Rank>"
         android:layout_below="@id/teamName"
         android:padding="5dp"/>
 
@@ -27,7 +25,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/myDivision"
         android:layout_centerHorizontal="true"
-        android:text="Division: <Division>"
         android:layout_below="@id/myRanking"
         android:padding="5dp"/>
 
@@ -35,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/winLoss"
-        android:text="Win-Loss: W-L"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/myDivision"
         android:padding="5dp"/>
@@ -45,7 +41,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/cWinLoss"
         android:layout_centerHorizontal="true"
-        android:text="Conference Win-Loss: W-L"
         android:layout_below="@+id/winLoss"
         android:padding="5dp"/>
 
@@ -54,7 +49,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/career_record"
         android:layout_centerHorizontal="true"
-        android:text="Career Record: W-L"
         android:layout_below="@+id/cWinLoss"
         android:padding="5dp"/>
 
