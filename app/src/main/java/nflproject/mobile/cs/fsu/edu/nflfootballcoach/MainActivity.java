@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     TeamsDAO teamsDAO = database.getTeamsDAO();
     StateDAO stateDAO = database.getStateDAO();
 
+    Random rand;  //random number generation needed in some places
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
         }
+
+        rand = new Random();
 
         Button playGameButton = findViewById(R.id.play_game_button);
         playGameButton.setOnClickListener(new View.OnClickListener() {
@@ -464,10 +468,46 @@ public class MainActivity extends AppCompatActivity {
 
     public void oocGameGeneration()
     {
-        List<Team> allTeams = teamsDAO.getTeams();
-        Team away, home;
+        List<Team> allTeams = teamsDAO.getTeams();             //the real teams
+        List<Team> fillerTeams = teamsDAO.getFillerTeams();    //not the real teams
+
+        String away, home;
 
         Collections.shuffle(allTeams);
+
+        int i = 0;
+        int j = allTeams.size();
+
+        for(int wk = 1; wk<=3; wk++)
+        {
+            while(i < j)
+            {
+                if (allTeams.get(i).getConference().equals(allTeams.get(j).getConference()))
+                {
+                    int opp = rand.nextInt(12);
+                    gamesDAO.insert(new Game(allTeams.get(i).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                    opp = rand.nextInt(12);
+                    gamesDAO.insert(new Game(allTeams.get(j).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                }
+                else
+                {
+                    if(wk % 2 == 0)
+                    {
+                        home = allTeams.get(j).getName();
+                        away = allTeams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = allTeams.get(i).getName();
+                        away = allTeams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home,away,wk,0,0));
+                }
+
+                i++;
+                j--;
+            }
+        }
     }
 
     public void big12GameGeneration(){

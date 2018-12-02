@@ -68,18 +68,6 @@ public class ScheduleFragment extends Fragment {
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, scheduleArr);
         schedule.setAdapter(adapter);
 
-        /*
-        ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
-
-        playerTeam = stateDAO.getPlayerTeamString();  //get team player is currently playing as
-        List<Game> gameList = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as
-        ArrayList<Game> games = new ArrayList<Game>(gameList.size());
-        games.addAll(gameList);
-
-        ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, games);
-        schedule.setAdapter(adapter);
-        */
-
         return view;
     }
 }
