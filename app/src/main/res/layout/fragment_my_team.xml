@@ -28,7 +28,7 @@
         android:id="@+id/myDivision"
         android:layout_centerHorizontal="true"
         android:text="Division: (Division)"
-        android:layout_below="@id/myRanking"
+        android:layout_below="@+id/myRanking"
         android:padding="5dp"/>
 
     <TextView

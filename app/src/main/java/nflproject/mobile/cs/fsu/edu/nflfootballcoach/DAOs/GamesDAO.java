@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 //Defines SQL queries for games table. Add any custom queries here
 
