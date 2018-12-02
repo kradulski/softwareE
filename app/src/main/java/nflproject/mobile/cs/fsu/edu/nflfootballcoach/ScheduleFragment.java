@@ -75,13 +75,13 @@ public class ScheduleFragment extends Fragment {
 
         for (int i = 0; i < 48 - counter; ++i)
         {
-            Players player = allPlayers.get(i);
+            Players player = remainingPlayers.get(i);
             int skillIncrease = seed.nextInt(4) + 1;
             if (player.getYear().equals("FR"))
             {
                 player.setYear("SO");
             }
-            else if (allPlayers.get(i).equals("SO"))
+            else if (player.getYear().equals("SO"))
             {
                 player.setYear("JR");
             }
@@ -126,6 +126,7 @@ public class ScheduleFragment extends Fragment {
                         builderInner2.setItems(why3, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                dialog.dismiss();
                             }
                         });
                         builderInner2.show();
