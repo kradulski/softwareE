@@ -43,11 +43,11 @@ public class ScheduleFragment extends Fragment {
         {
             scheduleRow entry = new scheduleRow("","");
 
-            boolean home;
-            if (playerTeam.equals(gameList.get(i).getHome())) {
+            boolean home = true;
+            if(gameList.get(i).getAway().equals("BYE"))
+                entry.setOpponent("BYE");
+            else if (playerTeam.equals(gameList.get(i).getHome()))
                 entry.setOpponent("vs " + database.getTeamsDAO().getTeamByName(gameList.get(i).getAway()).getAbbreviation());
-                home = true;
-            }
             else {
                 entry.setOpponent("at " + database.getTeamsDAO().getTeamByName(gameList.get(i).getHome()).getAbbreviation());
                 home = false;
