@@ -180,7 +180,6 @@ public class TeamSelectActivity extends AppCompatActivity {
 
     private void clickAction(){
         Intent myIntent = new Intent(TeamSelectActivity.this, PlayGameActivity.class);
-        MainActivity.setResetVal(false);
         startActivity(myIntent);
     }
 }

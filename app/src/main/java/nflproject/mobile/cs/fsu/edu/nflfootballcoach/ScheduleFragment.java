@@ -71,6 +71,8 @@ public class ScheduleFragment extends Fragment {
         }
 
         List<Players> remainingPlayers = playersDAO.getPlayers();
+        final ArrayAdapter<String> playersStaying = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
+
         for (int i = 0; i < 48 - counter; ++i)
         {
             Players player = allPlayers.get(i);
@@ -92,6 +94,7 @@ public class ScheduleFragment extends Fragment {
                 temp = 99;
             player.setRating(temp);
             playersDAO.update(player);
+            playersStaying.add(player.getFirstName() + " " + player.getLastName() + ", " + player.getPosition() + ", " + player.getYear() + ", rating: " + player.getRating() + " (+" + skillIncrease + ")");
         }
 
         for (int i = 0; i < firstname.size(); ++i)
@@ -103,10 +106,12 @@ public class ScheduleFragment extends Fragment {
 
         String[] why = new String[graduates.getCount()];
         final String[] why2 = new String[graduates.getCount()];
+        final String[] why3 = new String[playersStaying.getCount()];
         for (int i = 0; i < graduates.getCount(); ++i)
         {
             why[i] = graduates.getItem(i);
             why2[i] = newPlayers.getItem(i);
+            why3[i] = playersStaying.getItem(i);
         }
         builder.setItems(why, new DialogInterface.OnClickListener() {
             @Override
@@ -116,6 +121,14 @@ public class ScheduleFragment extends Fragment {
                 builderInner.setItems(why2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder builderInner2 = new AlertDialog.Builder(getActivity());
+                        builderInner2.setTitle("Player Improvements");
+                        builderInner2.setItems(why3, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                        builderInner2.show();
                     }
                 });
                 builderInner.show();
