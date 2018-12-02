@@ -68,7 +68,27 @@ public class PlayGameActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch(item.getItemId()) {
+        AlertDialog alertDialog = new AlertDialog.Builder(PlayGameActivity.this).create();
+        alertDialog.setTitle("Reset Game?");
+        alertDialog.setMessage("All data will be reset. This action cannot be undone.");
+        alertDialog.setButton(0,"Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent myIntent = new Intent(PlayGameActivity.this, MainActivity.class);
+                StateDAO stateDAO = database.getStateDAO();
+                stateDAO.deleteAll();
+                stateDAO.insert(new State("", 0));
+                startActivity(myIntent);
+            }
+        });
+        alertDialog.setButton(1,"No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+        return true;
+        /*switch(item.getItemId()) {
             case R.id.how_to_option:
                 Intent myIntent = new Intent(PlayGameActivity.this, HowToPlayActivity.class);
                 startActivity(myIntent);
@@ -99,6 +119,6 @@ public class PlayGameActivity extends AppCompatActivity
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
+        }*/
     }
 }
