@@ -526,6 +526,7 @@
     <string name="title_rankings">Rankings</string>
     <string name="reset_text">Reset</string>
     <string name="title_game_info"><font size="32" color="@color/blue"><b><u>Game Info</u></b></font></string>
+    <string name="title_game_info_unformatted">Game Info</string>
     <string name="game_info">
         <font size="24"><text color="@color/blue"><b>General\n</b></text></font>
         <font size="20">College Football Coach is a football game simulator, and allows you
