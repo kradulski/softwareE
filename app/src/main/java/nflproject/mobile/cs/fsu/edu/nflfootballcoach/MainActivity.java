@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     TeamsDAO teamsDAO = database.getTeamsDAO();
     StateDAO stateDAO = database.getStateDAO();
 
+    Random rand;  //random number generation needed in some places
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
         }
+
+        rand = new Random();
 
         Button playGameButton = findViewById(R.id.play_game_button);
         playGameButton.setOnClickListener(new View.OnClickListener() {
@@ -244,8 +249,33 @@ public class MainActivity extends AppCompatActivity {
         teamsDAO.insert(new Team("Texas A&M", "TAMU","SEC", "West", 0,0,
                 0,0,76,80,51));
 
+        //BYE week "team"
         teamsDAO.insert(new Team("BYE", "BYE","BYE", "BYE", 0,0,
                 0,0,0,0,0));
+
+        //Just a couple of "fake" cupcake teams. Not playable.
+        teamsDAO.insert(new Team("Buffalo", "BUFF", "MAC", "EAST",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Ohio", "OHIO", "MAC", "EAST", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Bowling Green", "BGSU", "MAC", "EAST", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Miami-OH", "M-OH", "MAC", "EAST",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Kent State", "KENT", "MAC","East",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Northern Illinois", "NIU", "MAC", "West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Eastern Michican", "EMU", "MAC", "West", 0,0,
+                0,0, 60,60,0));
+        teamsDAO.insert(new Team("Toledo", "TOL", "MAC","West", 0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Western Michigan", "WMU", "MAC","West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Ball State", "BALL", "MAC","West",0,0,
+                0,0,60,60,0));
+        teamsDAO.insert(new Team("Central Michigan", "CMU", "MAC", "West", 0,0,
+                0,0,60,60,0));
     }
 
 
@@ -262,13 +292,8 @@ public class MainActivity extends AppCompatActivity {
     //insert games into database
     public void populateGames()
     {
-        //week 1 -- OOC
-
-
-        //week 2 -- ooc
-
-
-        //week 3 -- ooc
+        //generates week 1-3 OOC games
+        oocGameGeneration(); 
 
 
         //week 4---------------------------------------------------------------------
@@ -386,16 +411,72 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    public void oocGameGeneration()
+    {
+        List<Team> allTeams = teamsDAO.getTeams();             //the real teams
+        List<Team> fillerTeams = teamsDAO.getFillerTeams();    //not the real teams
+
+        String away, home;
+
+        Collections.shuffle(allTeams);
+
+        int i = 0;
+        int j = allTeams.size();
+
+        for(int wk = 1; wk<=3; wk++)
+        {
+            while(i < j)
+            {
+                if (allTeams.get(i).getConference().equals(allTeams.get(j).getConference()))
+                {
+                    int opp = rand.nextInt(12);
+                    gamesDAO.insert(new Game(allTeams.get(i).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                    opp = rand.nextInt(12);
+                    gamesDAO.insert(new Game(allTeams.get(j).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                }
+                else
+                {
+                    if(wk % 2 == 0)
+                    {
+                        home = allTeams.get(j).getName();
+                        away = allTeams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = allTeams.get(i).getName();
+                        away = allTeams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home,away,wk,0,0));
+                }
+
+                i++;
+                j--;
+            }
+            Collections.rotate(allTeams, 1);
+        }
+    }
 
     public void big12GameGeneration(){
         List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
 
         Collections.shuffle(big12Teams);
 
-        for(int i = 4; i<=13; i++)
+        for(int i = 4; i<=12; i++)
         {
+            if(i == 7)
+            {
 
+            }
+
+            gamesDAO.insert(new Game(big12Teams.get(0).getName(), big12Teams.get(9).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(1).getName(), big12Teams.get(8).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(2).getName(), big12Teams.get(7).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(3).getName(), big12Teams.get(6).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(4).getName(), big12Teams.get(5).getName(), i, 0,0));
         }
+
+
+
     }
 
     public void accGameGeneration() {
