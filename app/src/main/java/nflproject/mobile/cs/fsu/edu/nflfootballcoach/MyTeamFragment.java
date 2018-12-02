@@ -47,7 +47,7 @@ public class MyTeamFragment extends Fragment {
         List<Team> tempRankList = teamsDAO.getRankings();
         int rankMinusOne = 0;
         while (rankMinusOne < tempRankList.size() &&
-               tempRankList.get(rankMinusOne).getName().equals(winLossStuff.getName())){ rankMinusOne++; }
+               !tempRankList.get(rankMinusOne).getName().equals(winLossStuff.getName())){ rankMinusOne++; }
         String tempRank = Integer.toString(rankMinusOne + 1);
         String teamRank = "#" + tempRank + " " + tempName.get(0).getPlayerTeam();
         String tempConf = "Conference: " + winLossStuff.getConference();
