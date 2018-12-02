@@ -57,6 +57,10 @@ public interface TeamsDAO {
     @Query("SELECT * FROM teams WHERE conference = 'MAC'")
     List<Team> getFillerTeams();
 
+    //get all teams from a particular conference division
+    @Query("SELECT * FROM teams WHERE conference=:conference AND division=:division")
+    public List<Team> getTeamsFromConferenceDivision(String conference, String division);
+
     //get every team
     @Query("SELECT * FROM teams")
     List<Team> getEveryTeam();

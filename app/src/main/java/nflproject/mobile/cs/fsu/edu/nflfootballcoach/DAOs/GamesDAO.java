@@ -10,6 +10,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 //Defines SQL queries for games table. Add any custom queries here
 
@@ -28,5 +29,9 @@ public interface GamesDAO {
     //get all games played by a team
     @Query("SELECT * FROM games WHERE home = :name OR away = :name ORDER BY week ASC")
     public List<Game> getGamesOfTeam(String name);
+
+    //get all games played in a week
+    @Query("SELECT * FROM games WHERE week = :week")
+    public List<Game> getGamesOfWeek(int week);
 
 }

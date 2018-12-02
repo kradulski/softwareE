@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -303,123 +305,10 @@ public class MainActivity extends AppCompatActivity {
     public void populateGames()
     {
         //generates week 1-3 OOC games
-        oocGameGeneration();  //generates the OOC games
-        accGameGeneration();  //generates ACC games
-
-
-        //week 4---------------------------------------------------------------------
-
-        //Big 12
-        /*
-        gamesDAO.insert(new Game("Oklahoma State", "Texas Tech", 4, 0,0));
-        gamesDAO.insert(new Game("Baylor", "Kansas", 4, 0,0));
-        gamesDAO.insert(new Game("Iowa State", "Oklahoma", 4,0,0));
-        gamesDAO.insert(new Game("Texas", "TCU", 4,0,0));
-        gamesDAO.insert(new Game("West Virginia", "Kansas State", 4,0,0));
-        */
-
-        //week 5----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Oklahoma", "Baylor", 5,0,0));
-        //gamesDAO.insert(new Game("Kansas", "Oklahoma State", 5, 0, 0));
-        //gamesDAO.insert(new Game("Kansas State", "Texas", 5, 0,0));
-        //gamesDAO.insert(new Game("TCU", "Iowa State", 5, 0,0));
-        //gamesDAO.insert(new Game("Texas Tech", "West Virginia", 5, 0,0));
-
-        //ACC
-
-
-        /*
-        gamesDAO.insert(new Game("Georgia Tech", "Clemson", 5,0,0));
-        gamesDAO.insert(new Game("Pittsburgh", "Syracuse", 5,0,0));
-        gamesDAO.insert(new Game("North Carolina", "NC State", 5,0,0));
-        gamesDAO.insert(new Game("Boston College", "Miami", 5,0,0));
-        gamesDAO.insert(new Game("Florida State", "Virginia Tech", 5,0,0));
-        gamesDAO.insert(new Game("Duke", "Wake Forest", 5,0,0));
-        gamesDAO.insert(new Game("Virginia", "Louisville", 5,0,0));
-        */
-
-        //week 6----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Oklahoma", "Texas", 6, 0,0));
-        //gamesDAO.insert(new Game("Baylor", "Kansas State", 6,0,0));
-        //gamesDAO.insert(new Game("Oklahoma State", "Iowa State", 6, 0,0));
-        //gamesDAO.insert(new Game("West Virginia", "Kansas", 6,0,0));
-        //gamesDAO.insert(new Game("TCU", "Texas Tech", 6,0,0));
-
-
-        //ACC
-
-
-        //week 7----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Iowa State", "West Virginia", 7, 0,0));
-        //gamesDAO.insert(new Game("Texas", "Baylor", 7,0,0));
-        //gamesDAO.insert(new Game("Kansas State", "Oklahoma State", 7,0,0));
-        //gamesDAO.insert(new Game("Texas Tech", "Kansas", 7,0,0));
-        //gamesDAO.insert(new Game("TCU", "Oklahoma", 7,0,0));
-
-        //week 8----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Oklahoma State", "Texas", 8,0,0));
-        //gamesDAO.insert(new Game("Iowa State", "Texas Tech", 8,0,0));
-        //gamesDAO.insert(new Game("Oklahoma", "Kansas State", 8,0,0));
-        //gamesDAO.insert(new Game("Kansas", "TCU", 8,0,0));
-        //gamesDAO.insert(new Game("West Virginia", "Baylor", 8,0,0));
-
-        //week 9----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Texas", "West Virginia", 9,0,0));
-        //gamesDAO.insert(new Game("Kansas", "Iowa State", 9,0,0));
-        //gamesDAO.insert(new Game("Texas Tech", "Oklahoma", 9,0,0));
-        //gamesDAO.insert(new Game("TCU", "Kansas State", 9, 0,0));
-        //gamesDAO.insert(new Game("Baylor", "Oklahoma State", 9,0,0));
-
-        //week 10---------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Texas Tech", "Texas", 10,0,0));
-        //gamesDAO.insert(new Game("Baylor", "Iowa State", 10,0,0));
-        //gamesDAO.insert(new Game("Oklahoma State", "Oklahoma", 10,0,0));
-        //gamesDAO.insert(new Game("Kansas State", "Kansas", 10,0,0));
-        //gamesDAO.insert(new Game("West Virginia", "TCU", 10,0,0));
-
-        //week 11---------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Oklahoma", "Kansas", 11,0,0));
-        //gamesDAO.insert(new Game("Texas", "Iowa State", 11,0,0));
-        //gamesDAO.insert(new Game("Oklahoma State", "West Virginia", 11,0,0));
-        //gamesDAO.insert(new Game("Baylor", "TCU", 11,0,0));
-        //gamesDAO.insert(new Game("Kansas State", "Texas Tech", 11,0,0));
-
-        //week 12----------------------------------------------------------------------
-
-        //Big 12
-        //gamesDAO.insert(new Game("Kansas", "Texas", 13, 0,0));
-        //gamesDAO.insert(new Game("West Virginia", "Oklahoma", 13,0,0));
-        //gamesDAO.insert(new Game("Iowa State", "Kansas State", 13,0,0));
-        //gamesDAO.insert(new Game("TCU", "Oklahoma State", 13,0,0));
-        //gamesDAO.insert(new Game("Baylor", "Texas Tech", 13,0,0));
-
-        //ACC interdivisional games
-
-        //week 13
-
-        /*
-        gamesDAO.insert(new Game("Clemson", "Duke", 12,0,0));
-        gamesDAO.insert(new Game("North Carolina", "Syracuse", 12,0,0));
-        gamesDAO.insert(new Game("NC State", "Virginia", 12,0,0));
-        gamesDAO.insert(new Game("Virginia Tech", "Boston College", 12,0,0));
-        gamesDAO.insert(new Game("Miami", "Florida State", 12,0,0));
-        gamesDAO.insert(new Game("Wake Forest", "Pittsburgh", 12,0,0));
-        gamesDAO.insert(new Game("Louisville", "Georgia Tech", 12,0,0));
-        */
+        oocGameGeneration();    //generates the OOC games
+        accGameGeneration();    //generates ACC games
+        big12GameGeneration();  //generates Big 12 games
+        secGameGeneration();    //generates sec games
     }
 
     public void oocGameGeneration()
@@ -480,28 +369,121 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void big10GameGeneration()
+    {
+        
+    }
+
+    public void secGameGeneration()
+    {
+        //get teams from both divisions
+        List<Team> secEastTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","East");
+        List<Team> secWestTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","West");
+
+        //randomize team order
+        Collections.shuffle(secEastTeams);
+        Collections.shuffle(secWestTeams);
+
+        //generate interdivisional games
+        for(int i = 0; i<secEastTeams.size(); i++)
+            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), secWestTeams.get(i).getName(), 5,
+                    0,0));
+
+        Collections.rotate(secEastTeams,1);
+
+        //generate interdivisional games again
+        for(int i = 0; i<secEastTeams.size(); i++)
+        {
+            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), secEastTeams.get(i).getName(), 13,
+                    0,0));
+        }
+
+        //generate divisional games using round robin algorithm
+        String home, away;
+        for (int wk = 6; wk <= 12; wk++)
+        {
+            int i = 0;
+            int j = secEastTeams.size() - 1;
+
+            while(i != j)
+            {
+                if (wk % 2 == 0) {
+                    home = secEastTeams.get(j).getName();
+                    away = secEastTeams.get(i).getName();
+                }
+                else {
+                    home = secEastTeams.get(i).getName();
+                    away = secEastTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                if (wk % 2 == 0) {
+                    home = secWestTeams.get(j).getName();
+                    away = secWestTeams.get(i).getName();
+                }
+                else {
+                    home = secWestTeams.get(i).getName();
+                    away = secWestTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                i++;
+                j--;
+            }
+            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), "BYE", wk, 0,0));
+            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), "BYE", wk, 0,0));
+
+            Collections.rotate(secEastTeams, 1);
+            Collections.rotate(secWestTeams, 1);
+        }
+    }
+
     public void big12GameGeneration(){
         List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
 
         Collections.shuffle(big12Teams);
 
-        for(int i = 4; i<=12; i++)
-        {
-            if(i == 7)
-            {
+        Team finalTeam = big12Teams.get(big12Teams.size() - 1);
 
+        String home, away;
+        for(int wk = 4; wk<=13; wk++)
+        {
+            int i = 0;
+            int j = big12Teams.size() - 1;
+
+            while(i < j)
+            {
+                if(wk % 7 == 0)
+                {
+                    for(int k = 0; k < big12Teams.size(); k++)
+                        gamesDAO.insert(new Game(big12Teams.get(k).getName(), "BYE", wk, 0,0));
+                }
+                else
+                {
+                    if (wk % 2 == 0)
+                    {
+                        home = big12Teams.get(j).getName();
+                        away = big12Teams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = big12Teams.get(i).getName();
+                        away = big12Teams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
+                }
+                i++;
+                j--;
             }
 
-            gamesDAO.insert(new Game(big12Teams.get(0).getName(), big12Teams.get(9).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(1).getName(), big12Teams.get(8).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(2).getName(), big12Teams.get(7).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(3).getName(), big12Teams.get(6).getName(), i, 0,0));
-            gamesDAO.insert(new Game(big12Teams.get(4).getName(), big12Teams.get(5).getName(), i, 0,0));
+            if(wk % 7 != 0) {
+                big12Teams.remove(big12Teams.size() - 1);
+                Collections.rotate(big12Teams, 1);
+                big12Teams.add(finalTeam);
+            }
         }
-
-
-
     }
+
 
     public void accGameGeneration() {
         //get teams from both divisions
@@ -514,10 +496,8 @@ public class MainActivity extends AppCompatActivity {
 
         //generate interdivisional games
         for(int i = 0; i<accAtlTeams.size(); i++)
-        {
             gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 5,
                     0,0));
-        }
 
         Collections.rotate(accAtlTeams,1);
 

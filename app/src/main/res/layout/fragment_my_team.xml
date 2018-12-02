@@ -6,8 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/teamName"
-        android:text="(Team Name)"
+        android:id="@+id/teamNameRank"
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:textSize="32sp"
@@ -16,19 +15,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/myRanking"
+        android:id="@+id/myConf"
         android:layout_centerHorizontal="true"
-        android:text="Rank: (Rank)"
-        android:layout_below="@id/teamName"
-        android:padding="5dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/myDivision"
-        android:layout_centerHorizontal="true"
-        android:text="Division: (Division)"
-        android:layout_below="@id/myRanking"
+        android:layout_below="@id/teamNameRank"
         android:padding="5dp"/>
 
     <TextView
@@ -36,7 +25,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/winLoss"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/myDivision"
+        android:layout_below="@+id/myConf"
         android:padding="5dp"/>
 
     <TextView
@@ -55,11 +44,22 @@
         android:layout_below="@+id/cWinLoss"
         android:padding="5dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/roster"
+        android:layout_centerHorizontal="true"
+        android:text="Roster"
+        android:textSize="24sp"
+        android:textColor="@color/blue"
+        android:layout_below="@id/career_record"
+        android:padding="5dp"/>
+
     <ListView
         android:id="@+id/playerlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/career_record"
+        android:layout_below="@+id/roster"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
