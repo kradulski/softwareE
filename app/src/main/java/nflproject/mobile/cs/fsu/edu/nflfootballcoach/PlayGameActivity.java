@@ -42,6 +42,12 @@ public class PlayGameActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(this, MainActivity.class);
+        startActivity(myIntent);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
         switch(item.getItemId()){

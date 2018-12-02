@@ -35,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/winLoss"
-        android:text="Win-Loss: W-L"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/myDivision"
         android:padding="5dp"/>
@@ -45,7 +44,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/cWinLoss"
         android:layout_centerHorizontal="true"
-        android:text="Conference Win-Loss: W-L"
         android:layout_below="@+id/winLoss"
         android:padding="5dp"/>
 
@@ -54,7 +52,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/career_record"
         android:layout_centerHorizontal="true"
-        android:text="Career Record: W-L"
         android:layout_below="@+id/cWinLoss"
         android:padding="5dp"/>
 

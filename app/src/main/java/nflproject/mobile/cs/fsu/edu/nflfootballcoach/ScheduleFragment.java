@@ -23,6 +23,7 @@ import java.util.Vector;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
@@ -35,10 +36,88 @@ public class ScheduleFragment extends Fragment {
     GamesDAO gamesDAO = database.getGamesDAO();
     StateDAO stateDAO = database.getStateDAO();
 
-    void updateYearAndRecord()
+    void updateRecord()
     {
         StateDAO stateDAO = database.getStateDAO();
-        //List<State>
+        List<State> careerRecord = stateDAO.getPlayerTeam();
+
+    }
+
+    void playWeekGames()
+    {
+        TeamsDAO teamsDAO = database.getTeamsDAO();
+        GamesDAO gamesDAO = database.getGamesDAO();
+
+        boolean flag = true;
+        while (flag) {
+            Team homeTeam = teamsDAO.getTeamByName("");
+            Team awayTeam = teamsDAO.getTeamByName("");
+            Random seed = new Random();
+            int drives = 10 + seed.nextInt(4) - 2;
+            int homeOffense = homeTeam.getOffRating();
+            int homeDefense = homeTeam.getDefRating();
+            int awayOffense = awayTeam.getOffRating();
+            int awayDefense = awayTeam.getDefRating();
+            int homeScore = 0;
+            int awayScore = 0;
+            //home offense vs away defense
+            for (int i = 0; i < drives/2;++i)
+            {
+                int aTempMod = seed.nextInt(30) - 15;
+                int hTempMod = seed.nextInt(30) - 15 + 5;
+                int tempHO, tempAD;
+                tempHO = homeOffense + hTempMod;
+                tempAD = awayDefense + aTempMod;
+                if (tempHO > tempAD + 5)
+                    homeScore += 7;
+                else if (tempHO > tempAD)
+                    homeScore += 3;
+            }
+            //home defense vs away offense
+            for (int i = 0; i < drives/2;++i)
+            {
+                int aTempMod = seed.nextInt(30) - 15;
+                int hTempMod = seed.nextInt(30) - 15 + 5;
+                int tempHD, tempAO;
+                tempHD = homeDefense + hTempMod;
+                tempAO = awayOffense + aTempMod;
+                if (tempAO > tempHD + 5)
+                    awayScore += 7;
+                else if (tempAO > tempHD)
+                    awayScore += 3;
+            }
+            if (homeScore >= awayScore)
+            {
+                int win = homeTeam.getWins() + 1;
+                homeTeam.setWins(win);
+                int loss = awayTeam.getLosses() + 1;
+                awayTeam.setLosses(loss);
+                if (homeTeam.getConference().equals(awayTeam.getConference()))
+                {
+                    int cwin = homeTeam.getConWins() + 1;
+                    homeTeam.setConWins(cwin);
+                    int closs = awayTeam.getConLosses() + 1;
+                    awayTeam.setConLosses(closs);
+                }
+            }
+            else
+            {
+                int win = awayTeam.getWins() + 1;
+                awayTeam.setWins(win);
+                int loss = homeTeam.getLosses() + 1;
+                homeTeam.setLosses(loss);
+                if (homeTeam.getConference().equals(awayTeam.getConference()))
+                {
+                    int cwin = awayTeam.getConWins() + 1;
+                    awayTeam.setConWins(cwin);
+                    int closs = homeTeam.getConLosses() + 1;
+                    homeTeam.setConLosses(closs);
+                }
+            }
+            //To do: change rankingVotes before update called
+            teamsDAO.update(homeTeam);
+            teamsDAO.update(awayTeam);
+        }
     }
 
     //Write this and pass res to the function: Resources res = getResources();

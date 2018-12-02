@@ -42,6 +42,7 @@ public class MyTeamFragment extends Fragment {
         theTeamName = showView.findViewById(R.id.teamName);
         teamWinLoss = showView.findViewById(R.id.winLoss);
         teamCWinLoss = showView.findViewById(R.id.cWinLoss);
+        career = showView.findViewById(R.id.career_record);
         StateDAO stateDAO = database.getStateDAO();
         List<State> tempName = stateDAO.getPlayerTeam();
         theTeamName.setText(tempName.get(0).getPlayerTeam());
@@ -51,7 +52,7 @@ public class MyTeamFragment extends Fragment {
         String tempCWL = "Conf W/L " + winLossStuff.getConWins() + " - " + winLossStuff.getConLosses();
         teamWinLoss.setText(tempWL);
         teamCWinLoss.setText(tempCWL);
-        String careerWL = "Career Record: " + tempName.get(0).getCareerWins() + " - " + tempName.get(0).getCareerLosses();
+        String careerWL = "Career Record: " + Integer.toString(tempName.get(0).getCareerWins()) + " - " + Integer.toString(tempName.get(0).getCareerLosses());
         career.setText(careerWL);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
