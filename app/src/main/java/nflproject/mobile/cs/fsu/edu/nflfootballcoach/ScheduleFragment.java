@@ -39,7 +39,16 @@ public class ScheduleFragment extends Fragment {
 
     void resetWL()
     {
-        
+        List<Team> everyTeam = teamsDAO.getEveryTeam();
+        for (int i = 0; i < everyTeam.size(); ++i)
+        {
+            Team individual = everyTeam.get(i);
+            individual.setWins(0);
+            individual.setLosses(0);
+            individual.setConLosses(0);
+            individual.setConWins(0);
+            teamsDAO.update(individual);
+        }
     }
 
     void playWeekGames()
@@ -47,6 +56,7 @@ public class ScheduleFragment extends Fragment {
         //play all games
         List<State> temp = stateDAO.getPlayerTeam();
         String yourTeam = temp.get(0).getPlayerTeam();
+        String difficulty = stateDAO.getDifficulty();
         boolean flag = true;
         while (flag) {
             Team homeTeam = teamsDAO.getTeamByName("");
@@ -67,6 +77,10 @@ public class ScheduleFragment extends Fragment {
                 int tempHO, tempAD;
                 tempHO = homeOffense + hTempMod;
                 tempAD = awayDefense + aTempMod;
+                if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
+                    tempHO -= 5;
+                else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
+                    tempAD -= 5;
                 if (tempHO > tempAD + 5)
                     homeScore += 7;
                 else if (tempHO > tempAD)
@@ -80,6 +94,10 @@ public class ScheduleFragment extends Fragment {
                 int tempHD, tempAO;
                 tempHD = homeDefense + hTempMod;
                 tempAO = awayOffense + aTempMod;
+                if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
+                    tempHD -= 5;
+                else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
+                    tempAO -= 5;
                 if (tempAO > tempHD + 5)
                     awayScore += 7;
                 else if (tempAO > tempHD)
@@ -139,7 +157,40 @@ public class ScheduleFragment extends Fragment {
                     stateDAO.update(temp.get(0));
                 }
             }
-            //To do: change rankingVotes before update called
+            //New team rankings
+            int newVotesHome = 0;
+            int newVotesAway = 0;
+            if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes())
+            {
+                if (homeScore >= awayScore)
+                {
+                    newVotesHome = (homeScore - awayScore) * 3 + 40;
+                    newVotesAway = -((homeScore - awayScore) * 3 + 40);
+                }
+                else
+                {
+                    newVotesHome = -((homeScore - awayScore) * 3);
+                    newVotesAway = (homeScore - awayScore) * 3;
+                }
+            }
+            else
+            {
+                if (homeScore >= awayScore)
+                {
+                    newVotesHome = (homeScore - awayScore) * 3;
+                    newVotesAway = -((homeScore - awayScore) * 3);
+                }
+                else
+                {
+                    newVotesHome = -((homeScore - awayScore) * 3 + 40);
+                    newVotesAway = (homeScore - awayScore) * 3 + 40;
+                }
+            }
+            int updateVotesHome = homeTeam.getRankingVotes() + newVotesHome;
+            int updateVotesAway = awayTeam.getRankingVotes() + newVotesAway;
+            homeTeam.setRankingVotes(updateVotesHome);
+            awayTeam.setRankingVotes(updateVotesAway);
+
             teamsDAO.update(homeTeam);
             teamsDAO.update(awayTeam);
         }

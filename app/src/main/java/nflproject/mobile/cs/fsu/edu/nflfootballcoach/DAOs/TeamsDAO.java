@@ -56,4 +56,8 @@ public interface TeamsDAO {
     //get the "fake" teams
     @Query("SELECT * FROM teams WHERE conference = 'MAC'")
     List<Team> getFillerTeams();
+
+    //get every team
+    @Query("SELECT * FROM teams")
+    List<Team> getEveryTeam();
 }

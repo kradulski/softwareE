@@ -156,16 +156,18 @@ public class TeamSelectActivity extends AppCompatActivity {
                 {
                     int rate = Integer.parseInt(splitValues[4]);
                     String temp = splitValues[1] + " " + splitValues[2];
+                    String difficulty = stateDAO.getDifficulty();
                     stateDAO.deleteAll();
-                    stateDAO.insert(new State(temp, 1, 0, 0,2018, 1));
+                    stateDAO.insert(new State(temp, 1, 0, 0,2018, 1, difficulty));
                     createPlayers(res, rate);
                 }
                 else
                 {
                     int rate = Integer.parseInt(splitValues[3]);
                     String temp = splitValues[1];
+                    String difficulty = stateDAO.getDifficulty();
                     stateDAO.deleteAll();
-                    stateDAO.insert(new State(temp, 1, 0, 0, 2018, 1));
+                    stateDAO.insert(new State(temp, 1, 0, 0, 2018, 1, difficulty));
                     createPlayers(res, rate);
                 }
                 clickAction();

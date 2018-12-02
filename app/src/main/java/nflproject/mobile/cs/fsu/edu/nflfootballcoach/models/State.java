@@ -29,8 +29,12 @@ public class State {
     @ColumnInfo
     private int week;
 
-    public State(String playerTeam, int newGame, int careerLosses, int careerWins, int year, int week)
+    @ColumnInfo
+    private String difficulty;
+
+    public State(String playerTeam, int newGame, int careerLosses, int careerWins, int year, int week, String difficulty)
     {
+        this.difficulty = difficulty;
         this.playerTeam = playerTeam;
         this.newGame = newGame;
         this.careerWins = careerWins;
@@ -38,6 +42,9 @@ public class State {
         this.year = year;
         this.week = week;
     }
+
+    public String getDifficulty() {return difficulty; }
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
     public int getWeek() {return week; }
     public void setWeek(int week) { this.week = week; }
