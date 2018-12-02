@@ -44,7 +44,7 @@ public class MyTeamFragment extends Fragment {
         List<State> tempName = stateDAO.getPlayerTeam();
         TeamsDAO teamsDAO = database.getTeamsDAO();
         Team winLossStuff = teamsDAO.getTeamByName(tempName.get(0).getPlayerTeam());
-        List<Team> tempRankList = teamsDAO.getRankings();
+        List<Team> tempRankList = teamsDAO.getAllRankings();
         int rankMinusOne = 0;
         while (rankMinusOne < tempRankList.size() &&
                !tempRankList.get(rankMinusOne).getName().equals(winLossStuff.getName())){ rankMinusOne++; }

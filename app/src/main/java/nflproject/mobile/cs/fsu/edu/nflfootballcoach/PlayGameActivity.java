@@ -12,14 +12,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 public class PlayGameActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
     AppDatabase database = AppDatabase.getInstance(this);
-
+    TeamsDAO teamsDAO = database.getTeamsDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,16 @@ public class PlayGameActivity extends AppCompatActivity
                                 StateDAO stateDAO = database.getStateDAO();
                                 stateDAO.deleteAll();
                                 stateDAO.insert(new State("", 0, 0, 0, 2018, 1,""));
+                                List<Team> everyTeam = teamsDAO.getEveryTeam();
+                                for (int i = 0; i < everyTeam.size(); ++i)
+                                {
+                                    Team individual = everyTeam.get(i);
+                                    individual.setWins(0);
+                                    individual.setLosses(0);
+                                    individual.setConLosses(0);
+                                    individual.setConWins(0);
+                                    teamsDAO.update(individual);
+                                }
                                 startActivity(myIntent);
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
