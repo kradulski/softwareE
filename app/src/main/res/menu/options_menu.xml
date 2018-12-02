@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/how_to_option"
-        android:title="@string/title_game_info" />
+        android:title="@string/title_game_info_unformatted" />
     <item
         android:id="@+id/reset_option"
         android:title="@string/reset_text" />

@@ -78,23 +78,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Code for resetting database and resetting user information goes here */
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle("Reset Game?");
-                alertDialog.setMessage("This action cannot be undone.");
-                alertDialog.setButton(0, "Yes", new DialogInterface.OnClickListener() {
+                DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        StateDAO stateDAO = database.getStateDAO();
-                        stateDAO.deleteAll();
-                        stateDAO.insert(new State("", 0));
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                StateDAO stateDAO = database.getStateDAO();
+                                stateDAO.deleteAll();
+                                stateDAO.insert(new State("", 0));
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
                     }
-                });
-                alertDialog.setButton(1, "No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                };
 
-                alertDialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Reset Game?")
+                        .setMessage("Are you sure you want to reset all data? This cannot be undone.")
+                        .setPositiveButton("Yes", dialogListener)
+                        .setNegativeButton("No", dialogListener).show();
             }
         });
     }
