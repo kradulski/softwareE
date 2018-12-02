@@ -34,4 +34,8 @@ public interface GamesDAO {
     @Query("SELECT * FROM games WHERE week = :week")
     public List<Game> getGamesOfWeek(int week);
 
+    //checks if game is already in database
+    @Query("SELECT * FROM games WHERE home = :home AND away = :away")
+    public Game getGame(String home,String away);
+
 }

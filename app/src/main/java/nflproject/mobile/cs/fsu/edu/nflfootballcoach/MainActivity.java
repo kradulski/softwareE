@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
         big12GameGeneration();  //generates Big 12 games
         secGameGeneration();    //generates sec games
         big10GameGeneration();  //generates Big 10 games
-
+        pac12GameGeneration();  //generates Pac 12 games
     }
 
     public void oocGameGeneration()
@@ -351,9 +351,30 @@ public class MainActivity extends AppCompatActivity {
                 if (allTeams.get(i).getConference().equals(allTeams.get(j).getConference()))
                 {
                     int opp = rand.nextInt(12);
-                    gamesDAO.insert(new Game(allTeams.get(i).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                    boolean alreadyPlayed = true;
+                    do
+                    {
+                        Game newGame = new Game(allTeams.get(i).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 );
+                        if(gamesDAO.getGame(newGame.getHome(), newGame.getAway()) == null) {
+                            gamesDAO.insert(newGame);
+                            alreadyPlayed = false;
+                        }
+                        else
+                            opp = (opp + 1) % fillerTeams.size();
+                    } while (alreadyPlayed);
+
                     opp = rand.nextInt(12);
-                    gamesDAO.insert(new Game(allTeams.get(j).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 ));
+                    alreadyPlayed = true;
+                    do
+                    {
+                        Game newGame = new Game(allTeams.get(j).getName(), fillerTeams.get(opp).getName(), wk, 0, 0 );
+                        if(gamesDAO.getGame(newGame.getHome(), newGame.getAway()) == null) {
+                            gamesDAO.insert(newGame);
+                            alreadyPlayed = false;
+                        }
+                        else
+                            opp = (opp + 1) % fillerTeams.size();
+                    } while (alreadyPlayed);
                 }
                 else
                 {
@@ -385,10 +406,130 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 0; i<accTeams.size(); i++)
         {
-            gamesDAO.insert(new Game(accTeams.get(i).getName(), secTeams.get(i).getName(), 4,
-                    0,0));
+            Game newGame = new Game(accTeams.get(i).getName(), secTeams.get(i).getName(), 4,
+                    0,0);
+            if(gamesDAO.getGame(newGame.getHome(), newGame.getAway()) != null) {
+                int opp = rand.nextInt(12);
+                boolean alreadyPlayed = true;
+                do {
+                    Game newGame2 = new Game(accTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
+                    if (gamesDAO.getGame(newGame2.getHome(), newGame2.getAway()) == null) {
+                        gamesDAO.insert(newGame);
+                        alreadyPlayed = false;
+                    }
+                    else
+                        opp = (opp + 1) % fillerTeams.size();
+                } while (alreadyPlayed);
+
+                opp = rand.nextInt(12);
+                alreadyPlayed = true;
+                do {
+                    Game newGame2 = new Game(secTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
+                    if (gamesDAO.getGame(newGame2.getHome(), newGame2.getAway()) == null) {
+                        gamesDAO.insert(newGame);
+                        alreadyPlayed = false;
+                    }
+                    else
+                        opp = (opp + 1) % fillerTeams.size();
+                } while (alreadyPlayed);
+
+            }
         }
 
+    }
+
+    public void pac12GameGeneration()
+    {
+        List<Team> pac12NorthTeams = teamsDAO.getTeamsFromConferenceDivision("Pac-12", "North");
+        List<Team> pac12SouthTeams = teamsDAO.getTeamsFromConferenceDivision("Pac-12", "South");
+
+        Collections.shuffle(pac12NorthTeams);
+        Collections.shuffle(pac12SouthTeams);
+
+        //generate interdivisional games
+        for(int i = 0; i<pac12NorthTeams.size(); i++) {
+            gamesDAO.insert(new Game(pac12NorthTeams.get(i).getName(), pac12SouthTeams.get(i).getName(), 4,
+                    0, 0));
+        }
+        Collections.rotate(pac12NorthTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<pac12NorthTeams.size(); i++) {
+            gamesDAO.insert(new Game(pac12SouthTeams.get(i).getName(), pac12NorthTeams.get(i).getName(), 5,
+                    0, 0));
+        }
+        Collections.rotate(pac12NorthTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<pac12NorthTeams.size(); i++) {
+            gamesDAO.insert(new Game(pac12SouthTeams.get(i).getName(), pac12NorthTeams.get(i).getName(), 12,
+                    0, 0));
+        }
+        Collections.rotate(pac12NorthTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<pac12NorthTeams.size(); i++) {
+            gamesDAO.insert(new Game(pac12NorthTeams.get(i).getName(), pac12SouthTeams.get(i).getName(), 13,
+                    0, 0));
+        }
+
+        Team finalNorthTeam = pac12NorthTeams.get(pac12NorthTeams.size() - 1);
+        Team finalSouthTeam = pac12SouthTeams.get(pac12SouthTeams.size() - 1);
+
+        String home, away;
+        for(int wk = 6; wk<=11; wk++)
+        {
+            int i = 0;
+            int j = pac12NorthTeams.size() - 1;
+
+            while(i < j)
+            {
+                if(wk % 8 == 0)
+                {
+                    for(int k = 0; k < pac12NorthTeams.size(); k++) {
+                        gamesDAO.insert(new Game(pac12SouthTeams.get(k).getName(), "BYE", wk, 0, 0));
+                        gamesDAO.insert(new Game(pac12NorthTeams.get(k).getName(), "BYE", wk, 0,0));
+                    }
+                }
+                else
+                {
+                    if (wk % 2 == 0)
+                    {
+                        home = pac12NorthTeams.get(j).getName();
+                        away = pac12NorthTeams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = pac12NorthTeams.get(i).getName();
+                        away = pac12NorthTeams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                    if (wk % 2 == 0)
+                    {
+                        home = pac12SouthTeams.get(j).getName();
+                        away = pac12SouthTeams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = pac12SouthTeams.get(i).getName();
+                        away = pac12SouthTeams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
+                }
+                i++;
+                j--;
+            }
+
+            if(wk % 8 != 0) {
+                pac12NorthTeams.remove(pac12NorthTeams.size() - 1);
+                pac12SouthTeams.remove(pac12SouthTeams.size() - 1);
+                Collections.rotate(pac12NorthTeams, 1);
+                Collections.rotate(pac12SouthTeams,1);
+                pac12NorthTeams.add(finalNorthTeam);
+                pac12SouthTeams.add(finalSouthTeam);
+            }
+        }
     }
 
     public void big10GameGeneration()
