@@ -25,8 +25,8 @@ public interface TeamsDAO {
     @Update
     void update(Team... teams);
 
-    //returns all teams in the database in a List
-    @Query("SELECT * FROM teams")
+    //returns all (legitimate) teams in the database in a List
+    @Query("SELECT * FROM teams WHERE conference <> 'MAC' AND conference <> 'BYE'")
     List<Team> getTeams();
 
     //returns singular team referred to by name
