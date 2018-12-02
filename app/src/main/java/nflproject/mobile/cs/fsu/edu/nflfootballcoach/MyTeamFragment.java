@@ -1,6 +1,5 @@
 package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,14 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
+import java.util.*;
 
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
@@ -28,7 +23,8 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
 public class MyTeamFragment extends Fragment {
     ListView thePlayersList;
-    TextView theTeamName;
+    TextView theTeamRankAndName;
+    TextView theTeamConf;
     TextView teamWinLoss;
     TextView teamCWinLoss;
     TextView career;
@@ -39,20 +35,29 @@ public class MyTeamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View showView = inflater.inflate(R.layout.fragment_my_team, container, false);
         thePlayersList = showView.findViewById(R.id.playerlist);
-        theTeamName = showView.findViewById(R.id.teamName);
+        theTeamRankAndName = showView.findViewById(R.id.teamNameRank);
+        theTeamConf = showView.findViewById(R.id.myConf);
         teamWinLoss = showView.findViewById(R.id.winLoss);
         teamCWinLoss = showView.findViewById(R.id.cWinLoss);
         career = showView.findViewById(R.id.career_record);
         StateDAO stateDAO = database.getStateDAO();
         List<State> tempName = stateDAO.getPlayerTeam();
-        theTeamName.setText(tempName.get(0).getPlayerTeam());
         TeamsDAO teamsDAO = database.getTeamsDAO();
         Team winLossStuff = teamsDAO.getTeamByName(tempName.get(0).getPlayerTeam());
-        String tempWL = "W/L " + winLossStuff.getWins() + " - " + winLossStuff.getLosses();
-        String tempCWL = "Conf W/L " + winLossStuff.getConWins() + " - " + winLossStuff.getConLosses();
+        List<Team> tempRankList = teamsDAO.getRankings();
+        int rankMinusOne = 0;
+        while (rankMinusOne < tempRankList.size() &&
+               tempRankList.get(rankMinusOne).getName().equals(winLossStuff.getName())){ rankMinusOne++; }
+        String tempRank = Integer.toString(rankMinusOne + 1);
+        String teamRank = "#" + tempRank + " " + tempName.get(0).getPlayerTeam();
+        String tempConf = "Conference: " + winLossStuff.getConference();
+        String tempWL = "W/L: " + winLossStuff.getWins() + " - " + winLossStuff.getLosses();
+        String tempCWL = "Conf W/L: " + winLossStuff.getConWins() + " - " + winLossStuff.getConLosses();
+        String careerWL = "Career Record: " + Integer.toString(tempName.get(0).getCareerWins()) + " - " + Integer.toString(tempName.get(0).getCareerLosses());
+        theTeamRankAndName.setText(teamRank);
+        theTeamConf.setText(tempConf);
         teamWinLoss.setText(tempWL);
         teamCWinLoss.setText(tempCWL);
-        String careerWL = "Career Record: " + Integer.toString(tempName.get(0).getCareerWins()) + " - " + Integer.toString(tempName.get(0).getCareerLosses());
         career.setText(careerWL);
         PlayersDAO playersDAO = database.getPlayersDAO();
         List<Players> playerList = playersDAO.getPlayers();
