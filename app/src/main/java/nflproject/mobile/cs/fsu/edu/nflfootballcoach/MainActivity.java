@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
         for(int wk = 4; wk<=12; wk++)
         {
             int i = 0;
-            int j = big12Teams.size() - 1; 
+            int j = big12Teams.size() - 1;
         }
 
 
