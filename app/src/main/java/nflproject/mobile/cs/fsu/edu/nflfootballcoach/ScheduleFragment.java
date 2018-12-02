@@ -34,6 +34,43 @@ public class ScheduleFragment extends Fragment {
 
         ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
 
+        playerTeam = stateDAO.getPlayerTeamString();               //get team player is currently playing as
+        List<Game> gameList = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as
+
+        //populate schedule rows
+        ArrayList<scheduleRow> scheduleArr = new ArrayList<scheduleRow>(gameList.size());
+        for(int i = 0; i<gameList.size(); i++)
+        {
+            scheduleRow entry = new scheduleRow("","");
+
+            boolean home;
+            if (playerTeam.equals(gameList.get(i).getHome())) {
+                entry.setOpponent("vs " + database.getTeamsDAO().getTeamByName(gameList.get(i).getAway()).getAbbreviation());
+                home = true;
+            }
+            else {
+                entry.setOpponent("at " + database.getTeamsDAO().getTeamByName(gameList.get(i).getHome()).getAbbreviation());
+                home = false;
+            }
+
+            if (gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && home) {
+                entry.setResult("W " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
+            }
+            else if(gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && !home) {
+                entry.setResult("L " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
+            }
+            else
+                entry.setResult("");
+
+            scheduleArr.add(entry);
+        }
+
+        ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, scheduleArr);
+        schedule.setAdapter(adapter);
+
+        /*
+        ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
+
         playerTeam = stateDAO.getPlayerTeamString();  //get team player is currently playing as
         List<Game> gameList = gamesDAO.getGamesOfTeam(playerTeam); //get games of team player is playing as
         ArrayList<Game> games = new ArrayList<Game>(gameList.size());
@@ -41,6 +78,7 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, games);
         schedule.setAdapter(adapter);
+        */
 
         return view;
     }

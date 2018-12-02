@@ -311,10 +311,10 @@ public class MainActivity extends AppCompatActivity {
     public void populateGames()
     {
         //week 1 -- OOC
-
+        gamesDAO.insert(new Game("Florida State", "Clemson", 1,0,0));
 
         //week 2 -- ooc
-
+        gamesDAO.insert(new Game("Syracuse", "Florida State", 2,0,0));
 
         //week 3 -- ooc
 
@@ -440,10 +440,22 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.shuffle(big12Teams);
 
-        for(int i = 4; i<=13; i++)
+        for(int i = 4; i<=12; i++)
         {
+            if(i == 7)
+            {
 
+            }
+
+            gamesDAO.insert(new Game(big12Teams.get(0).getName(), big12Teams.get(9).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(1).getName(), big12Teams.get(8).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(2).getName(), big12Teams.get(7).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(3).getName(), big12Teams.get(6).getName(), i, 0,0));
+            gamesDAO.insert(new Game(big12Teams.get(4).getName(), big12Teams.get(5).getName(), i, 0,0));
         }
+
+
+
     }
 
     public void accGameGeneration() {
