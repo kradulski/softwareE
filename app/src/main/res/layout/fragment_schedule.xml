@@ -9,13 +9,14 @@
         android:layout_centerHorizontal="true"
         android:drawableStart="@android:drawable/ic_media_play"
         android:drawableLeft="@android:drawable/ic_media_play"
-        android:drawableTint="@color/blue"
+        android:background="@color/blue"
         android:drawablePadding="6dp"
-        android:gravity="left|center"
+        android:gravity="start|center"
         android:padding="6dp"
         android:text="Play Week"
         android:textSize="20sp"
-        android:textColor="@color/blue"/>
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"/>
 
     <ListView
         android:id="@+id/scheduleList"
