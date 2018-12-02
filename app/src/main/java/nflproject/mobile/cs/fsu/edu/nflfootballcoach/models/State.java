@@ -26,14 +26,21 @@ public class State {
     @ColumnInfo
     private int year;
 
-    public State(String playerTeam, int newGame, int careerLosses, int careerWins, int year)
+    @ColumnInfo
+    private int week;
+
+    public State(String playerTeam, int newGame, int careerLosses, int careerWins, int year, int week)
     {
         this.playerTeam = playerTeam;
         this.newGame = newGame;
         this.careerWins = careerWins;
         this.careerLosses = careerLosses;
         this.year = year;
+        this.week = week;
     }
+
+    public int getWeek() {return week; }
+    public void setWeek(int week) { this.week = week; }
 
     public String getPlayerTeam() {return playerTeam; }
     public void setPlayerTeam(String playerTeam) { this.playerTeam = playerTeam; }
@@ -45,8 +52,8 @@ public class State {
     public  void setNewGame() {this.newGame = newGame;}
 
     public  int getCareerWins() {return careerWins;}
-    public  void setCareerWins() {this.careerWins = careerWins;}
+    public  void setCareerWins(int careerWins) {this.careerWins = careerWins;}
 
     public  int getCareerLosses() {return careerLosses;}
-    public  void setCareerLosses() {this.careerLosses = careerLosses;}
+    public  void setCareerLosses(int careerLosses) {this.careerLosses = careerLosses;}
 }

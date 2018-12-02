@@ -35,19 +35,18 @@ public class ScheduleFragment extends Fragment {
     AppDatabase database = AppDatabase.getInstance(getActivity());
     GamesDAO gamesDAO = database.getGamesDAO();
     StateDAO stateDAO = database.getStateDAO();
+    TeamsDAO teamsDAO = database.getTeamsDAO();
 
-    void updateRecord()
+    void resetWL()
     {
-        StateDAO stateDAO = database.getStateDAO();
-        List<State> careerRecord = stateDAO.getPlayerTeam();
-
+        
     }
 
     void playWeekGames()
     {
-        TeamsDAO teamsDAO = database.getTeamsDAO();
-        GamesDAO gamesDAO = database.getGamesDAO();
-
+        //play all games
+        List<State> temp = stateDAO.getPlayerTeam();
+        String yourTeam = temp.get(0).getPlayerTeam();
         boolean flag = true;
         while (flag) {
             Team homeTeam = teamsDAO.getTeamByName("");
@@ -99,6 +98,19 @@ public class ScheduleFragment extends Fragment {
                     int closs = awayTeam.getConLosses() + 1;
                     awayTeam.setConLosses(closs);
                 }
+                //update career win/loss
+                if (homeTeam.getName().equals(yourTeam))
+                {
+                    int w = temp.get(0).getCareerWins() + 1;
+                    temp.get(0).setCareerWins(w);
+                    stateDAO.update(temp.get(0));
+                }
+                if (awayTeam.getName().equals(yourTeam))
+                {
+                    int l = temp.get(0).getCareerLosses() + 1;
+                    temp.get(0).setCareerLosses(l);
+                    stateDAO.update(temp.get(0));
+                }
             }
             else
             {
@@ -113,11 +125,27 @@ public class ScheduleFragment extends Fragment {
                     int closs = homeTeam.getConLosses() + 1;
                     homeTeam.setConLosses(closs);
                 }
+                //update career win/loss
+                if (homeTeam.getName().equals(yourTeam))
+                {
+                    int l = temp.get(0).getCareerLosses() + 1;
+                    temp.get(0).setCareerLosses(l);
+                    stateDAO.update(temp.get(0));
+                }
+                if (awayTeam.getName().equals(yourTeam))
+                {
+                    int w = temp.get(0).getCareerWins() + 1;
+                    temp.get(0).setCareerWins(w);
+                    stateDAO.update(temp.get(0));
+                }
             }
             //To do: change rankingVotes before update called
             teamsDAO.update(homeTeam);
             teamsDAO.update(awayTeam);
         }
+        int theWeek = temp.get(0).getWeek() + 1;
+        temp.get(0).setWeek(theWeek);
+        stateDAO.update(temp.get(0));
     }
 
     //Write this and pass res to the function: Resources res = getResources();
@@ -127,6 +155,22 @@ public class ScheduleFragment extends Fragment {
         builder.setTitle("Players Graduating");
 
         PlayersDAO playersDAO = database.getPlayersDAO();
+        String yourTeam = stateDAO.getPlayerTeamString();
+        Team homeTeam = teamsDAO.getTeamByName(yourTeam);
+        int oldORating = homeTeam.getOffRating();
+        int oldDRating = homeTeam.getDefRating();
+        int wins = homeTeam.getWins();
+        int prestige = 0;
+        if (wins < 3)
+            prestige -= 3;
+        else if (wins < 6)
+            prestige -= 1;
+        else if (wins < 9)
+            prestige += 1;
+        else  if (wins < 11)
+            prestige += 3;
+        int totalRating = ((oldDRating + oldDRating)/2) + prestige;
+
         List<Players> allPlayers = playersDAO.getPlayers();
         Vector<Integer> ids = new Vector<>();
         int counter = 0;
@@ -136,6 +180,7 @@ public class ScheduleFragment extends Fragment {
         Vector<String> firstname = new Vector<>();
         Vector<String> position = new Vector<>();
         Vector<String> lastname = new Vector<>();
+
 
         final ArrayAdapter<String> newPlayers = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
         final ArrayAdapter<String> graduates = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
@@ -185,8 +230,11 @@ public class ScheduleFragment extends Fragment {
 
         for (int i = 0; i < firstname.size(); ++i)
         {
-            playersDAO.insert(new Players(ids.get(i), 80, firstname.get(i), lastname.get(i), position.get(i), "FR"));
-            newPlayers.add(firstname.get(i) + " " + lastname.get(i) + ", " + position.get(i) + ", FR, rating: " + "80");
+            int rating = seed.nextInt(prestige + 15 - (prestige - 15) + 1) + prestige - 15;
+            if (rating >= 100)
+                rating = 99;
+            playersDAO.insert(new Players(ids.get(i), rating, firstname.get(i), lastname.get(i), position.get(i), "FR"));
+            newPlayers.add(firstname.get(i) + " " + lastname.get(i) + ", " + position.get(i) + ", FR, rating: " + Integer.toString(rating));
         }
 
 
@@ -199,6 +247,21 @@ public class ScheduleFragment extends Fragment {
             why2[i] = newPlayers.getItem(i);
             why3[i] = playersStaying.getItem(i);
         }
+
+        //update team talent based on new players
+        List<Players> finalPlayers = playersDAO.getPlayers();
+        int newORating = 0;
+        int newDRating = 0;
+        for (int i = 0; i < 26; ++i)
+            newORating += finalPlayers.get(i).getRating();
+        for (int i = 26; i < 48; ++i)
+            newDRating += finalPlayers.get(i).getRating();
+        newORating = newORating/26;
+        newDRating = newDRating/22;
+        homeTeam.setOffRating(newORating);
+        homeTeam.setDefRating(newDRating);
+        teamsDAO.update(homeTeam);
+
         builder.setItems(why, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
