@@ -27,7 +27,7 @@ public class HowToPlayActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(HowToPlayActivity.this);
             builder.setTitle("Season Summary")
-                    .setMessage((("<Name> (W-L) won the National Championship, beating <Name> (W-L) <Result>\n\n\" + " +
+                    .setMessage((("<Name> (W-L) won the National Championship, beating <Name> (W-L) <Result>\n\n" +
                                 "Your team, <Name>, finished the season ranked #<Rank> with <W> wins and <L> losses.")))
                     .setNeutralButton("Dismiss", dialogListener).show();
     }
