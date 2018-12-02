@@ -62,8 +62,11 @@ public interface TeamsDAO {
     List<Team> getFillerTeams();
 
     //get all teams from a particular conference division
-    @Query("SELECT * FROM teams WHERE conference=:conference AND division=:division")
+    @Query("SELECT * FROM teams WHERE conference = :conference AND division = :division")
     public List<Team> getTeamsFromConferenceDivision(String conference, String division);
+
+    @Query("SELECT count(*) FROM teams WHERE rankingVotes > (SELECT rankingVotes FROM teams WHERE name = :name)")
+    public int getRankingOfTeam(String name);
 
     //get every team
     @Query("SELECT * FROM teams")
