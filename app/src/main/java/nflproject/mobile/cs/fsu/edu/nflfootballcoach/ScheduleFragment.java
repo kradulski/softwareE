@@ -57,8 +57,9 @@ public class ScheduleFragment extends Fragment {
         List<State> temp = stateDAO.getPlayerTeam();
         String yourTeam = temp.get(0).getPlayerTeam();
         String difficulty = stateDAO.getDifficulty();
-        boolean flag = true;
-        while (flag) {
+        List<Game> games = gamesDAO.getGamesOfWeek(temp.get(0).getWeek());
+        for (int j = 0; j < games.size(); ++j) {
+            //if (games.get(i).getAway())
             Team homeTeam = teamsDAO.getTeamByName("");
             Team awayTeam = teamsDAO.getTeamByName("");
             Random seed = new Random();
