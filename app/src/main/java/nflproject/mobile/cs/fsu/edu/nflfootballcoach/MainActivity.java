@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
                 away = accTeams.get(i).getName();
             }
 
-            if(gamesDAO.getGame(home, away) != null) {
+            if(gamesDAO.getGame(home, away) != null || gamesDAO.getGame(away, home) != null) {
                 int opp = rand.nextInt(12);
                 boolean alreadyPlayed = true;
                 do {
@@ -453,8 +453,9 @@ public class MainActivity extends AppCompatActivity {
                     else
                         opp = (opp + 1) % fillerTeams.size();
                 } while (alreadyPlayed);
-
             }
+            else
+                gamesDAO.insert(new Game(home, away, 4,0,0));
         }
 
     }
