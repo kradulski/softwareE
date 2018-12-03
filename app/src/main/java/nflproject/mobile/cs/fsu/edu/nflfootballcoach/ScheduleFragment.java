@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +109,6 @@ public class ScheduleFragment extends Fragment {
                     else if (tempAO > tempHD)
                         awayScore += 3;
                 }
-
                 //determining
                 if (homeScore >= awayScore) {
                     if(homeScore == awayScore)
@@ -128,11 +128,15 @@ public class ScheduleFragment extends Fragment {
                         int w = temp.get(0).getCareerWins() + 1;
                         temp.get(0).setCareerWins(w);
                         stateDAO.update(temp.get(0));
+                        //Toast.makeText(getActivity(), yourTeam + " " + homeScore + " - " + awayScore + " ",
+                          //      Toast.LENGTH_LONG).show();
                     }
                     if (awayTeam.getName().equals(yourTeam)) {
                         int l = temp.get(0).getCareerLosses() + 1;
                         temp.get(0).setCareerLosses(l);
                         stateDAO.update(temp.get(0));
+                        //Toast.makeText(getActivity(), yourTeam + " " + homeScore + " - " + awayScore + " ",
+                        //        Toast.LENGTH_LONG).show();
                     }
                 } else {
                     int win = awayTeam.getWins() + 1;
@@ -150,11 +154,15 @@ public class ScheduleFragment extends Fragment {
                         int l = temp.get(0).getCareerLosses() + 1;
                         temp.get(0).setCareerLosses(l);
                         stateDAO.update(temp.get(0));
+                       // Toast.makeText(getActivity(), yourTeam + " " + homeScore + " - " + awayScore + " ",
+                         //       Toast.LENGTH_LONG).show();
                     }
                     if (awayTeam.getName().equals(yourTeam)) {
                         int w = temp.get(0).getCareerWins() + 1;
                         temp.get(0).setCareerWins(w);
                         stateDAO.update(temp.get(0));
+                       // Toast.makeText(getActivity(), yourTeam + " " + homeScore + " - " + awayScore + " ",
+                         //       Toast.LENGTH_LONG).show();
                     }
                 }
                 games.get(j).setHomeScore(homeScore);
@@ -166,17 +174,17 @@ public class ScheduleFragment extends Fragment {
                 if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes()) {
                     if (homeScore >= awayScore) {
                         newVotesHome = (homeScore - awayScore) * 3 + 40;
-                        newVotesAway = -((homeScore - awayScore) * 3 + 40);
+                        newVotesAway = -((homeScore - awayScore) * 3 + 40 + 50);
                     } else {
-                        newVotesHome = -((homeScore - awayScore) * 3);
+                        newVotesHome = -((homeScore - awayScore) * 3 + 50);
                         newVotesAway = (homeScore - awayScore) * 3;
                     }
                 } else {
                     if (homeScore >= awayScore) {
                         newVotesHome = (homeScore - awayScore) * 3;
-                        newVotesAway = -((homeScore - awayScore) * 3);
+                        newVotesAway = -((homeScore - awayScore) * 3 + 50);
                     } else {
-                        newVotesHome = -((homeScore - awayScore) * 3 + 40);
+                        newVotesHome = -((homeScore - awayScore) * 3 + 40 + 50);
                         newVotesAway = (homeScore - awayScore) * 3 + 40;
                     }
                 }
@@ -227,7 +235,7 @@ public class ScheduleFragment extends Fragment {
             prestige += 1;
         else  if (wins < 11)
             prestige += 3;
-        int totalRating = ((oldDRating + oldDRating)/2) + prestige;
+        int totalRating = ((oldORating + oldDRating)/2) + prestige;
 
         List<Players> allPlayers = playersDAO.getPlayers();
         Vector<Integer> ids = new Vector<>();
@@ -356,9 +364,25 @@ public class ScheduleFragment extends Fragment {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playWeekGames();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        playWeekGames();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
+                        try {
+
+                            // code runs in a thread
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                }
+                            });
+                        } catch (final Exception ex) {
+                            Log.i("---","Exception in thread");
+                        }
+                    }
+                }.start();
             }
         });
 
