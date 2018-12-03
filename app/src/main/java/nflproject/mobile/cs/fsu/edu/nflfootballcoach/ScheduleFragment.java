@@ -70,11 +70,7 @@ public class ScheduleFragment extends Fragment {
         gamesDAO.insert(new Game(bestInDivision(atlantic), bestInDivision(coastal), 14, 0, 0));
         gamesDAO.insert(new Game(bestInDivision(EastBigTen), bestInDivision(WestBigTen), 14, 0, 0));
         gamesDAO.insert(new Game(bestInDivision(NorthPac), bestInDivision(SouthPac), 14, 0, 0));
-        gamesDAO.insert(new Game(bestInDivision(WestSEC), bestInDivision(EastSEC), 14, 0, 0));
-        /*Toast.makeText(getActivity(), bestInDivision(atlantic),
-              Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(), bestInDivision(coastal),
-              Toast.LENGTH_LONG).show();*/
+        gamesDAO.insert(new Game(bestInDivision(EastSEC), bestInDivision(WestSEC), 14, 0, 0));
     }
 
     String bestInDivision(List<Team> t){
@@ -533,6 +529,7 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, scheduleArr);
         schedule.setAdapter(adapter);
+
 
         return view;
     }
