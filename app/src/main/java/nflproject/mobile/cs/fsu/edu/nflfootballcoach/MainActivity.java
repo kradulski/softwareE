@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
                                     individual.setConWins(0);
                                     teamsDAO.update(individual);
                                 }
-                                populateTeams();
-                                populateGames();
+                                //populateTeams();
+                                //populateGames();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 dialog.dismiss();

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ScheduleFragment extends Fragment {
         }
     }
 
-    List<Team> getChampions()
+    void getChampions()
     {
         List<Team> atlantic = teamsDAO.getTeamsFromConferenceDivision("ACC", "Atlantic");
         List<Team> coastal = teamsDAO.getTeamsFromConferenceDivision("ACC", "Coastal");
@@ -66,21 +67,17 @@ public class ScheduleFragment extends Fragment {
         List<Team> EastSEC = teamsDAO.getTeamsFromConferenceDivision("SEC", "East");
         List<Team> WestSEC = teamsDAO.getTeamsFromConferenceDivision("SEC", "West");
 
-        List<Team> champions = new ArrayList<>();
-
-        champions.add(bestInDivision(atlantic));
-        champions.add(bestInDivision(coastal));
-        champions.add(bestInDivision(EastBigTen));
-        champions.add(bestInDivision(WestBigTen));
-        champions.add(bestInDivision(NorthPac));
-        champions.add(bestInDivision(SouthPac));
-        champions.add(bestInDivision(EastSEC));
-        champions.add(bestInDivision(WestSEC));
-
-        return champions;
+        gamesDAO.insert(new Game(bestInDivision(atlantic), bestInDivision(coastal), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(EastBigTen), bestInDivision(WestBigTen), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(NorthPac), bestInDivision(SouthPac), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(WestSEC), bestInDivision(EastSEC), 14, 0, 0));
+        /*Toast.makeText(getActivity(), bestInDivision(atlantic),
+              Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), bestInDivision(coastal),
+              Toast.LENGTH_LONG).show();*/
     }
 
-    Team bestInDivision(List<Team> t){
+    String bestInDivision(List<Team> t){
 
         int maxIndex = 0, maxWins = 0;
 
@@ -107,13 +104,13 @@ public class ScheduleFragment extends Fragment {
             for (int i = 0; i < t.size(); i++)
             {
                 if (teamRanks.get(i).getName().equals(t.get(maxIndex).getName()))
-                    return t.get(maxIndex);
+                    return t.get(maxIndex).getName();
                 if (teamRanks.get(i).getName().equals(t.get(max2Index).getName()))
-                    return t.get(max2Index);
+                    return t.get(max2Index).getName();
             }
         }
 
-        return t.get(maxIndex);
+        return t.get(maxIndex).getName();
     }
 
     void playWeekGames()
@@ -123,7 +120,23 @@ public class ScheduleFragment extends Fragment {
 
         String yourTeam = temp.get(0).getPlayerTeam();
         String difficulty = stateDAO.getDifficulty();
+        if (stateDAO.getWeek() == 14)
+            getChampions();
+        else if (stateDAO.getWeek() == 15)
+        {
+            List<Team> top25 = teamsDAO.getRankings();
+            List<String> thetop4 = new ArrayList<>();
+            for (int i = 0; i < 4; ++i)
+            {
+                thetop4.add(top25.get(i).getName());
+            }
+            gamesDAO.insert(new Game(thetop4.get(0), thetop4.get(3), 15, 0, 0));
+            gamesDAO.insert(new Game(thetop4.get(1), thetop4.get(2), 15, 0, 0));
+        }
         List<Game> games = gamesDAO.getGamesOfWeek(temp.get(0).getWeek());
+        String number1 = "";
+        String number2 = "";
+        int tempcount = 0;
         for (int j = 0; j < games.size(); ++j) {
             if (!games.get(j).getAway().equals("BYE")) {
                 Team homeTeam = teamsDAO.getTeamByName(games.get(j).getHome());
@@ -232,6 +245,30 @@ public class ScheduleFragment extends Fragment {
                 //New team rankings
                 int newVotesHome = 0;
                 int newVotesAway = 0;
+                if (temp.get(0).getWeek() == 15 && tempcount == 0)
+                {
+                    if (homeScore >= awayScore)
+                    {
+                        number1 = games.get(j).getHome();
+                        tempcount++;
+                    }
+                    else {
+                        number1 = games.get(j).getAway();
+                        tempcount++;
+                    }
+                }
+                else if (temp.get(0).getWeek() == 15 && tempcount == 1)
+                {
+                    if (homeScore >= awayScore)
+                    {
+                        number2 = games.get(j).getHome();
+                        tempcount++;
+                    }
+                    else {
+                        number2 = games.get(j).getAway();
+                        tempcount++;
+                    }
+                }
                 if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes()) {
                     if (homeScore >= awayScore) {
                         newVotesHome = (homeScore - awayScore) * 2 + 40;
@@ -270,11 +307,14 @@ public class ScheduleFragment extends Fragment {
 
             }
         }
+        if (temp.get(0).getWeek() == 15)
+        {
+            gamesDAO.insert(new Game(number1, number2, 16, 0, 0));
+        }
         int theWeek = temp.get(0).getWeek() + 1;
         temp.get(0).setWeek(theWeek);
         stateDAO.update(temp.get(0));
-
-        if (theWeek == 14)
+        if (temp.get(0).getWeek() == 17)
         {
             
         }
@@ -433,10 +473,6 @@ public class ScheduleFragment extends Fragment {
                 new Thread() {
                     @Override
                     public void run() {
-                        if (stateDAO.getWeek() == 14)
-                        {
-                               
-                        }
                         playWeekGames();
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
@@ -497,7 +533,6 @@ public class ScheduleFragment extends Fragment {
 
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), R.layout.schedule_adapter_view_layout, scheduleArr);
         schedule.setAdapter(adapter);
-
 
         return view;
     }
