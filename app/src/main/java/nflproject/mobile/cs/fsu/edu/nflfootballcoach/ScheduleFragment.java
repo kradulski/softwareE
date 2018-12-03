@@ -67,6 +67,8 @@ public class ScheduleFragment extends Fragment {
             if (!games.get(j).getAway().equals("BYE")) {
                 Team homeTeam = teamsDAO.getTeamByName(games.get(j).getHome());
                 Team awayTeam = teamsDAO.getTeamByName(games.get(j).getAway());
+
+                //game generation
                 Random seed = new Random();
                 int drives = 10 + seed.nextInt(4) - 2;
                 int homeOffense = homeTeam.getOffRating();
@@ -107,9 +109,10 @@ public class ScheduleFragment extends Fragment {
                     else if (tempAO > tempHD)
                         awayScore += 3;
                 }
-                if (homeScore == awayScore)
-                    homeScore += 3;
+                //determining
                 if (homeScore >= awayScore) {
+                    if(homeScore == awayScore)
+                        homeScore += 3;
                     int win = homeTeam.getWins() + 1;
                     homeTeam.setWins(win);
                     int loss = awayTeam.getLosses() + 1;
@@ -402,11 +405,19 @@ public class ScheduleFragment extends Fragment {
                 home = false;
             }
 
-            if (gameList.get(i).getHomeScore() >= gameList.get(i).getAwayScore() && home) {
+            if (gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && home ||
+                    gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && !home) {
                 entry.setResult("W " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
             }
-            else if(gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && !home) {
+            else if(gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && !home) {
+                entry.setResult("W " + gameList.get(i).getAwayScore() + "-" + gameList.get(i).getHomeScore());
+            }
+            else if(gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && !home ||
+                    gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && home) {
                 entry.setResult("L " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
+            }
+            else if(gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && home){
+                entry.setResult("L " + gameList.get(i).getAwayScore() + "-" + gameList.get(i).getHomeScore());
             }
             else
                 entry.setResult("");

@@ -419,14 +419,22 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 0; i<accTeams.size(); i++)
         {
-            Game newGame = new Game(accTeams.get(i).getName(), secTeams.get(i).getName(), 4,
-                    0,0);
-            if(gamesDAO.getGame(newGame.getHome(), newGame.getAway()) != null) {
+            int rVar = rand.nextInt(2);
+            if(rVar == 0){
+                home = accTeams.get(i).getName();
+                away = secTeams.get(i).getName();
+            }
+            else{
+                home = accTeams.get(i).getName();
+                away = accTeams.get(i).getName();
+            }
+
+            if(gamesDAO.getGame(home, away) != null) {
                 int opp = rand.nextInt(12);
                 boolean alreadyPlayed = true;
                 do {
-                    Game newGame2 = new Game(accTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
-                    if (gamesDAO.getGame(newGame2.getHome(), newGame2.getAway()) == null) {
+                    Game newGame = new Game(accTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
+                    if (gamesDAO.getGame(newGame.getHome(), newGame.getAway()) == null) {
                         gamesDAO.insert(newGame);
                         alreadyPlayed = false;
                     }
@@ -437,8 +445,8 @@ public class MainActivity extends AppCompatActivity {
                 opp = rand.nextInt(12);
                 alreadyPlayed = true;
                 do {
-                    Game newGame2 = new Game(secTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
-                    if (gamesDAO.getGame(newGame2.getHome(), newGame2.getAway()) == null) {
+                    Game newGame = new Game(secTeams.get(i).getName(), fillerTeams.get(opp).getName(), 4, 0, 0);
+                    if (gamesDAO.getGame(newGame.getHome(), newGame.getAway()) == null) {
                         gamesDAO.insert(newGame);
                         alreadyPlayed = false;
                     }
