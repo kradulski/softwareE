@@ -27,6 +27,7 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.PlayersDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.DatabaseHelper;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Players;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
@@ -349,6 +350,10 @@ public class ScheduleFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case DialogInterface.BUTTON_NEUTRAL:
+                            DatabaseHelper dh = new DatabaseHelper(getActivity(), database);
+                            dh.buildNewSeason();
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
                             dialog.dismiss();
                             break;
                     }
@@ -365,7 +370,7 @@ public class ScheduleFragment extends Fragment {
             builder.setTitle("Season Summary")
                     .setMessage(((nationalChampion + " (" + natWin + "-" + natLoss + ") won the National Championship, beating " +
                                     nationalLoser + " (" + natLoserWin + "-" + natLoserLoss + ") " + natWinnerScore + "-" +
-                                    natLoserScore + "\n\n" +
+                                    natLoserScore + ".\n\n" +
                             "Your team, " + stateDAO.getPlayerTeamString() + ", finished the season ranked #"
                             + Integer.toString(myTeamRank) + " with " + teamsDAO.getTeamByName(stateDAO.getPlayerTeamString()).getWins() +
                             " wins and " + teamsDAO.getTeamByName(stateDAO.getPlayerTeamString()).getLosses() + " losses.")))
@@ -455,7 +460,7 @@ public class ScheduleFragment extends Fragment {
 
         for (int i = 0; i < firstname.size(); ++i)
         {
-            int rating = seed.nextInt(prestige + 15 - (prestige - 15) + 1) + prestige - 15;
+            int rating = seed.nextInt(totalRating + prestige + 15 - (totalRating + prestige - 15) + 1) + totalRating + prestige - 15;
             if (rating >= 100)
                 rating = 99;
             playersDAO.insert(new Players(ids.get(i), rating, firstname.get(i), lastname.get(i), position.get(i), "FR"));
@@ -470,8 +475,9 @@ public class ScheduleFragment extends Fragment {
         {
             why[i] = graduates.getItem(i);
             why2[i] = newPlayers.getItem(i);
-            why3[i] = playersStaying.getItem(i);
         }
+        for (int i = 0; i < playersStaying.getCount(); ++i)
+            why3[i] = playersStaying.getItem(i);
 
         //update team talent based on new players
         List<Players> finalPlayers = playersDAO.getPlayers();
