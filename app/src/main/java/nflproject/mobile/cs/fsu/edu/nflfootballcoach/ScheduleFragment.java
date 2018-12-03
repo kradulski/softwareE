@@ -53,7 +53,7 @@ public class ScheduleFragment extends Fragment {
         }
     }
 
-    List<Team> getChampions()
+    void getChampions()
     {
         List<Team> atlantic = teamsDAO.getTeamsFromConferenceDivision("ACC", "Atlantic");
         List<Team> coastal = teamsDAO.getTeamsFromConferenceDivision("ACC", "Coastal");
@@ -64,21 +64,13 @@ public class ScheduleFragment extends Fragment {
         List<Team> EastSEC = teamsDAO.getTeamsFromConferenceDivision("SEC", "East");
         List<Team> WestSEC = teamsDAO.getTeamsFromConferenceDivision("SEC", "West");
 
-        List<Team> champions = new ArrayList<>();
-
-        champions.add(bestInDivision(atlantic));
-        champions.add(bestInDivision(coastal));
-        champions.add(bestInDivision(EastBigTen));
-        champions.add(bestInDivision(WestBigTen));
-        champions.add(bestInDivision(NorthPac));
-        champions.add(bestInDivision(SouthPac));
-        champions.add(bestInDivision(EastSEC));
-        champions.add(bestInDivision(WestSEC));
-
-        return champions;
+        gamesDAO.insert(new Game(bestInDivision(atlantic), bestInDivision(coastal), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(EastBigTen), bestInDivision(WestBigTen), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(NorthPac), bestInDivision(SouthPac), 14, 0, 0));
+        gamesDAO.insert(new Game(bestInDivision(EastSEC), bestInDivision(WestSEC), 14, 0, 0));
     }
 
-    Team bestInDivision(List<Team> t){
+    String bestInDivision(List<Team> t){
 
         int maxIndex = 0, maxWins = 0;
 
@@ -105,13 +97,13 @@ public class ScheduleFragment extends Fragment {
             for (int i = 0; i < t.size(); i++)
             {
                 if (teamRanks.get(i).getName().equals(t.get(maxIndex).getName()))
-                    return t.get(maxIndex);
+                    return t.get(maxIndex).getName();
                 if (teamRanks.get(i).getName().equals(t.get(max2Index).getName()))
-                    return t.get(max2Index);
+                    return t.get(max2Index).getName();
             }
         }
 
-        return t.get(maxIndex);
+        return t.get(maxIndex).getName();
     }
 
     void playWeekGames()
@@ -265,17 +257,11 @@ public class ScheduleFragment extends Fragment {
 
                 teamsDAO.update(homeTeam);
                 teamsDAO.update(awayTeam);
-
             }
         }
         int theWeek = temp.get(0).getWeek() + 1;
         temp.get(0).setWeek(theWeek);
         stateDAO.update(temp.get(0));
-
-        if (theWeek == 14)
-        {
-            
-        }
     }
 
     //Write this and pass res to the function: Resources res = getResources();
