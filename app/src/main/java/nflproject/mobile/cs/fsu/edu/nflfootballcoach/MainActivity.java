@@ -38,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final DatabaseHelper dh = new DatabaseHelper(this, database);
+
         //populates database with initial data on first run of app
         SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
         if (isFirstRun) {
-            DatabaseHelper dh = new DatabaseHelper(this, database);
             dh.populateDatabase();
-            dh.newGame();
+            dh.newGame("");
             SharedPreferences.Editor editor = wmbPreference.edit();
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent;
                 StateDAO stateDAO = database.getStateDAO();
-                List<State> theState = stateDAO.getPlayerTeam();
-                if (theState.get(0).getNewGame() == 0)
+                final State theState = stateDAO.getState();
+                if (theState.getNewGame() == 0)
                 {
                     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
                         @Override
@@ -65,11 +66,10 @@ public class MainActivity extends AppCompatActivity {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     /* UPDATE MODE TO CHALLENGE */
-                                    AppDatabase database = AppDatabase.getInstance(MainActivity.this);
                                     StateDAO stateDAO = database.getStateDAO();
-                                    List<State> temp = stateDAO.getPlayerTeam();
-                                    temp.get(0).setDifficulty("hard");
-                                    stateDAO.update(temp.get(0));
+                                    State temp = stateDAO.getState();
+                                    temp.setDifficulty("hard");
+                                    stateDAO.update(theState);
                                     Intent myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
                                     startActivity(myIntent);
                                     break;
@@ -114,21 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                StateDAO stateDAO = database.getStateDAO();
-                                stateDAO.deleteAll();
-                                stateDAO.insert(new State("", 0, 0, 0, 2018, 1, ""));
-                                List<Team> everyTeam = teamsDAO.getEveryTeam();
-                                for (int i = 0; i < everyTeam.size(); ++i)
-                                {
-                                    Team individual = everyTeam.get(i);
-                                    individual.setWins(0);
-                                    individual.setLosses(0);
-                                    individual.setConLosses(0);
-                                    individual.setConWins(0);
-                                    teamsDAO.update(individual);
-                                }
-                                //populateTeams();
-                                //populateGames();
+                                dh.reset();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 dialog.dismiss();

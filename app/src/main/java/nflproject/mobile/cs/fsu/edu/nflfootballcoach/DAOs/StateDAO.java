@@ -43,4 +43,7 @@ public interface StateDAO {
     @Query("DELETE FROM State")
     public void deleteGame();
 
+    @Query("SELECT * FROM state")
+    public State getState();
+
 }
