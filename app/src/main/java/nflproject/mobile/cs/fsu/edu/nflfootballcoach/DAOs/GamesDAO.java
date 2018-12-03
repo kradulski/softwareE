@@ -42,4 +42,8 @@ public interface GamesDAO {
     @Query("SELECT COUNT(*) FROM games WHERE week = :week")
     public int getNumGamesInWeek(int week);
 
+    //delete all games
+    @Query("DELETE FROM games")
+    public void deleteAllGames();
+
 }

@@ -1,14 +1,6 @@
-package nflproject.mobile.cs.fsu.edu.nflfootballcoach;
+package nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.content.Context;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,146 +9,44 @@ import java.util.Random;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.GamesDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.StateDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.DatabaseHelper;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
 
+public class DatabaseHelper {
 
-public class MainActivity extends AppCompatActivity {
+    AppDatabase database;
 
-    AppDatabase database = AppDatabase.getInstance(this);
-    GamesDAO gamesDAO = database.getGamesDAO();
-    TeamsDAO teamsDAO = database.getTeamsDAO();
-    StateDAO stateDAO = database.getStateDAO();
+    Context mContext;
 
-    Random rand = new Random();  //random number generation needed in some places
+    TeamsDAO teamsDAO;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    GamesDAO gamesDAO;
 
-        //populates database with initial data on first run of app
-        SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-        if (isFirstRun) {
-            DatabaseHelper dh = new DatabaseHelper(this, database);
-            dh.populateDatabase(); 
-            dh.newGame();
-            SharedPreferences.Editor editor = wmbPreference.edit();
-            editor.putBoolean("FIRSTRUN", false);
-            editor.commit();
-        }
+    StateDAO stateDAO;
 
-        Button playGameButton = findViewById(R.id.play_game_button);
-        playGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent;
-                StateDAO stateDAO = database.getStateDAO();
-                List<State> theState = stateDAO.getPlayerTeam();
-                if (theState.get(0).getNewGame() == 0)
-                {
-                    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case DialogInterface.BUTTON_POSITIVE:
-                                    /* UPDATE MODE TO CHALLENGE */
-                                    AppDatabase database = AppDatabase.getInstance(MainActivity.this);
-                                    StateDAO stateDAO = database.getStateDAO();
-                                    List<State> temp = stateDAO.getPlayerTeam();
-                                    temp.get(0).setDifficulty("hard");
-                                    stateDAO.update(temp.get(0));
-                                    Intent myIntent = new Intent(MainActivity.this, TeamSelectActivity.class);
-                                    startActivity(myIntent);
-                                    break;
-                                case DialogInterface.BUTTON_NEGATIVE:
-                                    /* KEEP MODE AT NORMAL */
-                                    Intent myIntent2 = new Intent(MainActivity.this, TeamSelectActivity.class);
-                                    startActivity(myIntent2);
-                                    break;
-                            }
-                        }
-                    };
+    Random rand = new Random();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Mode")
-                            .setMessage("Would you like to play in Normal Mode or Challenge Mode? Games in Challenge Mode will be more difficult to win.")
-                            .setPositiveButton("Challenge", dialogListener)
-                            .setNegativeButton("Normal", dialogListener).show();
-                }
-                else {
-                    myIntent = new Intent(MainActivity.this, PlayGameActivity.class);
-                    startActivity(myIntent);
-                }
-            }
-        });
-
-        Button howToPlayButton = findViewById(R.id.how_to_button);
-        howToPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(MainActivity.this, HowToPlayActivity.class);
-                startActivity(myIntent);
-            }
-        });
-
-        Button resetButton = findViewById(R.id.reset_button);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /* Code for resetting database and resetting user information goes here */
-                DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                StateDAO stateDAO = database.getStateDAO();
-                                stateDAO.deleteAll();
-                                stateDAO.insert(new State("", 0, 0, 0, 2018, 1, ""));
-                                List<Team> everyTeam = teamsDAO.getEveryTeam();
-                                for (int i = 0; i < everyTeam.size(); ++i)
-                                {
-                                    Team individual = everyTeam.get(i);
-                                    individual.setWins(0);
-                                    individual.setLosses(0);
-                                    individual.setConLosses(0);
-                                    individual.setConWins(0);
-                                    teamsDAO.update(individual);
-                                }
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                dialog.dismiss();
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Reset Game?")
-                        .setMessage("Are you sure you want to reset all data? This cannot be undone.")
-                        .setPositiveButton("Yes", dialogListener)
-                        .setNegativeButton("No", dialogListener).show();
-            }
-        });
-
-        this.setTitle("College Football Coach");
+    public DatabaseHelper(Context context, AppDatabase database){
+        this.database = database;
+        this.mContext = context;
+        this.teamsDAO = database.getTeamsDAO();
+        this.gamesDAO = database.getGamesDAO();
+        this.stateDAO = database.getStateDAO();
     }
 
-    //insert all data into database
-    public void populateDatabase()
-    {
-        DatabaseHelper dh = new DatabaseHelper(this, database);
-        dh.populateTeams();
-        dh.populateGames();
+    public void reset(){
+        deleteGame();
+        gamesDAO.deleteAllGames();
+        populateDatabase();
     }
 
-    //insert teams into database
-    public void populateTeams()
-    {
+    public void populateDatabase(){
+        populateTeams();
+        populateGames();
+    }
+
+    public void populateTeams() {
         teamsDAO.insert(new Team("Boston College", "BC","ACC", "Atlantic", 0, 0,
                 0, 0, 76, 85, 38));
         teamsDAO.insert(new Team("Clemson", "CLEM","ACC", "Atlantic", 0,0,
@@ -238,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 0,0,83,94,1271));
 
         teamsDAO.insert(new Team("California", "CAL","Pac-12", "North", 0,0,
-        0,0,74,79,0));
+                0,0,74,79,0));
         teamsDAO.insert(new Team("Oregon", "ORE","Pac-12", "North", 0,0,
                 0,0,76,81,312));
         teamsDAO.insert(new Team("Oregon State", "ORST","Pac-12", "North", 0,0,
@@ -322,21 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 0,0,60,60,0));
     }
 
-
-
-    //Don't worry about anything below here for now
-
-    //All teams: Play 12 games
-    //ACC: 4 OOC, 2 intraconference(from other division), 6 divisional
-    //Big 12: 3 OOC, 9 conference
-    //Big 10: 3 OOC, 3 intraconference, 6 divisional
-    //Pac-12: 3 OOC, 3 intraconference, 6 divisional
-    //SEC: 4 OOC, 2 intraconference, 6 divisional
-
-    //insert games into database
-    public void populateGames()
-    {
-        //generates week 1-3 OOC games
+    public void populateGames(){
         oocGameGeneration();    //generates the OOC games
         accGameGeneration();    //generates ACC games
         big12GameGeneration();  //generates Big 12 games
@@ -345,8 +221,7 @@ public class MainActivity extends AppCompatActivity {
         pac12GameGeneration();  //generates Pac 12 games
     }
 
-    public void oocGameGeneration()
-    {
+    public void oocGameGeneration(){
         List<Team> allTeams = teamsDAO.getTeams();             //the real teams
         List<Team> fillerTeams = teamsDAO.getFillerTeams();    //not the real teams
 
@@ -456,11 +331,264 @@ public class MainActivity extends AppCompatActivity {
             else
                 gamesDAO.insert(new Game(home, away, 4,0,0));
         }
-
     }
 
-    public void pac12GameGeneration()
-    {
+    public void accGameGeneration(){
+        //get teams from both divisions
+        List<Team> accAtlTeams = teamsDAO.getTeamsByDivision("Atlantic");
+        List<Team> accCoastalTeams = teamsDAO.getTeamsByDivision("Coastal");
+
+        //randomize team order
+        Collections.shuffle(accAtlTeams);
+        Collections.shuffle(accCoastalTeams);
+
+        //generate interdivisional games
+        for(int i = 0; i<accAtlTeams.size(); i++)
+            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 5,
+                    0,0));
+
+        Collections.rotate(accAtlTeams,1);
+
+        //generate interdivisional games again
+        for(int i = 0; i<accAtlTeams.size(); i++)
+        {
+            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 13,
+                    0,0));
+        }
+
+        //generate divisional games using round robin algorithm
+        String home, away;
+        for (int wk = 6; wk <= 12; wk++)
+        {
+            int i = 0;
+            int j = accAtlTeams.size() - 1;
+
+            while(i != j)
+            {
+                if (wk % 2 == 0) {
+                    home = accAtlTeams.get(j).getName();
+                    away = accAtlTeams.get(i).getName();
+                }
+                else {
+                    home = accAtlTeams.get(i).getName();
+                    away = accAtlTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                if (wk % 2 == 0) {
+                    home = accCoastalTeams.get(j).getName();
+                    away = accCoastalTeams.get(i).getName();
+                }
+                else {
+                    home = accCoastalTeams.get(i).getName();
+                    away = accCoastalTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                i++;
+                j--;
+            }
+            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), "BYE", wk, 0,0));
+            gamesDAO.insert(new Game(accCoastalTeams.get(i).getName(), "BYE", wk, 0,0));
+
+            Collections.rotate(accAtlTeams, 1);
+            Collections.rotate(accCoastalTeams, 1);
+        }
+    }
+
+    public void big12GameGeneration(){
+        List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
+
+        Collections.shuffle(big12Teams);
+
+        Team finalTeam = big12Teams.get(big12Teams.size() - 1);
+
+        String home, away;
+        for(int wk = 4; wk<=13; wk++)
+        {
+            int i = 0;
+            int j = big12Teams.size() - 1;
+
+            while(i < j)
+            {
+                if(wk % 7 == 0)
+                {
+                    for(int k = 0; k < big12Teams.size(); k++)
+                        gamesDAO.insert(new Game(big12Teams.get(k).getName(), "BYE", wk, 0,0));
+                }
+                else
+                {
+                    if (wk % 2 == 0)
+                    {
+                        home = big12Teams.get(j).getName();
+                        away = big12Teams.get(i).getName();
+                    }
+                    else
+                    {
+                        home = big12Teams.get(i).getName();
+                        away = big12Teams.get(j).getName();
+                    }
+                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
+                }
+                i++;
+                j--;
+            }
+
+            if(wk % 7 != 0) {
+                big12Teams.remove(big12Teams.size() - 1);
+                Collections.rotate(big12Teams, 1);
+                big12Teams.add(finalTeam);
+            }
+        }
+    }
+
+    public void secGameGeneration(){
+        //get teams from both divisions
+        List<Team> secEastTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","East");
+        List<Team> secWestTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","West");
+
+        //randomize team order
+        Collections.shuffle(secEastTeams);
+        Collections.shuffle(secWestTeams);
+
+        //generate interdivisional games
+        for(int i = 0; i<secEastTeams.size(); i++)
+            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), secWestTeams.get(i).getName(), 5,
+                    0,0));
+
+        Collections.rotate(secEastTeams,1);
+
+        //generate interdivisional games again
+        for(int i = 0; i<secEastTeams.size(); i++)
+        {
+            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), secEastTeams.get(i).getName(), 13,
+                    0,0));
+        }
+
+        //generate divisional games using round robin algorithm
+        String home, away;
+        for (int wk = 6; wk <= 12; wk++)
+        {
+            int i = 0;
+            int j = secEastTeams.size() - 1;
+
+            while(i != j)
+            {
+                if (wk % 2 == 0) {
+                    home = secEastTeams.get(j).getName();
+                    away = secEastTeams.get(i).getName();
+                }
+                else {
+                    home = secEastTeams.get(i).getName();
+                    away = secEastTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                if (wk % 2 == 0) {
+                    home = secWestTeams.get(j).getName();
+                    away = secWestTeams.get(i).getName();
+                }
+                else {
+                    home = secWestTeams.get(i).getName();
+                    away = secWestTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                i++;
+                j--;
+            }
+            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), "BYE", wk, 0,0));
+            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), "BYE", wk, 0,0));
+
+            Collections.rotate(secEastTeams, 1);
+            Collections.rotate(secWestTeams, 1);
+        }
+    }
+
+    public void big10GameGeneration(){
+        //get teams from both divisions
+        List<Team> big10EastTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten","East");
+        List<Team> big10WestTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten", "West");
+
+        //randomize team order
+        Collections.shuffle(big10EastTeams);
+        Collections.shuffle(big10WestTeams);
+
+        int rVar = rand.nextInt(2);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 4,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 4,
+                        0, 0));
+        }
+        Collections.rotate(big10EastTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 5,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 5,
+                        0, 0));
+        }
+        Collections.rotate(big10EastTeams,1);
+
+        //generate interdivisional games
+        for(int i = 0; i<big10EastTeams.size(); i++) {
+            if(rVar == 0)
+                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 13,
+                        0, 0));
+            else
+                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 13,
+                        0, 0));
+        }
+
+        //generate divisional games using round robin algorithm
+        String home, away;
+        for (int wk = 6; wk <= 12; wk++)
+        {
+            int i = 0;
+            int j = big10EastTeams.size() - 1;
+
+            while(i != j)
+            {
+                if (wk % 2 == 0) {
+                    home = big10EastTeams.get(j).getName();
+                    away = big10EastTeams.get(i).getName();
+                }
+                else {
+                    home = big10EastTeams.get(i).getName();
+                    away = big10EastTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                if (wk % 2 == 0) {
+                    home = big10WestTeams.get(j).getName();
+                    away = big10WestTeams.get(i).getName();
+                }
+                else {
+                    home = big10WestTeams.get(i).getName();
+                    away = big10WestTeams.get(j).getName();
+                }
+                gamesDAO.insert(new Game(home, away, wk, 0, 0));
+
+                i++;
+                j--;
+            }
+            gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), "BYE", wk, 0,0));
+            gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), "BYE", wk, 0,0));
+
+            Collections.rotate(big10EastTeams, 1);
+            Collections.rotate(big10WestTeams, 1);
+        }
+    }
+
+    public void pac12GameGeneration() {
         List<Team> pac12NorthTeams = teamsDAO.getTeamsFromConferenceDivision("Pac-12", "North");
         List<Team> pac12SouthTeams = teamsDAO.getTeamsFromConferenceDivision("Pac-12", "South");
 
@@ -553,262 +681,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void big10GameGeneration()
-    {
-        //get teams from both divisions
-        List<Team> big10EastTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten","East");
-        List<Team> big10WestTeams = teamsDAO.getTeamsFromConferenceDivision("Big Ten", "West");
-
-        //randomize team order
-        Collections.shuffle(big10EastTeams);
-        Collections.shuffle(big10WestTeams);
-
-        int rVar = rand.nextInt(2);
-
-        //generate interdivisional games
-        for(int i = 0; i<big10EastTeams.size(); i++) {
-            if(rVar == 0)
-                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 4,
-                        0, 0));
-            else
-                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 4,
-                        0, 0));
-        }
-        Collections.rotate(big10EastTeams,1);
-
-        //generate interdivisional games
-        for(int i = 0; i<big10EastTeams.size(); i++) {
-            if(rVar == 0)
-                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 5,
-                        0, 0));
-            else
-                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 5,
-                        0, 0));
-        }
-        Collections.rotate(big10EastTeams,1);
-
-        //generate interdivisional games
-        for(int i = 0; i<big10EastTeams.size(); i++) {
-            if(rVar == 0)
-                gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), big10WestTeams.get(i).getName(), 13,
-                        0, 0));
-            else
-                gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), big10EastTeams.get(i).getName(), 13,
-                        0, 0));
-        }
-
-        //generate divisional games using round robin algorithm
-        String home, away;
-        for (int wk = 6; wk <= 12; wk++)
-        {
-            int i = 0;
-            int j = big10EastTeams.size() - 1;
-
-            while(i != j)
-            {
-                if (wk % 2 == 0) {
-                    home = big10EastTeams.get(j).getName();
-                    away = big10EastTeams.get(i).getName();
-                }
-                else {
-                    home = big10EastTeams.get(i).getName();
-                    away = big10EastTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                if (wk % 2 == 0) {
-                    home = big10WestTeams.get(j).getName();
-                    away = big10WestTeams.get(i).getName();
-                }
-                else {
-                    home = big10WestTeams.get(i).getName();
-                    away = big10WestTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                i++;
-                j--;
-            }
-            gamesDAO.insert(new Game(big10EastTeams.get(i).getName(), "BYE", wk, 0,0));
-            gamesDAO.insert(new Game(big10WestTeams.get(i).getName(), "BYE", wk, 0,0));
-
-            Collections.rotate(big10EastTeams, 1);
-            Collections.rotate(big10WestTeams, 1);
-        }
+    public void deleteGame(){
+        stateDAO.deleteGame();
     }
 
-    public void secGameGeneration()
-    {
-        //get teams from both divisions
-        List<Team> secEastTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","East");
-        List<Team> secWestTeams = teamsDAO.getTeamsFromConferenceDivision("SEC","West");
-
-        //randomize team order
-        Collections.shuffle(secEastTeams);
-        Collections.shuffle(secWestTeams);
-
-        //generate interdivisional games
-        for(int i = 0; i<secEastTeams.size(); i++)
-            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), secWestTeams.get(i).getName(), 5,
-                    0,0));
-
-        Collections.rotate(secEastTeams,1);
-
-        //generate interdivisional games again
-        for(int i = 0; i<secEastTeams.size(); i++)
-        {
-            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), secEastTeams.get(i).getName(), 13,
-                    0,0));
-        }
-
-        //generate divisional games using round robin algorithm
-        String home, away;
-        for (int wk = 6; wk <= 12; wk++)
-        {
-            int i = 0;
-            int j = secEastTeams.size() - 1;
-
-            while(i != j)
-            {
-                if (wk % 2 == 0) {
-                    home = secEastTeams.get(j).getName();
-                    away = secEastTeams.get(i).getName();
-                }
-                else {
-                    home = secEastTeams.get(i).getName();
-                    away = secEastTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                if (wk % 2 == 0) {
-                    home = secWestTeams.get(j).getName();
-                    away = secWestTeams.get(i).getName();
-                }
-                else {
-                    home = secWestTeams.get(i).getName();
-                    away = secWestTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                i++;
-                j--;
-            }
-            gamesDAO.insert(new Game(secEastTeams.get(i).getName(), "BYE", wk, 0,0));
-            gamesDAO.insert(new Game(secWestTeams.get(i).getName(), "BYE", wk, 0,0));
-
-            Collections.rotate(secEastTeams, 1);
-            Collections.rotate(secWestTeams, 1);
-        }
+    public void newGame(){
+        stateDAO.insert(new State("", 0, 0, 0, 2018, 1, ""));
     }
 
-    public void big12GameGeneration(){
-        List<Team> big12Teams = teamsDAO.getTeamsFromConference("Big 12");
-
-        Collections.shuffle(big12Teams);
-
-        Team finalTeam = big12Teams.get(big12Teams.size() - 1);
-
-        String home, away;
-        for(int wk = 4; wk<=13; wk++)
-        {
-            int i = 0;
-            int j = big12Teams.size() - 1;
-
-            while(i < j)
-            {
-                if(wk % 7 == 0)
-                {
-                    for(int k = 0; k < big12Teams.size(); k++)
-                        gamesDAO.insert(new Game(big12Teams.get(k).getName(), "BYE", wk, 0,0));
-                }
-                else
-                {
-                    if (wk % 2 == 0)
-                    {
-                        home = big12Teams.get(j).getName();
-                        away = big12Teams.get(i).getName();
-                    }
-                    else
-                    {
-                        home = big12Teams.get(i).getName();
-                        away = big12Teams.get(j).getName();
-                    }
-                    gamesDAO.insert(new Game(home, away, wk, 0, 0));
-                }
-                i++;
-                j--;
-            }
-
-            if(wk % 7 != 0) {
-                big12Teams.remove(big12Teams.size() - 1);
-                Collections.rotate(big12Teams, 1);
-                big12Teams.add(finalTeam);
-            }
-        }
-    }
-
-
-    public void accGameGeneration() {
-        //get teams from both divisions
-        List<Team> accAtlTeams = teamsDAO.getTeamsByDivision("Atlantic");
-        List<Team> accCoastalTeams = teamsDAO.getTeamsByDivision("Coastal");
-
-        //randomize team order
-        Collections.shuffle(accAtlTeams);
-        Collections.shuffle(accCoastalTeams);
-
-        //generate interdivisional games
-        for(int i = 0; i<accAtlTeams.size(); i++)
-            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 5,
-                    0,0));
-
-        Collections.rotate(accAtlTeams,1);
-
-        //generate interdivisional games again
-        for(int i = 0; i<accAtlTeams.size(); i++)
-        {
-            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), accCoastalTeams.get(i).getName(), 13,
-                    0,0));
-        }
-
-        //generate divisional games using round robin algorithm
-        String home, away;
-        for (int wk = 6; wk <= 12; wk++)
-        {
-            int i = 0;
-            int j = accAtlTeams.size() - 1;
-
-            while(i != j)
-            {
-                if (wk % 2 == 0) {
-                    home = accAtlTeams.get(j).getName();
-                    away = accAtlTeams.get(i).getName();
-                }
-                else {
-                    home = accAtlTeams.get(i).getName();
-                    away = accAtlTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                if (wk % 2 == 0) {
-                    home = accCoastalTeams.get(j).getName();
-                    away = accCoastalTeams.get(i).getName();
-                }
-                else {
-                    home = accCoastalTeams.get(i).getName();
-                    away = accCoastalTeams.get(j).getName();
-                }
-                gamesDAO.insert(new Game(home, away, wk, 0, 0));
-
-                i++;
-                j--;
-            }
-            gamesDAO.insert(new Game(accAtlTeams.get(i).getName(), "BYE", wk, 0,0));
-            gamesDAO.insert(new Game(accCoastalTeams.get(i).getName(), "BYE", wk, 0,0));
-
-            Collections.rotate(accAtlTeams, 1);
-            Collections.rotate(accCoastalTeams, 1);
-        }
-    }
-    
 }
