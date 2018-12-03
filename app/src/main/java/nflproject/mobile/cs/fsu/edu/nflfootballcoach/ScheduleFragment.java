@@ -41,6 +41,8 @@ public class ScheduleFragment extends Fragment {
     TeamsDAO teamsDAO = database.getTeamsDAO();
     Button play;
 
+
+
     void resetWL()
     {
         List<Team> everyTeam = teamsDAO.getEveryTeam();
@@ -367,6 +369,10 @@ public class ScheduleFragment extends Fragment {
                 new Thread() {
                     @Override
                     public void run() {
+                        if (stateDAO.getWeek() == 14)
+                        {
+                               
+                        }
                         playWeekGames();
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();

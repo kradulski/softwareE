@@ -36,6 +36,9 @@ public interface StateDAO {
     @Query("DELETE FROM State")
     void deleteAll();
 
+    @Query("SELECT week FROM State")
+    public int getWeek();
+
     //delete state
     @Query("DELETE FROM State")
     public void deleteGame();
