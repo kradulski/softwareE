@@ -41,9 +41,9 @@ public class ScheduleListAdapter extends ArrayAdapter<scheduleRow> {
         oppText.setText(opponent);
         resText.setText(result);
         if(result.matches("W.*"))
-            resText.setTextColor(Color.parseColor("#0ED15C"));
+            resText.setBackgroundColor(Color.parseColor("#0ED15C"));
         else if(result.matches("L.*"))
-            resText.setTextColor(Color.parseColor("#D10E0E"));
+            resText.setBackgroundColor(Color.parseColor("#D10E0E"));
 
         return convertView;
 
