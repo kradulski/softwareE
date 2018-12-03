@@ -57,6 +57,21 @@ public class DatabaseHelper {
         state.setWeek(1);
         state.setYear(state.getYear() + 1);
         stateDAO.update(state);
+
+        List<Team> teams = teamsDAO.getEveryTeam();
+
+        for(int i = 0; i<teams.size(); i++)
+        {
+            Team tm = teams.get(i);
+            tm.setWins(0);
+            tm.setLosses(0);
+            tm.setConWins(0);
+            tm.setConLosses(0);
+            teamsDAO.update(tm);
+        }
+
+        gamesDAO.deleteAllGames();
+        populateGames();
     }
 
     public void reset(){
