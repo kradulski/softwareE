@@ -132,6 +132,14 @@ public class ScheduleFragment extends Fragment {
         List<Game> games = gamesDAO.getGamesOfWeek(temp.get(0).getWeek());
         String number1 = "";
         String number2 = "";
+        String nationalChampion = "";
+        int natWin = 0;
+        int natLoss = 0;
+        String nationalLoser = "";
+        int natLoserWin = 0;
+        int natLoserLoss = 0;
+        int natWinnerScore = 0;
+        int natLoserScore = 0;
         int tempcount = 0;
         for (int j = 0; j < games.size(); ++j) {
             if (!games.get(j).getAway().equals("BYE")) {
@@ -241,6 +249,30 @@ public class ScheduleFragment extends Fragment {
                 //New team rankings
                 int newVotesHome = 0;
                 int newVotesAway = 0;
+                if (temp.get(0).getWeek() == 16)
+                {
+                    if (homeScore >= awayScore)
+                    {
+                        nationalChampion = games.get(j).getHome();
+                        natWin = teamsDAO.getTeamByName(games.get(j).getHome()).getWins();
+                        natLoss = teamsDAO.getTeamByName(games.get(j).getHome()).getLosses();
+                        nationalLoser = games.get(j).getAway();
+                        natLoserWin = teamsDAO.getTeamByName(games.get(j).getAway()).getWins();
+                        natLoserLoss = teamsDAO.getTeamByName(games.get(j).getAway()).getLosses();
+                        natWinnerScore = homeScore;
+                        natLoserScore = awayScore;
+                    }
+                    else {
+                        nationalChampion = games.get(j).getAway();
+                        natWin = teamsDAO.getTeamByName(games.get(j).getAway()).getWins();
+                        natLoss = teamsDAO.getTeamByName(games.get(j).getAway()).getLosses();
+                        nationalLoser = games.get(j).getHome();
+                        natLoserWin = teamsDAO.getTeamByName(games.get(j).getHome()).getWins();
+                        natLoserLoss = teamsDAO.getTeamByName(games.get(j).getHome()).getLosses();
+                        natWinnerScore = awayScore;
+                        natLoserScore = homeScore;
+                    }
+                }
                 if (temp.get(0).getWeek() == 15 && tempcount == 0)
                 {
                     if (homeScore >= awayScore)
@@ -312,7 +344,32 @@ public class ScheduleFragment extends Fragment {
         stateDAO.update(temp.get(0));
         if (temp.get(0).getWeek() == 17)
         {
-            
+            DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_NEUTRAL:
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            };
+            List<Team> teamRanks = teamsDAO.getAllRankings();
+            int myTeamRank = 0;
+            for (int i = 0; i < teamRanks.size(); ++i)
+            {
+                if (teamRanks.get(i).getName().equals(stateDAO.getPlayerTeamString()))
+                    myTeamRank = i + 1;
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Season Summary")
+                    .setMessage(((nationalChampion + " (" + natWin + "-" + natLoss + ") won the National Championship, beating " +
+                                    nationalLoser + " (" + natLoserWin + "-" + natLoserLoss + ") " + natWinnerScore + "-" +
+                                    natLoserScore + "\n\n" +
+                            "Your team, " + stateDAO.getPlayerTeamString() + ", finished the season ranked #"
+                            + Integer.toString(myTeamRank) + " with " + teamsDAO.getTeamByName(stateDAO.getPlayerTeamString()).getWins() +
+                            " wins and " + teamsDAO.getTeamByName(stateDAO.getPlayerTeamString()).getLosses() + " losses.")))
+                    .setNeutralButton("Dismiss", dialogListener).show();
         }
     }
 
@@ -466,7 +523,15 @@ public class ScheduleFragment extends Fragment {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread() {
+                playWeekGames();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(ScheduleFragment.this).attach(ScheduleFragment.this).commit();
+                if (stateDAO.getWeek() == 17)
+                {
+                    Resources res = getResources();
+                    leavingPlayers(view, res);
+                }
+                /*new Thread() {
                     @Override
                     public void run() {
                         playWeekGames();
@@ -484,7 +549,7 @@ public class ScheduleFragment extends Fragment {
                             Log.i("---","Exception in thread");
                         }
                     }
-                }.start();
+                }.start();*/
             }
         });
 
