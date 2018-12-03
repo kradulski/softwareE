@@ -53,10 +53,10 @@ public class State {
     public void setPlayerTeam(String playerTeam) { this.playerTeam = playerTeam; }
 
     public  int getYear() {return year;}
-    public  void setYear() {this.year = year;}
+    public  void setYear(int year) {this.year = year;}
 
     public  int getNewGame() {return newGame;}
-    public  void setNewGame() {this.newGame = newGame;}
+    public  void setNewGame(int newGame) {this.newGame = newGame;}
 
     public  int getCareerWins() {return careerWins;}
     public  void setCareerWins(int careerWins) {this.careerWins = careerWins;}
