@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class RankingsFragment extends Fragment {
         List<Team> theRankingsList = teamsDAO.getRankings();
         String[] theRankings = new String[25];
 
+        Toast.makeText(getActivity(), "Week 1: " + database.getGamesDAO().getNumGamesInWeek(1) + "\nWeek 5: " + database.getGamesDAO().getNumGamesInWeek(5), Toast.LENGTH_SHORT).show();
+        
         for (int i = 0; i < 25; ++i)
         {
             Team team = theRankingsList.get(i);

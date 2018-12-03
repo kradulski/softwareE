@@ -66,6 +66,8 @@ public class ScheduleFragment extends Fragment {
             if (!games.get(j).getAway().equals("BYE")) {
                 Team homeTeam = teamsDAO.getTeamByName(games.get(j).getHome());
                 Team awayTeam = teamsDAO.getTeamByName(games.get(j).getAway());
+
+                //game generation
                 Random seed = new Random();
                 int drives = 10 + seed.nextInt(4) - 2;
                 int homeOffense = homeTeam.getOffRating();
@@ -106,7 +108,11 @@ public class ScheduleFragment extends Fragment {
                     else if (tempAO > tempHD)
                         awayScore += 3;
                 }
+
+                //determining
                 if (homeScore >= awayScore) {
+                    if(homeScore == awayScore)
+                        homeScore += 3;
                     int win = homeTeam.getWins() + 1;
                     homeTeam.setWins(win);
                     int loss = awayTeam.getLosses() + 1;

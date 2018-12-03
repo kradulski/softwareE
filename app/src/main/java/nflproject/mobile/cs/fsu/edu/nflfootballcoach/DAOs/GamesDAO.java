@@ -38,4 +38,8 @@ public interface GamesDAO {
     @Query("SELECT * FROM games WHERE home = :home AND away = :away")
     public Game getGame(String home,String away);
 
+    //get number of games in each week
+    @Query("SELECT COUNT(*) FROM games WHERE week = :week")
+    public int getNumGamesInWeek(int week);
+
 }
