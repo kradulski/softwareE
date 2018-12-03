@@ -10,11 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.Database.AppDatabase;
-import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 
 public class ScheduleListAdapter extends ArrayAdapter<scheduleRow> {
 
@@ -46,9 +41,9 @@ public class ScheduleListAdapter extends ArrayAdapter<scheduleRow> {
         oppText.setText(opponent);
         resText.setText(result);
         if(result.matches("W.*"))
-            resText.setBackgroundColor(Color.parseColor("#ADFF2F"));
+            resText.setBackgroundColor(Color.parseColor("#0ED15C"));
         else if(result.matches("L.*"))
-            resText.setBackgroundColor(Color.parseColor("#B22222"));
+            resText.setBackgroundColor(Color.parseColor("#D10E0E"));
 
 
         return convertView;
