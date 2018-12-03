@@ -381,11 +381,19 @@ public class ScheduleFragment extends Fragment {
                 home = false;
             }
 
-            if (gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && home) {
+            if (gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && home ||
+                    gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && !home) {
                 entry.setResult("W " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
             }
-            else if(gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && !home) {
+            else if(gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && !home) {
+                entry.setResult("W " + gameList.get(i).getAwayScore() + "-" + gameList.get(i).getHomeScore());
+            }
+            else if(gameList.get(i).getHomeScore() > gameList.get(i).getAwayScore() && !home ||
+                    gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && home) {
                 entry.setResult("L " + gameList.get(i).getHomeScore() + "-" + gameList.get(i).getAwayScore());
+            }
+            else if(gameList.get(i).getHomeScore() < gameList.get(i).getAwayScore() && home){
+                entry.setResult("L " + gameList.get(i).getAwayScore() + "-" + gameList.get(i).getHomeScore());
             }
             else
                 entry.setResult("");

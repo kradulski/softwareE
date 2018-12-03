@@ -50,6 +50,7 @@ public class ScheduleListAdapter extends ArrayAdapter<scheduleRow> {
         else if(result.matches("L.*"))
             resText.setBackgroundColor(Color.parseColor("#B22222"));
 
+
         return convertView;
 
     }
