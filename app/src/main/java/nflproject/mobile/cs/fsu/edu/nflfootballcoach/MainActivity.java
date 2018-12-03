@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                 away = secTeams.get(i).getName();
             }
             else{
-                home = accTeams.get(i).getName();
+                home = secTeams.get(i).getName();
                 away = accTeams.get(i).getName();
             }
 
