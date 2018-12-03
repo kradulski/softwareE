@@ -524,11 +524,10 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         TextView week = view.findViewById(R.id.weekDisplay);
-        StateDAO stateDAO = database.getStateDAO();
         State s = stateDAO.getState();
         int tempWeek = s.getWeek();
         int tempYear = s.getYear();
-        String temp = Integer.toString(tempYear) + " Season, Week " + Integer.toString(tempYear);
+        String temp = Integer.toString(tempYear) + " Season, Week " + Integer.toString(tempWeek);
         week.setText(temp);
 
         ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
