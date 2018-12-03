@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -408,6 +409,13 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
+        TextView week = view.findViewById(R.id.weekDisplay);
+        StateDAO stateDAO = database.getStateDAO();
+        State s = stateDAO.getState();
+        int tempWeek = s.getWeek();
+        int tempYear = s.getYear();
+        String temp = Integer.toString(tempYear) + " Season, Week " + Integer.toString(tempYear);
+        week.setText(temp);
 
         ListView schedule = (ListView) view.findViewById(R.id.scheduleList);
         play = view.findViewById(R.id.play_week_btn);
