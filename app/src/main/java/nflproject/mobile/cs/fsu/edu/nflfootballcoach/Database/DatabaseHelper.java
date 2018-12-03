@@ -12,6 +12,23 @@ import nflproject.mobile.cs.fsu.edu.nflfootballcoach.DAOs.TeamsDAO;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Game;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.State;
 import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.Team;
+import nflproject.mobile.cs.fsu.edu.nflfootballcoach.models.oldTeam;
+
+/*for populating database on first run:
+    -populate Teams
+    -populate Games
+    -populate oldTeams for backup
+    -new state
+    HANDLED WITH populateDatabase()
+*/
+
+/*for reset
+    -delete all games, populateGames()
+    -update teams to original
+    -populateGames()
+    -delete state
+    -HANDLED WITH reset()
+ */
 
 public class DatabaseHelper {
 
@@ -35,10 +52,26 @@ public class DatabaseHelper {
         this.stateDAO = database.getStateDAO();
     }
 
+    public void buildNewSeason(){
+        State state = stateDAO.getState();
+        state.setWeek(1);
+        state.setYear(state.getYear() + 1);
+        stateDAO.update(state);
+    }
+
     public void reset(){
-        deleteGame();
+        stateDAO.deleteAll();
+        newGame("");
         gamesDAO.deleteAllGames();
         populateDatabase();
+    }
+
+    public void deleteGame(){
+        stateDAO.deleteGame();
+    }
+
+    public void newGame(String playerTeam){
+        stateDAO.insert(new State(playerTeam, 0, 0, 0, 2018, 1, ""));
     }
 
     public void populateDatabase(){
@@ -680,13 +713,4 @@ public class DatabaseHelper {
             }
         }
     }
-
-    public void deleteGame(){
-        stateDAO.deleteGame();
-    }
-
-    public void newGame(){
-        stateDAO.insert(new State("", 0, 0, 0, 2018, 1, ""));
-    }
-
 }

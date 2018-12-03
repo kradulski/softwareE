@@ -31,8 +31,6 @@ public class RankingsFragment extends Fragment {
         List<Team> theRankingsList = teamsDAO.getRankings();
         String[] theRankings = new String[25];
 
-        Toast.makeText(getActivity(), "Week 1: " + database.getGamesDAO().getNumGamesInWeek(1) + "\nWeek 5: " + database.getGamesDAO().getNumGamesInWeek(5), Toast.LENGTH_SHORT).show();
-        
         for (int i = 0; i < 25; ++i)
         {
             Team team = theRankingsList.get(i);
