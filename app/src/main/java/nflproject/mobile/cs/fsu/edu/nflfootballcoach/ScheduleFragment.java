@@ -70,7 +70,7 @@ public class ScheduleFragment extends Fragment {
 
                 //game generation
                 Random seed = new Random();
-                int drives = 10 + seed.nextInt(4) - 2;
+                int drives = 18 + seed.nextInt(4) - 2;
                 int homeOffense = homeTeam.getOffRating();
                 int homeDefense = homeTeam.getDefRating();
                 int awayOffense = awayTeam.getOffRating();
@@ -85,9 +85,9 @@ public class ScheduleFragment extends Fragment {
                     tempHO = homeOffense + hTempMod;
                     tempAD = awayDefense + aTempMod;
                     if (difficulty.equals("hard") && homeTeam.getName().equals(yourTeam))
-                        tempHO -= 5;
+                        tempHO -= 3;
                     else if (difficulty.equals("hard") && awayTeam.getName().equals(yourTeam))
-                        tempAD -= 5;
+                        tempAD -= 3;
                     if (tempHO > tempAD + 5)
                         homeScore += 7;
                     else if (tempHO > tempAD)
@@ -173,19 +173,19 @@ public class ScheduleFragment extends Fragment {
                 int newVotesAway = 0;
                 if (homeTeam.getRankingVotes() <= awayTeam.getRankingVotes()) {
                     if (homeScore >= awayScore) {
-                        newVotesHome = (homeScore - awayScore) * 3 + 40;
-                        newVotesAway = -((homeScore - awayScore) * 3 + 40 + 50);
+                        newVotesHome = (homeScore - awayScore) * 2 + 40;
+                        newVotesAway = -((homeScore - awayScore) * 2 + 40 + 100);
                     } else {
-                        newVotesHome = -((homeScore - awayScore) * 3 + 50);
-                        newVotesAway = (homeScore - awayScore) * 3;
+                        newVotesHome = -((homeScore - awayScore) * 2 + 100);
+                        newVotesAway = (homeScore - awayScore) * 2;
                     }
                 } else {
                     if (homeScore >= awayScore) {
-                        newVotesHome = (homeScore - awayScore) * 3;
-                        newVotesAway = -((homeScore - awayScore) * 3 + 50);
+                        newVotesHome = (homeScore - awayScore) * 2;
+                        newVotesAway = -((homeScore - awayScore) * 2 + 50);
                     } else {
-                        newVotesHome = -((homeScore - awayScore) * 3 + 40 + 50);
-                        newVotesAway = (homeScore - awayScore) * 3 + 40;
+                        newVotesHome = -((homeScore - awayScore) * 2 + 40 + 100);
+                        newVotesAway = (homeScore - awayScore) * 2 + 100;
                     }
                 }
                 int updateVotesHome = homeTeam.getRankingVotes() + newVotesHome;
